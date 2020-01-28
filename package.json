@@ -1,0 +1,21 @@
+{
+  "scripts": {
+    "start": "gatsby develop",
+    "build": "gatsby build"
+  },
+  "eslintConfig": {
+    "extends": "@trevorblades/eslint-config/react"
+  },
+  "dependencies": {
+    "@apollo/space-kit": "^2.24.0",
+    "gatsby": "^2.19.8",
+    "gatsby-theme-apollo-core": "^3.0.6",
+    "prop-types": "^15.7.2",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+  "devDependencies": {
+    "@trevorblades/eslint-config": "^7.0.2",
+    "eslint": "^6.8.0"
+  }
+}
