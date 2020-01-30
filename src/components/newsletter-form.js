@@ -11,11 +11,11 @@ export default function NewsletterForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <SectionHeading>Mailing list</SectionHeading>
-      <p>
+      <SectionHeading style={{marginBottom: 8}}>Mailing list</SectionHeading>
+      <h5 style={{marginBottom: 24}}>
         Don’t miss a single post! Be the first to hear about meetups and other
         news.
-      </p>
+      </h5>
       <TextField placeholder="Your email address" />
       <Button type="submit" color={colors.primary} style={{width: '100%'}}>
         Subscribe

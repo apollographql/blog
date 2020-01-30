@@ -24,7 +24,7 @@ const Wrapper = styled.div({
 const Header = styled.header({
   display: 'flex',
   alignItems: 'center',
-  padding: '16px 0',
+  padding: '8px 0',
   backgroundColor: 'white',
   position: 'sticky',
   top: 0
@@ -41,7 +41,7 @@ const StyledApolloIcon = styled(ApolloIcon)({
 });
 
 const StyledBlogIcon = styled(BlogIcon)({
-  height: 23,
+  height: 22,
   marginTop: 2
 });
 
@@ -93,7 +93,7 @@ export default function PageLayout(props) {
           },
           h5: {
             fontWeight: 400,
-            lineHeight: '24px'
+            lineHeight: 1.5
           },
           h6: {
             fontSize: 13,

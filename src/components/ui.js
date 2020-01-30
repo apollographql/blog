@@ -12,8 +12,14 @@ export const DateText = styled.h6({
 
 export const PostImage = styled.img({
   width: '100%',
-  objectFit: 'cover',
-  borderRadius: 4
+  marginBottom: 24,
+  borderRadius: 4,
+  objectFit: 'cover'
+});
+
+export const Excerpt = styled.p({
+  marginBottom: 0,
+  fontSize: 13
 });
 
 export const SectionHeading = styled.h3({
