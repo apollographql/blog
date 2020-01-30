@@ -9,6 +9,11 @@ const StyledInput = styled(TextField)({
   marginBottom: 16
 });
 
+const StyledButton = styled(Button)({
+  width: '100%',
+  height: 40
+});
+
 export default function NewsletterForm() {
   function handleSubmit(event) {
     event.preventDefault();
@@ -21,10 +26,10 @@ export default function NewsletterForm() {
         Don’t miss a single post! Be the first to hear about meetups and other
         news.
       </h5>
-      <StyledInput placeholder="Your email address" />
-      <Button type="submit" color={colors.primary} style={{width: '100%'}}>
+      <StyledInput size="large" placeholder="Your email address" />
+      <StyledButton type="submit" color={colors.primary}>
         Subscribe
-      </Button>
+      </StyledButton>
     </form>
   );
 }
