@@ -113,7 +113,7 @@ export default function PageLayout(props) {
       </Helmet>
       <Global
         styles={{
-          [['h3', 'h4', 'h5', 'h6']]: {
+          [['h4', 'h5', 'h6']]: {
             marginBottom: 0
           },
           h2: {
@@ -123,6 +123,7 @@ export default function PageLayout(props) {
             lineHeight: '46px'
           },
           h3: {
+            marginBottom: 8,
             fontSize: 21,
             fontWeight: 700,
             lineHeight: '30px'

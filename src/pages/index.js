@@ -39,6 +39,12 @@ const StyledSectionHeading = styled(SectionHeading)({
   marginBottom: 48
 });
 
+const Post = styled.div({
+  ':not(:last-child)': {
+    marginBottom: 40
+  }
+});
+
 const posts = [
   {
     id: 1,
@@ -123,8 +129,8 @@ export default function Index() {
               style={{height: 160}}
               src="https://spaceholder.cc/600x400"
             />
-            <DateText style={{marginBottom: 4}}>{post.date}</DateText>
-            <h3 style={{marginBottom: 8}}>{post.title}</h3>
+            <DateText>{post.date}</DateText>
+            <h3>{post.title}</h3>
             <Excerpt style={{marginBottom: 16}}>{post.excerpt}</Excerpt>
             <Categories>
               {post.categories.map(category => (
@@ -140,6 +146,20 @@ export default function Index() {
         <IconBookmark />
         Archive
       </StyledSectionHeading>
+      <div>
+        {posts.map(post => (
+          <Post key={post.id}>
+            <DateText>{post.date}</DateText>
+            <h3>{post.title}</h3>
+            <Byline
+              mini
+              avatar="https://pbs.twimg.com/profile_images/1189363307624288256/euOBSJ5W_400x400.jpg"
+              name="Khalil Stemmler"
+              title="Developer Advocate"
+            />
+          </Post>
+        ))}
+      </div>
     </PageLayout>
   );
 }

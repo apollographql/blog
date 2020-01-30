@@ -4,6 +4,7 @@ import {size, transparentize} from 'polished';
 import {colors as spaceKitColors} from '@apollo/space-kit/colors';
 
 export const DateText = styled.h6({
+  marginBottom: 4,
   fontFamily: fontFamilyMono,
   color: colors.text3,
   textTransform: 'uppercase',

@@ -8,21 +8,25 @@ const Wrapper = styled.div({
   alignItems: 'center'
 });
 
-const Avatar = styled.img({
-  ...size(44),
+const Avatar = styled.img(props => ({
+  ...size(props.mini ? 20 : 44),
   borderRadius: 4,
-  marginRight: 16,
+  marginRight: props.mini ? 8 : 16,
   objectFit: 'cover'
-});
+}));
 
 export default function Byline(props) {
   return (
     <Wrapper>
-      <Avatar src={props.avatar} />
-      <div>
-        <h5>{props.name}</h5>
-        <h6>{props.title}</h6>
-      </div>
+      <Avatar mini={props.mini} src={props.avatar} />
+      {props.mini ? (
+        <h6>by {props.name}</h6>
+      ) : (
+        <div>
+          <h5>{props.name}</h5>
+          <h6>{props.title}</h6>
+        </div>
+      )}
     </Wrapper>
   );
 }
@@ -30,5 +34,6 @@ export default function Byline(props) {
 Byline.propTypes = {
   avatar: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  mini: PropTypes.bool
 };
