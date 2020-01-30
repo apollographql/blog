@@ -39,7 +39,11 @@ const StyledSectionHeading = styled(SectionHeading)({
   marginBottom: 48
 });
 
-const Post = styled.div({
+const ArchivePosts = styled.div({
+  marginBottom: 120
+});
+
+const ArchivePost = styled.div({
   ':not(:last-child)': {
     marginBottom: 40
   }
@@ -146,9 +150,9 @@ export default function Index() {
         <IconBookmark />
         Archive
       </StyledSectionHeading>
-      <div>
+      <ArchivePosts>
         {posts.map(post => (
-          <Post key={post.id}>
+          <ArchivePost key={post.id}>
             <DateText>{post.date}</DateText>
             <h3>{post.title}</h3>
             <Byline
@@ -157,9 +161,9 @@ export default function Index() {
               name="Khalil Stemmler"
               title="Developer Advocate"
             />
-          </Post>
+          </ArchivePost>
         ))}
-      </div>
+      </ArchivePosts>
     </PageLayout>
   );
 }

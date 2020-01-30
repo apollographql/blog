@@ -102,6 +102,18 @@ const socialIcons = Object.entries({
   instagram: IconInstagram
 });
 
+const Categories = styled.div({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  marginTop: 16,
+  [Category]: {
+    ':not(:last-child)': {
+      marginBottom: 16
+    }
+  }
+});
+
 export default function PageLayout(props) {
   return (
     <Layout>
@@ -174,7 +186,11 @@ export default function PageLayout(props) {
             </SidebarSection>
             <SidebarSection>
               <SectionHeading>Categories</SectionHeading>
-              <Category>Community</Category>
+              <Categories>
+                <Category>Community</Category>
+                <Category>Product</Category>
+                <Category>Development</Category>
+              </Categories>
             </SidebarSection>
           </Sidebar>
         </InnerWrapper>

@@ -21,7 +21,7 @@ export default function NewsletterForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <SectionHeading style={{marginBottom: 8}}>Mailing list</SectionHeading>
+      <SectionHeading>Mailing list</SectionHeading>
       <h5 style={{marginBottom: 24}}>
         Don’t miss a single post! Be the first to hear about meetups and other
         news.
