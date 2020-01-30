@@ -5,10 +5,12 @@ import React from 'react';
 import styled from '@emotion/styled';
 import {ApolloIcon} from '@apollo/space-kit/icons/ApolloIcon';
 import {ReactComponent as BlogIcon} from '../assets/blog.svg';
+import {Category, SectionHeading} from './ui';
 import {Global} from '@emotion/core';
 import {IconSearch} from '@apollo/space-kit/icons/IconSearch';
-import {Layout} from 'gatsby-theme-apollo-core';
+import {Layout, colors} from 'gatsby-theme-apollo-core';
 import {TextField} from '@apollo/space-kit/TextField';
+import {size} from 'polished';
 
 const Wrapper = styled.div({
   display: 'flex',
@@ -59,10 +61,8 @@ const Main = styled.main({
 });
 
 const Sidebar = styled.aside({
-  width: 262,
   flexShrink: 0,
-  position: 'sticky',
-  top: 90,
+  width: 262,
   marginLeft: 127
 });
 
@@ -77,19 +77,28 @@ export default function PageLayout(props) {
       </Helmet>
       <Global
         styles={{
+          [['h3', 'h4', 'h5', 'h6']]: {
+            marginBottom: 0
+          },
           h2: {
+            marginBottom: 32,
             fontSize: 38,
-            lineHeight: '46px',
-            fontWeight: 700
+            fontWeight: 700,
+            lineHeight: '46px'
           },
           h3: {
-            fontFamily: "'Source Code Pro', Menlo, monospace",
-            fontWeight: 700,
-            letterSpacing: 3,
             fontSize: 21,
-            lineHeight: '30px',
-            textTransform: 'uppercase',
-            marginBottom: 8
+            fontWeight: 700,
+            lineHeight: '30px'
+          },
+          h5: {
+            fontWeight: 400,
+            lineHeight: '24px'
+          },
+          h6: {
+            fontSize: 13,
+            lineHeight: '20px',
+            color: colors.text3
           }
         }}
       />
@@ -102,20 +111,15 @@ export default function PageLayout(props) {
           <SearchInput
             size="large"
             placeholder="Search blog..."
-            icon={
-              <IconSearch
-                style={{
-                  height: 14,
-                  width: 14
-                }}
-              />
-            }
+            icon={<IconSearch style={size(14)} />}
           />
         </Header>
         <InnerWrapper>
           <Main>{props.children}</Main>
           <Sidebar>
             <NewsletterForm />
+            <SectionHeading>Categories</SectionHeading>
+            <Category>Community</Category>
           </Sidebar>
         </InnerWrapper>
       </Wrapper>

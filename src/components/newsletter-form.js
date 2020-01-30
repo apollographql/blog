@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button} from '@apollo/space-kit/Button';
+import {SectionHeading} from './ui';
 import {TextField} from '@apollo/space-kit/TextField';
 import {colors} from 'gatsby-theme-apollo-core';
 
@@ -10,7 +11,7 @@ export default function NewsletterForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h3>Mailing list</h3>
+      <SectionHeading>Mailing list</SectionHeading>
       <p>
         Don’t miss a single post! Be the first to hear about meetups and other
         news.
