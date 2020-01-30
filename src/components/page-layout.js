@@ -66,6 +66,12 @@ const Sidebar = styled.aside({
   marginLeft: 127
 });
 
+const SidebarSection = styled.div({
+  ':not(:last-child)': {
+    marginBottom: 90
+  }
+});
+
 export default function PageLayout(props) {
   return (
     <Layout>
@@ -117,9 +123,13 @@ export default function PageLayout(props) {
         <InnerWrapper>
           <Main>{props.children}</Main>
           <Sidebar>
-            <NewsletterForm />
-            <SectionHeading>Categories</SectionHeading>
-            <Category>Community</Category>
+            <SidebarSection>
+              <NewsletterForm />
+            </SidebarSection>
+            <SidebarSection>
+              <SectionHeading>Categories</SectionHeading>
+              <Category>Community</Category>
+            </SidebarSection>
           </Sidebar>
         </InnerWrapper>
       </Wrapper>
