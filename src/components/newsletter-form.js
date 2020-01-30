@@ -11,7 +11,10 @@ export default function NewsletterForm() {
   return (
     <form onSubmit={handleSubmit}>
       <h3>Mailing list</h3>
-      <p>Don&apos;t miss a thing sign up for our newsletter</p>
+      <p>
+        Don’t miss a single post! Be the first to hear about meetups and other
+        news.
+      </p>
       <TextField placeholder="Your email address" />
       <Button type="submit" color={colors.primary} style={{width: '100%'}}>
         Subscribe
