@@ -26,13 +26,13 @@ const FeaturedPost = styled.div({
 const RecentPosts = styled.div({
   display: 'flex',
   flexWrap: 'wrap',
-  margin: -15,
-  marginBottom: 105
+  margin: '-30px -15px',
+  marginBottom: 90
 });
 
 const RecentPost = styled.div({
   width: '50%',
-  padding: 15
+  padding: '30px 15px'
 });
 
 const PostCategories = styled.div({
