@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import {Button} from '@apollo/space-kit/Button';
 import {SectionHeading, SidebarSection} from './ui';
 import {TextField} from '@apollo/space-kit/TextField';
-import {colors} from 'gatsby-theme-apollo-core';
+import {colors} from '@apollo/space-kit/colors';
 
 const StyledInput = styled(TextField)({
   marginBottom: 16
@@ -28,7 +28,7 @@ export default function NewsletterForm() {
           news.
         </h5>
         <StyledInput size="large" placeholder="Your email address" />
-        <StyledButton type="submit" color={colors.primary}>
+        <StyledButton type="submit" color={colors.indigo.dark}>
           Subscribe
         </StyledButton>
       </form>

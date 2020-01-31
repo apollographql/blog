@@ -1,7 +1,8 @@
 import Byline from '../components/byline';
 import FollowUs from '../components/follow-us';
+import Layout from '../components/layout';
 import NewsletterForm from '../components/newsletter-form';
-import PageLayout from '../components/page-layout';
+import PropTypes from 'prop-types';
 import React from 'react';
 import styled from '@emotion/styled';
 import {
@@ -18,6 +19,7 @@ import {
 } from '../components/ui';
 import {IconBookmark} from '@apollo/space-kit/icons/IconBookmark';
 import {IconTime} from '@apollo/space-kit/icons/IconTime';
+import {graphql} from 'gatsby';
 
 const FeaturedPost = styled.div({
   marginBottom: 124
@@ -121,9 +123,10 @@ const posts = [
   }
 ];
 
-export default function Index() {
+export default function Index(props) {
+  const {categories} = props.data.wordpress;
   return (
-    <PageLayout>
+    <Layout>
       <TopFold>
         <DateText style={{marginBottom: 12}}>November 14, 2019</DateText>
         <h2>What I Learned at GraphQL Summit 2019</h2>
@@ -197,13 +200,31 @@ export default function Index() {
           <SidebarSection>
             <SectionHeading>Categories</SectionHeading>
             <CategoryNav>
-              <Category>Community</Category>
-              <Category>Product</Category>
-              <Category>Development</Category>
+              {categories.nodes.map(category => (
+                <Category key={category.id}>{category.name}</Category>
+              ))}
             </CategoryNav>
           </SidebarSection>
         </Sidebar>
       </InnerWrapper>
-    </PageLayout>
+    </Layout>
   );
 }
+
+Index.propTypes = {
+  data: PropTypes.object.isRequired
+};
+
+export const pageQuery = graphql`
+  {
+    wordpress {
+      categories {
+        nodes {
+          id
+          slug
+          name
+        }
+      }
+    }
+  }
+`;

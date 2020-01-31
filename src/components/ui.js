@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
-import {colors, fontFamilyMono} from 'gatsby-theme-apollo-core';
+import {colors} from '@apollo/space-kit/colors';
 import {size, transparentize} from 'polished';
-import {colors as spaceKitColors} from '@apollo/space-kit/colors';
+
+const FONT_FAMILY_MONO = "'Source Code Pro', Menlo, monospace";
 
 export const DateText = styled.h6({
   marginBottom: 4,
-  fontFamily: fontFamilyMono,
-  color: colors.text3,
+  fontFamily: FONT_FAMILY_MONO,
+  color: colors.grey.light,
   textTransform: 'uppercase',
   letterSpacing: 2
 });
@@ -26,26 +27,26 @@ export const Excerpt = styled.p({
 export const SectionHeading = styled.h3({
   display: 'flex',
   alignItems: 'center',
-  fontFamily: "'Source Code Pro', Menlo, monospace",
+  fontFamily: FONT_FAMILY_MONO,
   letterSpacing: 3,
   textTransform: 'uppercase',
   svg: {
     ...size(18),
     marginRight: 12,
-    color: spaceKitColors.indigo.base
+    color: colors.indigo.base
   }
 });
 
 export const Category = styled.button(props => {
-  const {base, lightest} = spaceKitColors.indigo;
+  const {dark, base, lighter, lightest} = colors.indigo;
   const styles = {
     display: 'inline-block',
     padding: '6px 12px',
-    border: `1px solid ${colors.primaryLight}`,
+    border: `1px solid ${lighter}`,
     borderRadius: 4,
-    fontFamily: fontFamilyMono,
+    fontFamily: FONT_FAMILY_MONO,
     lineHeight: 1,
-    color: colors.primary,
+    color: dark,
     textTransform: 'uppercase',
     cursor: 'pointer',
     outline: 'none',

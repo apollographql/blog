@@ -1,7 +1,15 @@
 module.exports = {
-  siteMetadata: {
-    title: 'Apollo Blog',
-    description: 'Our blog blah blah  blah'
-  },
-  plugins: ['gatsby-theme-apollo-core']
+  plugins: [
+    'gatsby-plugin-svgr',
+    'gatsby-plugin-emotion',
+    'gatsby-plugin-react-helmet',
+    {
+      resolve: 'gatsby-source-graphql',
+      options: {
+        typeName: 'Wordpress',
+        fieldName: 'wordpress',
+        url: 'http://localhost:10005/graphql'
+      }
+    }
+  ]
 };
