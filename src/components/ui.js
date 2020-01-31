@@ -69,3 +69,34 @@ export const Category = styled.button(props => {
 
   return styles;
 });
+
+const SIDEBAR_WIDTH = 262;
+const SIDEBAR_MARGIN = 127;
+
+export const TopFold = styled.div({
+  width: `calc(100% - ${SIDEBAR_WIDTH + SIDEBAR_MARGIN}px)`
+});
+
+export const InnerWrapper = styled.div({
+  display: 'flex',
+  alignItems: 'flex-start',
+  flexGrow: 1
+});
+
+export const Main = styled.main({
+  flexGrow: 1
+});
+
+export const Sidebar = styled.aside({
+  flexShrink: 0,
+  width: 262,
+  marginLeft: 127,
+  position: 'sticky',
+  top: 74
+});
+
+export const SidebarSection = styled.div({
+  ':not(:last-child)': {
+    marginBottom: 90
+  }
+});

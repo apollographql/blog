@@ -1,4 +1,6 @@
 import Byline from '../components/byline';
+import FollowUs from '../components/follow-us';
+import NewsletterForm from '../components/newsletter-form';
 import PageLayout from '../components/page-layout';
 import React from 'react';
 import styled from '@emotion/styled';
@@ -6,8 +8,13 @@ import {
   Category,
   DateText,
   Excerpt,
+  InnerWrapper,
+  Main,
   PostImage,
-  SectionHeading
+  SectionHeading,
+  Sidebar,
+  SidebarSection,
+  TopFold
 } from '../components/ui';
 import {IconBookmark} from '@apollo/space-kit/icons/IconBookmark';
 import {IconTime} from '@apollo/space-kit/icons/IconTime';
@@ -28,7 +35,7 @@ const RecentPost = styled.div({
   padding: 15
 });
 
-const Categories = styled.div({
+const PostCategories = styled.div({
   display: 'flex',
   [Category]: {
     marginRight: 12
@@ -46,6 +53,18 @@ const ArchivePosts = styled.div({
 const ArchivePost = styled.div({
   ':not(:last-child)': {
     marginBottom: 40
+  }
+});
+
+const CategoryNav = styled.div({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  marginTop: 16,
+  [Category]: {
+    ':not(:last-child)': {
+      marginBottom: 16
+    }
   }
 });
 
@@ -105,65 +124,86 @@ const posts = [
 export default function Index() {
   return (
     <PageLayout>
-      <FeaturedPost>
+      <TopFold>
         <DateText style={{marginBottom: 12}}>November 14, 2019</DateText>
         <h2>What I Learned at GraphQL Summit 2019</h2>
-        <PostImage style={{height: 240}} src="https://spaceholder.cc/800x600" />
-        <Excerpt style={{marginBottom: 24}}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua lorem ipsum
-          dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-          incididunt ut labore et dolore magna aliqua sed do eiusmod tempor
-          incididunt ut labore.
-        </Excerpt>
-        <Byline
-          avatar="https://pbs.twimg.com/profile_images/1189363307624288256/euOBSJ5W_400x400.jpg"
-          name="Khalil Stemmler"
-          title="Developer Advocate"
-        />
-      </FeaturedPost>
-      <StyledSectionHeading>
-        <IconTime />
-        Recent
-      </StyledSectionHeading>
-      <RecentPosts>
-        {posts.map(post => (
-          <RecentPost key={post.id}>
+      </TopFold>
+      <InnerWrapper>
+        <Main>
+          <FeaturedPost>
             <PostImage
-              style={{height: 160}}
-              src="https://spaceholder.cc/600x400"
+              style={{height: 240}}
+              src="https://spaceholder.cc/800x600"
             />
-            <DateText>{post.date}</DateText>
-            <h3>{post.title}</h3>
-            <Excerpt style={{marginBottom: 16}}>{post.excerpt}</Excerpt>
-            <Categories>
-              {post.categories.map(category => (
-                <Category key={category.id} size="small">
-                  {category.name}
-                </Category>
-              ))}
-            </Categories>
-          </RecentPost>
-        ))}
-      </RecentPosts>
-      <StyledSectionHeading>
-        <IconBookmark />
-        Archive
-      </StyledSectionHeading>
-      <ArchivePosts>
-        {posts.map(post => (
-          <ArchivePost key={post.id}>
-            <DateText>{post.date}</DateText>
-            <h3>{post.title}</h3>
+            <Excerpt style={{marginBottom: 24}}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua lorem
+              ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua sed do eiusmod
+              tempor incididunt ut labore.
+            </Excerpt>
             <Byline
-              mini
               avatar="https://pbs.twimg.com/profile_images/1189363307624288256/euOBSJ5W_400x400.jpg"
               name="Khalil Stemmler"
               title="Developer Advocate"
             />
-          </ArchivePost>
-        ))}
-      </ArchivePosts>
+          </FeaturedPost>
+          <StyledSectionHeading>
+            <IconTime />
+            Recent
+          </StyledSectionHeading>
+          <RecentPosts>
+            {posts.map(post => (
+              <RecentPost key={post.id}>
+                <PostImage
+                  style={{height: 160}}
+                  src="https://spaceholder.cc/600x400"
+                />
+                <DateText>{post.date}</DateText>
+                <h3>{post.title}</h3>
+                <Excerpt style={{marginBottom: 16}}>{post.excerpt}</Excerpt>
+                <PostCategories>
+                  {post.categories.map(category => (
+                    <Category key={category.id} size="small">
+                      {category.name}
+                    </Category>
+                  ))}
+                </PostCategories>
+              </RecentPost>
+            ))}
+          </RecentPosts>
+          <StyledSectionHeading>
+            <IconBookmark />
+            Archive
+          </StyledSectionHeading>
+          <ArchivePosts>
+            {posts.map(post => (
+              <ArchivePost key={post.id}>
+                <DateText>{post.date}</DateText>
+                <h3>{post.title}</h3>
+                <Byline
+                  mini
+                  avatar="https://pbs.twimg.com/profile_images/1189363307624288256/euOBSJ5W_400x400.jpg"
+                  name="Khalil Stemmler"
+                  title="Developer Advocate"
+                />
+              </ArchivePost>
+            ))}
+          </ArchivePosts>
+        </Main>
+        <Sidebar>
+          <NewsletterForm />
+          <FollowUs />
+          <SidebarSection>
+            <SectionHeading>Categories</SectionHeading>
+            <CategoryNav>
+              <Category>Community</Category>
+              <Category>Product</Category>
+              <Category>Development</Category>
+            </CategoryNav>
+          </SidebarSection>
+        </Sidebar>
+      </InnerWrapper>
     </PageLayout>
   );
 }
