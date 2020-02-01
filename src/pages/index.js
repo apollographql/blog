@@ -8,7 +8,7 @@ import styled from '@emotion/styled';
 import {
   Category,
   DateText,
-  Excerpt,
+  ExcerptText,
   InnerWrapper,
   Main,
   PostImage,
@@ -70,84 +70,31 @@ const CategoryNav = styled.div({
   }
 });
 
-const posts = [
-  {
-    id: 1,
-    date: 'November 7, 2019',
-    title: 'Roadmap to your data graph',
-    excerpt:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua…',
-    categories: [
-      {
-        id: 1,
-        name: 'Development'
-      },
-      {
-        id: 2,
-        name: 'Product'
-      }
-    ]
-  },
-  {
-    id: 2,
-    date: 'November 7, 2019',
-    title: 'Roadmap to your data graph',
-    excerpt: 'Lorem ipsum dolor sit amet, consectetur adipiscing…',
-    categories: [
-      {
-        id: 1,
-        name: 'Development'
-      },
-      {
-        id: 2,
-        name: 'Product'
-      }
-    ]
-  },
-  {
-    id: 3,
-    date: 'November 7, 2019',
-    title: 'Roadmap to your data graph',
-    excerpt:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut labore et dolore magna aliqua…',
-    categories: [
-      {
-        id: 1,
-        name: 'Development'
-      },
-      {
-        id: 2,
-        name: 'Product'
-      }
-    ]
-  }
-];
-
 export default function Index(props) {
-  const {categories} = props.data.wordpress;
+  const {posts, categories} = props.data.wordpress;
+  const [featuredPost, ...otherPosts] = posts.nodes;
+  const recentPosts = otherPosts.slice(0, 4);
+  const archivePosts = otherPosts.slice(4);
   return (
     <Layout>
       <TopFold>
-        <DateText style={{marginBottom: 12}}>November 14, 2019</DateText>
-        <h2>What I Learned at GraphQL Summit 2019</h2>
+        <DateText style={{marginBottom: 12}} date={featuredPost.date} />
+        <h2>{featuredPost.title}</h2>
       </TopFold>
       <InnerWrapper>
         <Main>
           <FeaturedPost>
             <PostImage
               style={{height: 240}}
-              src="https://spaceholder.cc/800x600"
+              src={featuredPost.featuredImage.sourceUrl}
             />
-            <Excerpt style={{marginBottom: 24}}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua lorem
-              ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua sed do eiusmod
-              tempor incididunt ut labore.
-            </Excerpt>
+            <ExcerptText
+              style={{marginBottom: 24}}
+              excerpt={featuredPost.excerpt}
+            />
             <Byline
-              avatar="https://pbs.twimg.com/profile_images/1189363307624288256/euOBSJ5W_400x400.jpg"
-              name="Khalil Stemmler"
+              avatar={featuredPost.author.avatar.url}
+              name={featuredPost.author.name}
               title="Developer Advocate"
             />
           </FeaturedPost>
@@ -156,17 +103,17 @@ export default function Index(props) {
             Recent
           </StyledSectionHeading>
           <RecentPosts>
-            {posts.map(post => (
+            {recentPosts.map(post => (
               <RecentPost key={post.id}>
                 <PostImage
                   style={{height: 160}}
-                  src="https://spaceholder.cc/600x400"
+                  src={post.featuredImage.sourceUrl}
                 />
-                <DateText>{post.date}</DateText>
+                <DateText date={post.date} />
                 <h3>{post.title}</h3>
-                <Excerpt style={{marginBottom: 16}}>{post.excerpt}</Excerpt>
+                <ExcerptText excerpt={post.excerpt} />
                 <PostCategories>
-                  {post.categories.map(category => (
+                  {post.categories.nodes.map(category => (
                     <Category key={category.id} size="small">
                       {category.name}
                     </Category>
@@ -180,14 +127,14 @@ export default function Index(props) {
             Archive
           </StyledSectionHeading>
           <ArchivePosts>
-            {posts.map(post => (
+            {archivePosts.map(post => (
               <ArchivePost key={post.id}>
-                <DateText>{post.date}</DateText>
+                <DateText date={post.date} />
                 <h3>{post.title}</h3>
                 <Byline
                   mini
-                  avatar="https://pbs.twimg.com/profile_images/1189363307624288256/euOBSJ5W_400x400.jpg"
-                  name="Khalil Stemmler"
+                  avatar={post.author.avatar.url}
+                  name={post.author.name}
                   title="Developer Advocate"
                 />
               </ArchivePost>
@@ -218,6 +165,31 @@ Index.propTypes = {
 export const pageQuery = graphql`
   {
     wordpress {
+      posts {
+        nodes {
+          date
+          excerpt
+          title
+          slug
+          featuredImage {
+            sourceUrl(size: LARGE)
+          }
+          categories {
+            nodes {
+              slug
+              id
+              name
+            }
+          }
+          author {
+            name
+            description
+            avatar {
+              url
+            }
+          }
+        }
+      }
       categories {
         nodes {
           id

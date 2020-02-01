@@ -1,16 +1,31 @@
+import PropTypes from 'prop-types';
+import React from 'react';
 import styled from '@emotion/styled';
 import {colors} from '@apollo/space-kit/colors';
+import {format} from 'date-fns';
 import {size, transparentize} from 'polished';
 
 const FONT_FAMILY_MONO = "'Source Code Pro', Menlo, monospace";
 
-export const DateText = styled.h6({
+const DateTextInner = styled.h6({
   marginBottom: 4,
   fontFamily: FONT_FAMILY_MONO,
   color: colors.grey.light,
   textTransform: 'uppercase',
   letterSpacing: 2
 });
+
+export function DateText({date, ...props}) {
+  return (
+    <DateTextInner {...props}>
+      {format(new Date(date), 'MMMM d, yyyy')}
+    </DateTextInner>
+  );
+}
+
+DateText.propTypes = {
+  date: PropTypes.string.isRequired
+};
 
 export const PostImage = styled.img({
   width: '100%',
@@ -19,10 +34,23 @@ export const PostImage = styled.img({
   objectFit: 'cover'
 });
 
-export const Excerpt = styled.p({
-  marginBottom: 0,
+const ExcerptTextInner = styled.p({
+  marginBottom: 16,
   fontSize: 13
 });
+
+export function ExcerptText({excerpt, ...props}) {
+  return (
+    <ExcerptTextInner
+      {...props}
+      dangerouslySetInnerHTML={{__html: excerpt.replace(/(<([^>]+)>)/gi, '')}}
+    />
+  );
+}
+
+ExcerptText.propTypes = {
+  excerpt: PropTypes.string.isRequired
+};
 
 export const SectionHeading = styled.h3({
   display: 'flex',
