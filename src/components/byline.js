@@ -16,15 +16,16 @@ const Avatar = styled.img(props => ({
 }));
 
 export default function Byline(props) {
+  const {avatar, name, description} = props.author;
   return (
     <Wrapper>
-      <Avatar mini={props.mini} src={props.avatar} />
+      <Avatar mini={props.mini} src={avatar.url} />
       {props.mini ? (
-        <h6>by {props.name}</h6>
+        <h6>by {name}</h6>
       ) : (
         <div>
-          <h5>{props.name}</h5>
-          <h6>{props.title}</h6>
+          <h5>{name}</h5>
+          <h6>{description}</h6>
         </div>
       )}
     </Wrapper>
@@ -32,8 +33,6 @@ export default function Byline(props) {
 }
 
 Byline.propTypes = {
-  avatar: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  author: PropTypes.object.isRequired,
   mini: PropTypes.bool
 };

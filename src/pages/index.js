@@ -92,11 +92,7 @@ export default function Index(props) {
               style={{marginBottom: 24}}
               excerpt={featuredPost.excerpt}
             />
-            <Byline
-              avatar={featuredPost.author.avatar.url}
-              name={featuredPost.author.name}
-              title="Developer Advocate"
-            />
+            <Byline author={featuredPost.author} />
           </FeaturedPost>
           <StyledSectionHeading>
             <IconTime />
@@ -131,12 +127,7 @@ export default function Index(props) {
               <ArchivePost key={post.id}>
                 <DateText date={post.date} />
                 <h3>{post.title}</h3>
-                <Byline
-                  mini
-                  avatar={post.author.avatar.url}
-                  name={post.author.name}
-                  title="Developer Advocate"
-                />
+                <Byline mini author={post.author} />
               </ArchivePost>
             ))}
           </ArchivePosts>
