@@ -12,7 +12,7 @@ export default {
   [HEADINGS]: {
     color: '#343c5a'
   },
-  [['h2', 'h3']]: {
+  [['h1', 'h2', 'h3']]: {
     fontWeight: 700
   },
   [['h2', 'h3']]: {
@@ -21,15 +21,19 @@ export default {
   [['h4', 'h5', 'h6']]: {
     fontWeight: 400
   },
+  h1: {
+    fontSize: 56,
+    lineHeight: 8 / 7
+  },
   h2: {
     marginBottom: 32,
     fontSize: 38,
-    lineHeight: '46px'
+    lineHeight: 23 / 19
   },
   h3: {
     marginBottom: 8,
     fontSize: 21,
-    lineHeight: '30px'
+    lineHeight: 10 / 7
   },
   [['h5', 'p']]: {
     fontSize: '1rem',
