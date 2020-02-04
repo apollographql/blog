@@ -13,7 +13,14 @@ import {
   Sidebar,
   TopFold
 } from './ui';
+import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
+import {colors} from '@apollo/space-kit/colors';
 import {graphql} from 'gatsby';
+
+const BylineWrapper = styled.div({
+  display: 'flex',
+  marginTop: 32
+});
 
 const Categories = styled.div({
   display: 'flex',
@@ -26,6 +33,24 @@ const Categories = styled.div({
 const FeaturedImage = styled.img({
   width: '100%',
   marginBottom: 90
+});
+
+const TwitterHandleWrapper = styled.div({
+  display: 'flex',
+  paddingLeft: 24,
+  marginLeft: 24,
+  borderLeft: `1px solid ${colors.grey.lighter}`
+});
+
+const TwitterHandle = styled.a({
+  display: 'flex',
+  alignItems: 'center',
+  margin: 'auto 0',
+  color: colors.indigo.dark,
+  textDecoration: 'none',
+  ':hover': {
+    color: colors.indigo.base
+  }
 });
 
 export default function PostTemplate(props) {
@@ -44,8 +69,21 @@ export default function PostTemplate(props) {
       </Helmet>
       <TopFold style={{paddingBottom: 90}}>
         <DateText style={{marginBottom: 12}} date={date} />
-        <h1 style={{marginBottom: 32}}>{title}</h1>
-        <Byline author={author} />
+        <h1>{title}</h1>
+        <BylineWrapper>
+          <Byline author={author} />
+          <TwitterHandleWrapper>
+            <TwitterHandle href="#">
+              <IconTwitter
+                style={{
+                  width: 20,
+                  marginRight: 8
+                }}
+              />
+              @trevorblades
+            </TwitterHandle>
+          </TwitterHandleWrapper>
+        </BylineWrapper>
         <Categories>
           {categories.nodes.map(category => (
             <Category key={category.id}>{category.name}</Category>
