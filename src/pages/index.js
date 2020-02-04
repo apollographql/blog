@@ -112,13 +112,15 @@ export default function Index(props) {
       <TopFold>
         <DateText style={{marginBottom: 12}} date={featuredPost.date} />
         <h2>
-          <HeadingLink to="/">{featuredPost.title}</HeadingLink>
+          <HeadingLink to={'/' + featuredPost.slug}>
+            {featuredPost.title}
+          </HeadingLink>
         </h2>
       </TopFold>
       <InnerWrapper>
         <Main>
           <FeaturedPost>
-            <PostLink to="/">
+            <PostLink to={'/' + featuredPost.slug}>
               <PostImage
                 style={{height: 240}}
                 src={featuredPost.featuredImage.sourceUrl}
@@ -137,7 +139,7 @@ export default function Index(props) {
           <RecentPosts>
             {recentPosts.map(post => (
               <RecentPost key={post.id}>
-                <PostLink to="/">
+                <PostLink to={'/' + post.slug}>
                   <PostImage
                     style={{height: 160}}
                     src={post.featuredImage.sourceUrl}
@@ -165,7 +167,7 @@ export default function Index(props) {
               <ArchivePost key={post.id}>
                 <DateText date={post.date} />
                 <h3>
-                  <HeadingLink>{post.title}</HeadingLink>
+                  <HeadingLink to={'/' + post.slug}>{post.title}</HeadingLink>
                 </h3>
                 <Byline mini author={post.author} />
               </ArchivePost>
