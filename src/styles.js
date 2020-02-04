@@ -15,10 +15,10 @@ export default {
   [['h1', 'h2', 'h3']]: {
     fontWeight: 700
   },
-  [['h2', 'h3']]: {
+  [['h2', 'h3', 'h4']]: {
     fontWeight: 700
   },
-  [['h4', 'h5', 'h6']]: {
+  [['h5', 'h6']]: {
     fontWeight: 400
   },
   h1: {
@@ -31,6 +31,10 @@ export default {
     lineHeight: 23 / 19
   },
   h3: {
+    fontSize: 28,
+    lineHeight: 9 / 7
+  },
+  h4: {
     marginBottom: 8,
     fontSize: 21,
     lineHeight: 10 / 7
@@ -41,7 +45,6 @@ export default {
   },
   h6: {
     fontSize: 13,
-    lineHeight: '20px',
-    color: colors.grey.light
+    lineHeight: '20px'
   }
 };

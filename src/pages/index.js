@@ -45,7 +45,7 @@ const PostLink = styled(Link)({
     transition: 'transform 100ms ease-in-out'
   },
   ':hover': {
-    h3: {
+    h4: {
       color: colors.indigo.base
     },
     img: {
@@ -145,7 +145,7 @@ export default function Index(props) {
                     src={post.featuredImage.sourceUrl}
                   />
                   <DateText date={post.date} />
-                  <h3>{post.title}</h3>
+                  <h4>{post.title}</h4>
                   <ExcerptText excerpt={post.excerpt} />
                 </PostLink>
                 <PostCategories>
@@ -166,9 +166,9 @@ export default function Index(props) {
             {archivePosts.map(post => (
               <ArchivePost key={post.id}>
                 <DateText date={post.date} />
-                <h3>
+                <h4>
                   <HeadingLink to={'/' + post.slug}>{post.title}</HeadingLink>
-                </h3>
+                </h4>
                 <Byline mini author={post.author} />
               </ArchivePost>
             ))}

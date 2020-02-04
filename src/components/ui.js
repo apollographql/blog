@@ -7,12 +7,16 @@ import {size, transparentize} from 'polished';
 
 const FONT_FAMILY_MONO = "'Source Code Pro', Menlo, monospace";
 
-const DateTextInner = styled.h6({
-  marginBottom: 4,
+export const dateTextStyles = {
   fontFamily: FONT_FAMILY_MONO,
   color: colors.grey.light,
   textTransform: 'uppercase',
   letterSpacing: 2
+};
+
+const DateTextInner = styled.h6({
+  ...dateTextStyles,
+  marginBottom: 4
 });
 
 export function DateText({date, ...props}) {
@@ -52,7 +56,7 @@ ExcerptText.propTypes = {
   excerpt: PropTypes.string.isRequired
 };
 
-export const SectionHeading = styled.h3({
+export const SectionHeading = styled.h4({
   display: 'flex',
   alignItems: 'center',
   fontFamily: FONT_FAMILY_MONO,
@@ -129,3 +133,42 @@ export const SidebarSection = styled.div({
     marginBottom: 90
   }
 });
+
+export const SocialIcons = styled.div({
+  display: 'flex',
+  marginTop: 16
+});
+
+export const SocialIcon = styled.a({
+  ...size(24),
+  color: '#c2c6d6',
+  svg: {
+    ...size('100%'),
+    fill: 'currentColor'
+  },
+  ':hover': {
+    color: '#7983a7'
+  },
+  ':not(:last-child)': {
+    marginRight: 20
+  }
+});
+
+const avatarSizes = {
+  sm: 20,
+  md: 44,
+  lg: 68
+};
+
+const avatarMargins = {
+  sm: 8,
+  md: 16,
+  lg: 29
+};
+
+export const Avatar = styled.img(props => ({
+  ...size(avatarSizes[props.size]),
+  borderRadius: 4,
+  marginRight: avatarMargins[props.size],
+  objectFit: 'cover'
+}));

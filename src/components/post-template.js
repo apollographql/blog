@@ -1,18 +1,29 @@
 import Byline from './byline';
 import Helmet from 'react-helmet';
 import Layout from './layout';
+import NewsletterForm from './newsletter-form';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from '@emotion/styled';
 import {
+  Avatar,
   Category,
   DateText,
   InnerWrapper,
   Main,
   SectionHeading,
   Sidebar,
-  TopFold
+  SidebarSection,
+  SocialIcon,
+  SocialIcons,
+  TopFold,
+  dateTextStyles
 } from './ui';
+import {IconEmail} from '@apollo/space-kit/icons/IconEmail';
+import {IconFacebook} from '@apollo/space-kit/icons/IconFacebook';
+import {ReactComponent as IconLinkedin} from '../assets/icons/linkedin.svg';
+import {IconSingleService} from '@apollo/space-kit/icons/IconSingleService';
+import {ReactComponent as IconSlack} from '../assets/icons/slack.svg';
 import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
 import {colors} from '@apollo/space-kit/colors';
 import {graphql} from 'gatsby';
@@ -52,6 +63,43 @@ const TwitterHandle = styled.a({
     color: colors.indigo.base
   }
 });
+
+const PostContent = styled.div({
+  h2: {
+    marginTop: 90
+  },
+  h3: {
+    marginTop: 60,
+    marginBottom: 32
+  },
+  p: {
+    fontSize: 21,
+    lineHeight: '32px',
+    marginBottom: 31
+  },
+  a: {
+    color: colors.indigo.base,
+    textDecoration: 'none',
+    ':hover': {
+      textDecoration: 'underline'
+    }
+  }
+});
+
+const Divider = styled.div({
+  margin: '120px 0',
+  color: colors.indigo.base,
+  svg: {
+    marginRight: 16
+  }
+});
+
+const AuthorHeader = styled.div({
+  display: 'flex',
+  alignItems: 'center'
+});
+
+const WrittenBy = styled.h5(dateTextStyles);
 
 export default function PostTemplate(props) {
   const {
@@ -93,10 +141,44 @@ export default function PostTemplate(props) {
       <InnerWrapper>
         <Main>
           <FeaturedImage src={featuredImage.sourceUrl} />
-          <div dangerouslySetInnerHTML={{__html: content}} />
+          <PostContent dangerouslySetInnerHTML={{__html: content}} />
+          <Divider>
+            <IconSingleService />
+            <IconSingleService />
+            <IconSingleService />
+          </Divider>
+          <div>
+            <AuthorHeader>
+              <Avatar size="lg" src={author.avatar.url} />
+              <div>
+                <WrittenBy>Written by</WrittenBy>
+                <h3>{author.name}</h3>
+              </div>
+            </AuthorHeader>
+          </div>
         </Main>
         <Sidebar>
-          <SectionHeading>Test</SectionHeading>
+          <NewsletterForm />
+          <SidebarSection>
+            <SectionHeading>Share article</SectionHeading>
+            <SocialIcons>
+              <SocialIcon href="#">
+                <IconTwitter />
+              </SocialIcon>
+              <SocialIcon href="#">
+                <IconFacebook />
+              </SocialIcon>
+              <SocialIcon href="#">
+                <IconLinkedin />
+              </SocialIcon>
+              <SocialIcon href="#">
+                <IconSlack />
+              </SocialIcon>
+              <SocialIcon href="#">
+                <IconEmail />
+              </SocialIcon>
+            </SocialIcons>
+          </SidebarSection>
         </Sidebar>
       </InnerWrapper>
     </Layout>
