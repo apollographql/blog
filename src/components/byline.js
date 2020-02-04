@@ -1,11 +1,23 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from '@emotion/styled';
+import {Link} from 'gatsby';
+import {colors} from '@apollo/space-kit/colors';
 import {size} from 'polished';
 
-const Wrapper = styled.div({
+const Wrapper = styled(Link)({
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
+  textDecoration: 'none',
+  color: 'inherit',
+  ':hover': {
+    img: {
+      opacity: 0.7
+    },
+    '.name': {
+      color: colors.indigo.base
+    }
+  }
 });
 
 const Avatar = styled.img(props => ({
@@ -21,10 +33,12 @@ export default function Byline(props) {
     <Wrapper>
       <Avatar mini={props.mini} src={avatar.url} />
       {props.mini ? (
-        <h6>by {name}</h6>
+        <h6>
+          by <span className="name">{name}</span>
+        </h6>
       ) : (
         <div>
-          <h5>{name}</h5>
+          <h5 className="name">{name}</h5>
           <h6>{description}</h6>
         </div>
       )}

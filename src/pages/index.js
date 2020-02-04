@@ -19,10 +19,39 @@ import {
 } from '../components/ui';
 import {IconBookmark} from '@apollo/space-kit/icons/IconBookmark';
 import {IconTime} from '@apollo/space-kit/icons/IconTime';
-import {graphql} from 'gatsby';
+import {Link, graphql} from 'gatsby';
+import {colors} from '@apollo/space-kit/colors';
+
+const HeadingLink = styled(Link)({
+  color: 'inherit',
+  textDecoration: 'none',
+  ':hover': {
+    color: colors.indigo.base
+  }
+});
 
 const FeaturedPost = styled.div({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
   marginBottom: 124
+});
+
+const PostLink = styled(Link)({
+  display: 'block',
+  textDecoration: 'none',
+  color: 'inherit',
+  img: {
+    transition: 'transform 100ms ease-in-out'
+  },
+  ':hover': {
+    h3: {
+      color: colors.indigo.base
+    },
+    img: {
+      transform: 'scale(1.032)'
+    }
+  }
 });
 
 const RecentPosts = styled.div({
@@ -53,6 +82,9 @@ const ArchivePosts = styled.div({
 });
 
 const ArchivePost = styled.div({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
   ':not(:last-child)': {
     marginBottom: 40
   }
@@ -79,19 +111,23 @@ export default function Index(props) {
     <Layout>
       <TopFold>
         <DateText style={{marginBottom: 12}} date={featuredPost.date} />
-        <h2>{featuredPost.title}</h2>
+        <h2>
+          <HeadingLink to="/">{featuredPost.title}</HeadingLink>
+        </h2>
       </TopFold>
       <InnerWrapper>
         <Main>
           <FeaturedPost>
-            <PostImage
-              style={{height: 240}}
-              src={featuredPost.featuredImage.sourceUrl}
-            />
-            <ExcerptText
-              style={{marginBottom: 24}}
-              excerpt={featuredPost.excerpt}
-            />
+            <PostLink to="/">
+              <PostImage
+                style={{height: 240}}
+                src={featuredPost.featuredImage.sourceUrl}
+              />
+              <ExcerptText
+                style={{marginBottom: 24}}
+                excerpt={featuredPost.excerpt}
+              />
+            </PostLink>
             <Byline author={featuredPost.author} />
           </FeaturedPost>
           <StyledSectionHeading>
@@ -101,13 +137,15 @@ export default function Index(props) {
           <RecentPosts>
             {recentPosts.map(post => (
               <RecentPost key={post.id}>
-                <PostImage
-                  style={{height: 160}}
-                  src={post.featuredImage.sourceUrl}
-                />
-                <DateText date={post.date} />
-                <h3>{post.title}</h3>
-                <ExcerptText excerpt={post.excerpt} />
+                <PostLink to="/">
+                  <PostImage
+                    style={{height: 160}}
+                    src={post.featuredImage.sourceUrl}
+                  />
+                  <DateText date={post.date} />
+                  <h3>{post.title}</h3>
+                  <ExcerptText excerpt={post.excerpt} />
+                </PostLink>
                 <PostCategories>
                   {post.categories.nodes.map(category => (
                     <Category key={category.id} size="small">
@@ -126,7 +164,9 @@ export default function Index(props) {
             {archivePosts.map(post => (
               <ArchivePost key={post.id}>
                 <DateText date={post.date} />
-                <h3>{post.title}</h3>
+                <h3>
+                  <HeadingLink>{post.title}</HeadingLink>
+                </h3>
                 <Byline mini author={post.author} />
               </ArchivePost>
             ))}
