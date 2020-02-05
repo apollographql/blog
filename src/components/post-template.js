@@ -14,6 +14,7 @@ import {
   SectionHeading,
   Sidebar,
   SidebarSection,
+  SidebarSticky,
   SocialIcon,
   SocialIcons,
   TopFold,
@@ -123,12 +124,35 @@ const AuthorBio = styled.div({
   },
   a: {
     ...linkStyles,
-    display: 'flex',
+    display: 'inline-flex',
     alignItems: 'center',
     svg: {
-      ...size(20),
+      ...size(19),
       marginLeft: 12
     }
+  }
+});
+
+const NewsletterSignup = styled.div({
+  marginTop: 120,
+  backgroundColor: colors.silver.light,
+  padding: 32,
+  borderRadius: 8,
+  p: {
+    ...largeTextStyles,
+    marginTop: 14,
+    marginBottom: 32
+  }
+});
+
+const PostAction = styled.div({
+  padding: 32,
+  paddingTop: 24,
+  color: 'white',
+  backgroundColor: colors.indigo.dark,
+  borderRadius: 12,
+  h3: {
+    color: 'inherit'
   }
 });
 
@@ -185,46 +209,58 @@ export default function PostTemplate(props) {
             <IconSingleService />
             <IconSingleService />
           </Divider>
-          <div>
-            <AuthorHeader>
-              <Avatar size="lg" src={author.avatar.url} />
-              <div>
-                <WrittenBy>Written by</WrittenBy>
-                <h3>{author.name}</h3>
-              </div>
-            </AuthorHeader>
-            <AuthorBio>
-              <p>{author.description}</p>
-              <p>
-                <Link to="/author/name">
-                  Read more by {author.name} <IconProceed />
-                </Link>
-              </p>
-            </AuthorBio>
-          </div>
+          <AuthorHeader>
+            <Avatar size="lg" src={author.avatar.url} />
+            <div>
+              <WrittenBy>Written by</WrittenBy>
+              <h3>{author.name}</h3>
+            </div>
+          </AuthorHeader>
+          <AuthorBio>
+            <p>{author.description}</p>
+            <p>
+              <Link to="/author/name">
+                Read more by {author.name} <IconProceed />
+              </Link>
+            </p>
+          </AuthorBio>
+          <NewsletterSignup>
+            <h3>Stay in our orbit</h3>
+            <p>
+              Sign up for our mailing list and get updates on products, events,
+              and more. Oh, and no junk mail. Ever.
+            </p>
+          </NewsletterSignup>
         </Main>
         <Sidebar>
-          <NewsletterForm />
-          <SidebarSection>
-            <SectionHeading>Share article</SectionHeading>
-            <SocialIcons>
-              <SocialIcon href="#">
-                <IconTwitter />
-              </SocialIcon>
-              <SocialIcon href="#">
-                <IconFacebook />
-              </SocialIcon>
-              <SocialIcon href="#">
-                <IconLinkedin />
-              </SocialIcon>
-              <SocialIcon href="#">
-                <IconSlack />
-              </SocialIcon>
-              <SocialIcon href="#">
-                <IconEmail />
-              </SocialIcon>
-            </SocialIcons>
-          </SidebarSection>
+          <SidebarSticky>
+            <NewsletterForm />
+            <SidebarSection>
+              <SectionHeading>Share article</SectionHeading>
+              <SocialIcons>
+                <SocialIcon href="#">
+                  <IconTwitter />
+                </SocialIcon>
+                <SocialIcon href="#">
+                  <IconFacebook />
+                </SocialIcon>
+                <SocialIcon href="#">
+                  <IconLinkedin />
+                </SocialIcon>
+                <SocialIcon href="#">
+                  <IconSlack />
+                </SocialIcon>
+                <SocialIcon href="#">
+                  <IconEmail />
+                </SocialIcon>
+              </SocialIcons>
+            </SidebarSection>
+          </SidebarSticky>
+          <SidebarSticky>
+            <PostAction>
+              <h3>Don&apos;t miss GraphQL Summit 2020!</h3>
+            </PostAction>
+          </SidebarSticky>
         </Sidebar>
       </InnerWrapper>
     </Layout>

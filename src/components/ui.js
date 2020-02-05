@@ -112,20 +112,20 @@ export const TopFold = styled.div({
 
 export const InnerWrapper = styled.div({
   display: 'flex',
-  alignItems: 'flex-start',
   flexGrow: 1
 });
 
 export const Main = styled.main({
-  flexGrow: 1
+  flexGrow: 1,
+  width: 0
 });
 
 export const Sidebar = styled.aside({
+  display: 'flex',
+  flexDirection: 'column',
   flexShrink: 0,
   width: 262,
-  marginLeft: 127,
-  position: 'sticky',
-  top: 74
+  marginLeft: 127
 });
 
 export const SidebarSection = styled.div({
@@ -133,6 +133,26 @@ export const SidebarSection = styled.div({
     marginBottom: 90
   }
 });
+
+const SidebarStickyOuter = styled.div({
+  flexGrow: 1,
+  ':not(:last-child)': {
+    marginBottom: 90
+  }
+});
+
+const SidebarStickyInner = styled.div({
+  position: 'sticky',
+  top: 90
+});
+
+export function SidebarSticky(props) {
+  return (
+    <SidebarStickyOuter>
+      <SidebarStickyInner {...props} />
+    </SidebarStickyOuter>
+  );
+}
 
 export const SocialIcons = styled.div({
   display: 'flex',
