@@ -216,9 +216,11 @@ export const pageQuery = graphql`
           }
           author {
             name
-            description
             avatar {
               url
+            }
+            userMetadata {
+              title
             }
           }
         }

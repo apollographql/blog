@@ -20,19 +20,23 @@ const Wrapper = styled(Link)({
   }
 });
 
+const Subheading = styled.h6({
+  color: colors.grey.light
+});
+
 export default function Byline(props) {
-  const {avatar, name, description} = props.author;
+  const {avatar, name, userMetadata} = props.author;
   return (
     <Wrapper>
       <Avatar size={props.mini ? 'sm' : 'md'} src={avatar.url} />
       {props.mini ? (
-        <h6>
+        <Subheading>
           by <span className="name">{name}</span>
-        </h6>
+        </Subheading>
       ) : (
         <div>
           <h5 className="name">{name}</h5>
-          <h6>{description}</h6>
+          <Subheading>{userMetadata.title}</Subheading>
         </div>
       )}
     </Wrapper>

@@ -154,13 +154,13 @@ export const SocialIcon = styled.a({
   }
 });
 
-const avatarSizes = {
+export const avatarSizes = {
   sm: 20,
   md: 44,
   lg: 68
 };
 
-const avatarMargins = {
+export const avatarMargins = {
   sm: 8,
   md: 16,
   lg: 29

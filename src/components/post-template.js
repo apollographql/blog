@@ -17,16 +17,20 @@ import {
   SocialIcon,
   SocialIcons,
   TopFold,
+  avatarMargins,
+  avatarSizes,
   dateTextStyles
 } from './ui';
 import {IconEmail} from '@apollo/space-kit/icons/IconEmail';
 import {IconFacebook} from '@apollo/space-kit/icons/IconFacebook';
 import {ReactComponent as IconLinkedin} from '../assets/icons/linkedin.svg';
+import {IconProceed} from '@apollo/space-kit/icons/IconProceed';
 import {IconSingleService} from '@apollo/space-kit/icons/IconSingleService';
 import {ReactComponent as IconSlack} from '../assets/icons/slack.svg';
 import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
+import {Link, graphql} from 'gatsby';
 import {colors} from '@apollo/space-kit/colors';
-import {graphql} from 'gatsby';
+import {size} from 'polished';
 
 const BylineWrapper = styled.div({
   display: 'flex',
@@ -64,6 +68,19 @@ const TwitterHandle = styled.a({
   }
 });
 
+const largeTextStyles = {
+  fontSize: 21,
+  lineHeight: '32px'
+};
+
+const linkStyles = {
+  color: colors.indigo.base,
+  textDecoration: 'none',
+  ':hover': {
+    textDecoration: 'underline'
+  }
+};
+
 const PostContent = styled.div({
   h2: {
     marginTop: 90
@@ -73,17 +90,10 @@ const PostContent = styled.div({
     marginBottom: 32
   },
   p: {
-    fontSize: 21,
-    lineHeight: '32px',
+    ...largeTextStyles,
     marginBottom: 31
   },
-  a: {
-    color: colors.indigo.base,
-    textDecoration: 'none',
-    ':hover': {
-      textDecoration: 'underline'
-    }
-  }
+  a: linkStyles
 });
 
 const Divider = styled.div({
@@ -101,6 +111,27 @@ const AuthorHeader = styled.div({
 
 const WrittenBy = styled.h5(dateTextStyles);
 
+const AuthorBio = styled.div({
+  marginTop: 14,
+  paddingLeft: avatarSizes.lg + avatarMargins.lg,
+  color: colors.grey.base,
+  p: {
+    ...largeTextStyles,
+    ':not(:last-child)': {
+      marginBottom: 24
+    }
+  },
+  a: {
+    ...linkStyles,
+    display: 'flex',
+    alignItems: 'center',
+    svg: {
+      ...size(20),
+      marginLeft: 12
+    }
+  }
+});
+
 export default function PostTemplate(props) {
   const {
     date,
@@ -110,6 +141,7 @@ export default function PostTemplate(props) {
     featuredImage,
     content
   } = props.data.wordpress.post;
+  const {twitter} = author.userMetadata;
   return (
     <Layout>
       <Helmet>
@@ -120,17 +152,23 @@ export default function PostTemplate(props) {
         <h1>{title}</h1>
         <BylineWrapper>
           <Byline author={author} />
-          <TwitterHandleWrapper>
-            <TwitterHandle href="#">
-              <IconTwitter
-                style={{
-                  width: 20,
-                  marginRight: 8
-                }}
-              />
-              @trevorblades
-            </TwitterHandle>
-          </TwitterHandleWrapper>
+          {twitter && (
+            <TwitterHandleWrapper>
+              <TwitterHandle
+                href={`https://twitter.com/${twitter}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <IconTwitter
+                  style={{
+                    width: 20,
+                    marginRight: 8
+                  }}
+                />
+                @{twitter}
+              </TwitterHandle>
+            </TwitterHandleWrapper>
+          )}
         </BylineWrapper>
         <Categories>
           {categories.nodes.map(category => (
@@ -155,6 +193,14 @@ export default function PostTemplate(props) {
                 <h3>{author.name}</h3>
               </div>
             </AuthorHeader>
+            <AuthorBio>
+              <p>{author.description}</p>
+              <p>
+                <Link to="/author/name">
+                  Read more by {author.name} <IconProceed />
+                </Link>
+              </p>
+            </AuthorBio>
           </div>
         </Main>
         <Sidebar>
@@ -201,6 +247,10 @@ export const pageQuery = graphql`
           description
           avatar {
             url
+          }
+          userMetadata {
+            title
+            twitter
           }
         }
         categories {
