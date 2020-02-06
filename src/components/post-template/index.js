@@ -1,8 +1,8 @@
-import AuthorDetails from './author-details';
-import Byline from './byline';
+import AuthorDetails, {largeTextStyles, linkStyles} from './author-details';
+import Byline from '../byline';
 import Helmet from 'react-helmet';
-import Layout from './layout';
-import NewsletterForm from './newsletter-form';
+import Layout from '../layout';
+import NewsletterForm from '../newsletter-form';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from '@emotion/styled';
@@ -18,15 +18,13 @@ import {
   SidebarSticky,
   SocialIcon,
   SocialIcons,
-  TopFold,
-  largeTextStyles,
-  linkStyles
-} from './ui';
+  TopFold
+} from '../ui';
 import {IconEmail} from '@apollo/space-kit/icons/IconEmail';
 import {IconFacebook} from '@apollo/space-kit/icons/IconFacebook';
-import {ReactComponent as IconLinkedin} from '../assets/icons/linkedin.svg';
+import {ReactComponent as IconLinkedin} from '../../assets/icons/linkedin.svg';
 import {IconSingleService} from '@apollo/space-kit/icons/IconSingleService';
-import {ReactComponent as IconSlack} from '../assets/icons/slack.svg';
+import {ReactComponent as IconSlack} from '../../assets/icons/slack.svg';
 import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
 import {colors} from '@apollo/space-kit/colors';
 import {graphql} from 'gatsby';

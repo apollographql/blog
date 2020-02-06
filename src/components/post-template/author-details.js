@@ -2,18 +2,24 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import TwitterButton from './twitter-button';
 import styled from '@emotion/styled';
-import {
-  Avatar,
-  avatarMargins,
-  avatarSizes,
-  dateTextStyles,
-  largeTextStyles,
-  linkStyles
-} from './ui';
+import {Avatar, avatarMargins, avatarSizes, dateTextStyles} from '../ui';
 import {IconProceed} from '@apollo/space-kit/icons/IconProceed';
 import {Link} from 'gatsby';
 import {colors} from '@apollo/space-kit/colors';
 import {size} from 'polished';
+
+export const largeTextStyles = {
+  fontSize: 21,
+  lineHeight: '32px'
+};
+
+export const linkStyles = {
+  color: colors.indigo.base,
+  textDecoration: 'none',
+  ':hover': {
+    textDecoration: 'underline'
+  }
+};
 
 const AuthorHeader = styled.div({
   display: 'flex',

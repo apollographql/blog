@@ -12,7 +12,7 @@ exports.createPages = async ({actions, graphql}) => {
     }
   `);
 
-  const postTemplate = require.resolve('./src/components/post-template.js');
+  const postTemplate = require.resolve('./src/components/post-template');
   data.wordpress.posts.nodes.forEach(post => {
     actions.createPage({
       path: '/' + post.slug,
