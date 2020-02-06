@@ -201,7 +201,7 @@ Index.propTypes = {
 export const pageQuery = graphql`
   {
     wordpress {
-      posts {
+      posts(first: 100) {
         nodes {
           date
           excerpt

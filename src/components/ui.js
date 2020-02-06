@@ -5,7 +5,7 @@ import {colors} from '@apollo/space-kit/colors';
 import {format} from 'date-fns';
 import {size, transparentize} from 'polished';
 
-const FONT_FAMILY_MONO = "'Source Code Pro', Menlo, monospace";
+export const FONT_FAMILY_MONO = "'Source Code Pro', Menlo, monospace";
 
 export const dateTextStyles = {
   fontFamily: FONT_FAMILY_MONO,
@@ -124,11 +124,15 @@ export const Sidebar = styled.aside({
   display: 'flex',
   flexDirection: 'column',
   flexShrink: 0,
-  width: 262,
-  marginLeft: 127
+  width: 360,
+  marginLeft: 104
 });
 
 export const SidebarSection = styled.div({
+  padding: 24,
+  marginTop: -24,
+  borderRadius: 12,
+  backgroundColor: 'white',
   ':not(:last-child)': {
     marginBottom: 90
   }

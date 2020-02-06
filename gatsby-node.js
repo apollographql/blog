@@ -2,7 +2,7 @@ exports.createPages = async ({actions, graphql}) => {
   const {data} = await graphql(`
     {
       wordpress {
-        posts {
+        posts(first: 100) {
           nodes {
             id
             slug

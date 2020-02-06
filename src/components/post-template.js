@@ -9,6 +9,7 @@ import {
   Avatar,
   Category,
   DateText,
+  FONT_FAMILY_MONO,
   InnerWrapper,
   Main,
   SectionHeading,
@@ -82,6 +83,9 @@ const linkStyles = {
   }
 };
 
+const FULL_IMAGE_HEIGHT = 600;
+const FIGCAPTION_MARGIN = 12;
+
 const PostContent = styled.div({
   h2: {
     marginTop: 90
@@ -94,7 +98,32 @@ const PostContent = styled.div({
     ...largeTextStyles,
     marginBottom: 31
   },
-  a: linkStyles
+  a: linkStyles,
+  '.wp-block-image': {
+    margin: '90px 0',
+    '&.alignfull': {
+      img: {
+        width: '100%',
+        maxWidth: 'none',
+        height: FULL_IMAGE_HEIGHT,
+        objectFit: 'cover',
+        position: 'absolute',
+        left: 0
+      },
+      figcaption: {
+        paddingTop: FULL_IMAGE_HEIGHT + FIGCAPTION_MARGIN
+      }
+    },
+    img: {
+      maxWidth: '100%'
+    },
+    figcaption: {
+      marginTop: FIGCAPTION_MARGIN,
+      fontFamily: FONT_FAMILY_MONO,
+      color: colors.grey.lighter,
+      lineHeight: 1.5
+    }
+  }
 });
 
 const Divider = styled.div({
@@ -145,12 +174,9 @@ const NewsletterSignup = styled.div({
   }
 });
 
-const PostAction = styled.div({
-  padding: 32,
-  paddingTop: 24,
+const PostAction = styled(SidebarSection)({
   color: 'white',
   backgroundColor: colors.indigo.dark,
-  borderRadius: 12,
   h3: {
     color: 'inherit'
   }
