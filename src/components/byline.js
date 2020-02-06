@@ -5,7 +5,7 @@ import {Avatar} from './ui';
 import {Link} from 'gatsby';
 import {colors} from '@apollo/space-kit/colors';
 
-const Wrapper = styled(Link)({
+const StyledLink = styled(Link)({
   display: 'flex',
   alignItems: 'center',
   textDecoration: 'none',
@@ -27,7 +27,7 @@ const Subheading = styled.h6({
 export default function Byline(props) {
   const {avatar, name, userMetadata} = props.author;
   return (
-    <Wrapper>
+    <StyledLink to="/">
       <Avatar size={props.mini ? 'sm' : 'md'} src={avatar.url} />
       {props.mini ? (
         <Subheading>
@@ -39,7 +39,7 @@ export default function Byline(props) {
           <Subheading>{userMetadata.title}</Subheading>
         </div>
       )}
-    </Wrapper>
+    </StyledLink>
   );
 }
 

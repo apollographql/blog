@@ -4,6 +4,7 @@ import Layout from './layout';
 import NewsletterForm from './newsletter-form';
 import PropTypes from 'prop-types';
 import React from 'react';
+import TwitterButton from './twitter-button';
 import styled from '@emotion/styled';
 import {
   Avatar,
@@ -139,7 +140,10 @@ const AuthorHeader = styled.div({
   alignItems: 'center'
 });
 
-const WrittenBy = styled.h5(dateTextStyles);
+const AuthorByline = styled.div({
+  marginRight: 'auto',
+  h5: dateTextStyles
+});
 
 const AuthorBio = styled.div({
   marginTop: 14,
@@ -237,10 +241,15 @@ export default function PostTemplate(props) {
           </Divider>
           <AuthorHeader>
             <Avatar size="lg" src={author.avatar.url} />
-            <div>
-              <WrittenBy>Written by</WrittenBy>
+            <AuthorByline>
+              <h5>Written by</h5>
               <h3>{author.name}</h3>
-            </div>
+            </AuthorByline>
+            {author.userMetadata.twitter && (
+              <TwitterButton href={author.userMetadata.twitter}>
+                Follow
+              </TwitterButton>
+            )}
           </AuthorHeader>
           <AuthorBio>
             <p>{author.description}</p>

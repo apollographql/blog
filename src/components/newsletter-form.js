@@ -10,8 +10,7 @@ const StyledInput = styled(TextField)({
 });
 
 const StyledButton = styled(Button)({
-  width: '100%',
-  height: 40
+  width: '100%'
 });
 
 export default function NewsletterForm() {
@@ -28,7 +27,11 @@ export default function NewsletterForm() {
           news.
         </h5>
         <StyledInput size="large" placeholder="Your email address" />
-        <StyledButton type="submit" color={colors.indigo.dark}>
+        <StyledButton
+          type="submit"
+          color={colors.indigo.dark}
+          style={{height: 40}}
+        >
           Subscribe
         </StyledButton>
       </form>

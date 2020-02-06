@@ -89,6 +89,7 @@ export default function Layout(props) {
           rel="stylesheet"
         />
         <link rel="icon" href="https://apollographql.com/favicon.ico" />
+        <style id="space-kit">{'/* Space Kit CSS goes here */'}</style>
       </Helmet>
       <Global styles={styles} />
       <Header>
