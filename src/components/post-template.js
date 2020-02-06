@@ -1,13 +1,12 @@
+import AuthorDetails from './author-details';
 import Byline from './byline';
 import Helmet from 'react-helmet';
 import Layout from './layout';
 import NewsletterForm from './newsletter-form';
 import PropTypes from 'prop-types';
 import React from 'react';
-import TwitterButton from './twitter-button';
 import styled from '@emotion/styled';
 import {
-  Avatar,
   Category,
   DateText,
   FONT_FAMILY_MONO,
@@ -20,20 +19,17 @@ import {
   SocialIcon,
   SocialIcons,
   TopFold,
-  avatarMargins,
-  avatarSizes,
-  dateTextStyles
+  largeTextStyles,
+  linkStyles
 } from './ui';
 import {IconEmail} from '@apollo/space-kit/icons/IconEmail';
 import {IconFacebook} from '@apollo/space-kit/icons/IconFacebook';
 import {ReactComponent as IconLinkedin} from '../assets/icons/linkedin.svg';
-import {IconProceed} from '@apollo/space-kit/icons/IconProceed';
 import {IconSingleService} from '@apollo/space-kit/icons/IconSingleService';
 import {ReactComponent as IconSlack} from '../assets/icons/slack.svg';
 import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
-import {Link, graphql} from 'gatsby';
 import {colors} from '@apollo/space-kit/colors';
-import {size} from 'polished';
+import {graphql} from 'gatsby';
 
 const BylineWrapper = styled.div({
   display: 'flex',
@@ -70,19 +66,6 @@ const TwitterHandle = styled.a({
     color: colors.indigo.base
   }
 });
-
-const largeTextStyles = {
-  fontSize: 21,
-  lineHeight: '32px'
-};
-
-const linkStyles = {
-  color: colors.indigo.base,
-  textDecoration: 'none',
-  ':hover': {
-    textDecoration: 'underline'
-  }
-};
 
 const FULL_IMAGE_HEIGHT = 600;
 const FIGCAPTION_MARGIN = 12;
@@ -132,37 +115,6 @@ const Divider = styled.div({
   color: colors.indigo.base,
   svg: {
     marginRight: 16
-  }
-});
-
-const AuthorHeader = styled.div({
-  display: 'flex',
-  alignItems: 'center'
-});
-
-const AuthorByline = styled.div({
-  marginRight: 'auto',
-  h5: dateTextStyles
-});
-
-const AuthorBio = styled.div({
-  marginTop: 14,
-  paddingLeft: avatarSizes.lg + avatarMargins.lg,
-  color: colors.grey.base,
-  p: {
-    ...largeTextStyles,
-    ':not(:last-child)': {
-      marginBottom: 24
-    }
-  },
-  a: {
-    ...linkStyles,
-    display: 'inline-flex',
-    alignItems: 'center',
-    svg: {
-      ...size(19),
-      marginLeft: 12
-    }
   }
 });
 
@@ -239,26 +191,7 @@ export default function PostTemplate(props) {
             <IconSingleService />
             <IconSingleService />
           </Divider>
-          <AuthorHeader>
-            <Avatar size="lg" src={author.avatar.url} />
-            <AuthorByline>
-              <h5>Written by</h5>
-              <h3>{author.name}</h3>
-            </AuthorByline>
-            {author.userMetadata.twitter && (
-              <TwitterButton href={author.userMetadata.twitter}>
-                Follow
-              </TwitterButton>
-            )}
-          </AuthorHeader>
-          <AuthorBio>
-            <p>{author.description}</p>
-            <p>
-              <Link to="/author/name">
-                Read more by {author.name} <IconProceed />
-              </Link>
-            </p>
-          </AuthorBio>
+          <AuthorDetails author={author} />
           <NewsletterSignup>
             <h3>Stay in our orbit</h3>
             <p>

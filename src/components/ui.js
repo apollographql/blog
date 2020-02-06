@@ -196,3 +196,16 @@ export const Avatar = styled.img(props => ({
   marginRight: avatarMargins[props.size],
   objectFit: 'cover'
 }));
+
+export const largeTextStyles = {
+  fontSize: 21,
+  lineHeight: '32px'
+};
+
+export const linkStyles = {
+  color: colors.indigo.base,
+  textDecoration: 'none',
+  ':hover': {
+    textDecoration: 'underline'
+  }
+};
