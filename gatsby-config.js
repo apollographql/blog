@@ -1,3 +1,5 @@
+const isProduction = process.env.NODE_ENV === 'production';
+
 module.exports = {
   plugins: [
     'gatsby-plugin-svgr',
@@ -6,10 +8,10 @@ module.exports = {
     {
       resolve: 'gatsby-source-wordpress',
       options: {
-        baseUrl:
-          process.env.NODE_ENV === 'production'
-            ? process.env.WORDPRESS_URL_PROD
-            : process.env.WORDPRESS_URL_DEV
+        https: isProduction,
+        baseUrl: isProduction
+          ? process.env.WORDPRESS_URL_PROD
+          : process.env.WORDPRESS_URL_DEV
       }
     },
     'gatsby-plugin-sharp',
