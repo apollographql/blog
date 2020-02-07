@@ -1,15 +1,17 @@
 import '@apollo/space-kit/reset.css';
+import FooterNav from './footer-nav';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 import React, {Fragment} from 'react';
+import RecentPosts from './recent-posts';
 import styled from '@emotion/styled';
-import styles, {HEADINGS} from '../styles';
+import styles from '../../styles';
 import {ApolloIcon} from '@apollo/space-kit/icons/ApolloIcon';
-import {ReactComponent as BlogIcon} from '../assets/blog.svg';
+import {ReactComponent as BlogIcon} from '../../assets/blog.svg';
 import {Global} from '@emotion/core';
 import {IconSearch} from '@apollo/space-kit/icons/IconSearch';
 import {Link, graphql, useStaticQuery} from 'gatsby';
-import {SectionHeading} from './ui';
+import {SectionHeading} from '../ui';
 import {TextField} from '@apollo/space-kit/TextField';
 import {colors} from '@apollo/space-kit/colors';
 import {size} from 'polished';
@@ -60,26 +62,64 @@ const Footer = styled.footer({
   padding: '120px 0',
   backgroundColor: '#181137',
   color: colors.indigo.lightest,
-  [HEADINGS]: {
+  h4: {
     color: 'inherit'
+  },
+  h6: {
+    color: colors.grey.lighter
   }
+});
+
+const FooterInner = styled.div({
+  display: 'flex',
+  marginTop: 60
+});
+
+const FooterNavGroup = styled.div({
+  marginLeft: 100
 });
 
 export default function Layout(props) {
   const data = useStaticQuery(
     graphql`
-      {
+      query LayoutQuery {
         wordpress {
           generalSettings {
             title
             description
+          }
+          companyMenu: menu(id: "TWVudToy") {
+            ...MenuFragment
+          }
+          communityMenu: menu(id: "TWVudToz") {
+            ...MenuFragment
+          }
+          helpMenu: menu(id: "TWVudTo0") {
+            ...MenuFragment
+          }
+        }
+      }
+
+      fragment MenuFragment on Wordpress_Menu {
+        name
+        menuItems {
+          nodes {
+            id
+            url
+            label
           }
         }
       }
     `
   );
 
-  const {title, description} = data.wordpress.generalSettings;
+  const {
+    generalSettings,
+    companyMenu,
+    communityMenu,
+    helpMenu
+  } = data.wordpress;
+  const {title, description} = generalSettings;
   return (
     <Fragment>
       <Helmet defaultTitle={title} titleTemplate={`%s - ${title}`}>
@@ -107,7 +147,17 @@ export default function Layout(props) {
       <Wrapper>{props.children}</Wrapper>
       <Footer>
         <Wrapper>
-          <SectionHeading>Similar articles</SectionHeading>
+          <SectionHeading>Recent articles</SectionHeading>
+          <FooterInner>
+            <RecentPosts />
+            <FooterNavGroup>
+              <FooterNav menu={companyMenu} />
+            </FooterNavGroup>
+            <FooterNavGroup>
+              <FooterNav menu={communityMenu} />
+              <FooterNav menu={helpMenu} />
+            </FooterNavGroup>
+          </FooterInner>
         </Wrapper>
       </Footer>
     </Fragment>

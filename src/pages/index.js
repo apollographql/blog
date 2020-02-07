@@ -1,3 +1,4 @@
+import ArchivePost from '../components/archive-post';
 import Byline from '../components/byline';
 import FollowUs from '../components/follow-us';
 import Layout from '../components/layout';
@@ -9,6 +10,7 @@ import {
   Category,
   DateText,
   ExcerptText,
+  HeadingLink,
   InnerWrapper,
   Main,
   PostImage,
@@ -22,14 +24,6 @@ import {IconBookmark} from '@apollo/space-kit/icons/IconBookmark';
 import {IconTime} from '@apollo/space-kit/icons/IconTime';
 import {Link, graphql} from 'gatsby';
 import {colors} from '@apollo/space-kit/colors';
-
-const HeadingLink = styled(Link)({
-  color: 'inherit',
-  textDecoration: 'none',
-  ':hover': {
-    color: colors.indigo.base
-  }
-});
 
 const FeaturedPost = styled.div({
   display: 'flex',
@@ -80,15 +74,6 @@ const StyledSectionHeading = styled(SectionHeading)({
 
 const ArchivePosts = styled.div({
   marginBottom: 120
-});
-
-const ArchivePost = styled.div({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  ':not(:last-child)': {
-    marginBottom: 40
-  }
 });
 
 const CategoryNav = styled.div({
@@ -165,13 +150,7 @@ export default function Index(props) {
           </StyledSectionHeading>
           <ArchivePosts>
             {archivePosts.map(post => (
-              <ArchivePost key={post.id}>
-                <DateText date={post.date} />
-                <h4>
-                  <HeadingLink to={'/' + post.slug}>{post.title}</HeadingLink>
-                </h4>
-                <Byline mini author={post.author} />
-              </ArchivePost>
+              <ArchivePost key={post.id} post={post} />
             ))}
           </ArchivePosts>
         </Main>

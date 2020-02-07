@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from '@emotion/styled';
+import {Link} from 'gatsby';
 import {colors} from '@apollo/space-kit/colors';
 import {format} from 'date-fns';
 import {size, transparentize} from 'polished';
@@ -196,3 +197,16 @@ export const Avatar = styled.img(props => ({
   marginRight: avatarMargins[props.size],
   objectFit: 'cover'
 }));
+
+export const largeTextStyles = {
+  fontSize: 21,
+  lineHeight: '32px'
+};
+
+export const HeadingLink = styled(Link)({
+  color: 'inherit',
+  textDecoration: 'none',
+  ':hover': {
+    color: colors.indigo.base
+  }
+});

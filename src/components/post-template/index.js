@@ -1,4 +1,4 @@
-import AuthorDetails, {largeTextStyles, linkStyles} from './author-details';
+import AuthorDetails, {linkStyles} from './author-details';
 import Byline from '../byline';
 import Helmet from 'react-helmet';
 import Layout from '../layout';
@@ -18,7 +18,8 @@ import {
   SidebarSticky,
   SocialIcon,
   SocialIcons,
-  TopFold
+  TopFold,
+  largeTextStyles
 } from '../ui';
 import {HEADING_COLOR} from '../../styles';
 import {IconEmail} from '@apollo/space-kit/icons/IconEmail';
