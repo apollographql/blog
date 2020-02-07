@@ -17,7 +17,6 @@ import {
   SectionHeading,
   Sidebar,
   SidebarSection,
-  SidebarSticky,
   TopFold
 } from '../components/ui';
 import {IconBookmark} from '@apollo/space-kit/icons/IconBookmark';
@@ -155,18 +154,16 @@ export default function Index(props) {
           </ArchivePosts>
         </Main>
         <Sidebar>
-          <SidebarSticky>
-            <NewsletterForm />
-            <FollowUs />
-            <SidebarSection>
-              <SectionHeading>Categories</SectionHeading>
-              <CategoryNav>
-                {categories.nodes.map(category => (
-                  <Category key={category.id}>{category.name}</Category>
-                ))}
-              </CategoryNav>
-            </SidebarSection>
-          </SidebarSticky>
+          <NewsletterForm />
+          <FollowUs />
+          <SidebarSection>
+            <SectionHeading>Categories</SectionHeading>
+            <CategoryNav>
+              {categories.nodes.map(category => (
+                <Category key={category.id}>{category.name}</Category>
+              ))}
+            </CategoryNav>
+          </SidebarSection>
         </Sidebar>
       </InnerWrapper>
     </Layout>

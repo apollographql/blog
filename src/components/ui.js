@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from '@emotion/styled';
+import {Button} from '@apollo/space-kit/Button';
 import {Link} from 'gatsby';
+import {TextField} from '@apollo/space-kit/TextField';
 import {colors} from '@apollo/space-kit/colors';
 import {format} from 'date-fns';
 import {size, transparentize} from 'polished';
@@ -125,39 +127,15 @@ export const Sidebar = styled.aside({
   display: 'flex',
   flexDirection: 'column',
   flexShrink: 0,
-  width: 360,
-  marginLeft: 104
+  width: 312,
+  marginLeft: 128
 });
 
 export const SidebarSection = styled.div({
-  padding: 24,
-  marginTop: -24,
-  borderRadius: 12,
-  backgroundColor: 'white',
   ':not(:last-child)': {
     marginBottom: 90
   }
 });
-
-const SidebarStickyOuter = styled.div({
-  flexGrow: 1,
-  ':not(:last-child)': {
-    marginBottom: 90
-  }
-});
-
-const SidebarStickyInner = styled.div({
-  position: 'sticky',
-  top: 90
-});
-
-export function SidebarSticky(props) {
-  return (
-    <SidebarStickyOuter>
-      <SidebarStickyInner {...props} />
-    </SidebarStickyOuter>
-  );
-}
 
 export const SocialIcons = styled.div({
   display: 'flex',
@@ -166,13 +144,13 @@ export const SocialIcons = styled.div({
 
 export const SocialIcon = styled.a({
   ...size(24),
-  color: '#c2c6d6',
+  color: colors.silver.darker,
   svg: {
     ...size('100%'),
     fill: 'currentColor'
   },
   ':hover': {
-    color: '#7983a7'
+    color: colors.grey.light
   },
   ':not(:last-child)': {
     marginRight: 20
@@ -210,3 +188,32 @@ export const HeadingLink = styled(Link)({
     color: colors.indigo.base
   }
 });
+
+const largeInputHeight = 50;
+const LargeInputBase = styled(TextField)({
+  input: {
+    height: largeInputHeight,
+    fontSize: 18
+  }
+});
+
+export function LargeInput(props) {
+  return <LargeInputBase size="large" {...props} />;
+}
+
+export function LargeButton({style, ...props}) {
+  return (
+    <Button
+      size="large"
+      style={{
+        height: largeInputHeight,
+        ...style
+      }}
+      {...props}
+    />
+  );
+}
+
+LargeButton.propTypes = {
+  style: PropTypes.object
+};

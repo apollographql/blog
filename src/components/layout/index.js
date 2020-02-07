@@ -10,9 +10,8 @@ import {ApolloIcon} from '@apollo/space-kit/icons/ApolloIcon';
 import {ReactComponent as BlogIcon} from '../../assets/blog.svg';
 import {Global} from '@emotion/core';
 import {IconSearch} from '@apollo/space-kit/icons/IconSearch';
+import {LargeInput, SectionHeading} from '../ui';
 import {Link, graphql, useStaticQuery} from 'gatsby';
-import {SectionHeading} from '../ui';
-import {TextField} from '@apollo/space-kit/TextField';
 import {colors} from '@apollo/space-kit/colors';
 import {size} from 'polished';
 
@@ -52,10 +51,18 @@ const StyledBlogIcon = styled(BlogIcon)({
   marginTop: 2
 });
 
-const SearchInput = styled(TextField)({
+const SearchInput = styled(LargeInput)({
   flexGrow: 1,
-  marginLeft: 72
+  marginLeft: 72,
+  input: {
+    paddingLeft: 40
+  },
+  'label div div': {
+    left: 16
+  }
 });
+
+const StyledSearchIcon = styled(IconSearch)(size(16));
 
 const Footer = styled.footer({
   marginTop: 120,
@@ -138,9 +145,9 @@ export default function Layout(props) {
             <StyledBlogIcon />
           </LogoLink>
           <SearchInput
-            size="large"
             placeholder="Search blog..."
-            icon={<IconSearch style={size(14)} />}
+            type="search"
+            icon={<StyledSearchIcon />}
           />
         </HeaderInner>
       </Header>

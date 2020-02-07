@@ -11,11 +11,12 @@ import {
   DateText,
   FONT_FAMILY_MONO,
   InnerWrapper,
+  LargeButton,
+  LargeInput,
   Main,
   SectionHeading,
   Sidebar,
   SidebarSection,
-  SidebarSticky,
   SocialIcon,
   SocialIcons,
   TopFold,
@@ -46,7 +47,8 @@ const Categories = styled.div({
 
 const FeaturedImage = styled.img({
   width: '100%',
-  marginBottom: 90
+  marginBottom: 90,
+  borderRadius: 8
 });
 
 const TwitterHandleWrapper = styled.div({
@@ -131,11 +133,44 @@ const NewsletterSignup = styled.div({
   }
 });
 
+const PostSidebarWrapper = styled.div({
+  flexGrow: 0.5
+});
+
+const PostActionWrapper = styled.div({
+  display: 'flex',
+  flexGrow: 1
+});
+
 const PostAction = styled(SidebarSection)({
+  display: 'flex',
+  flexDirection: 'column',
+  padding: 24,
+  marginTop: 'auto',
+  marginRight: -40,
+  borderRadius: 12,
   color: 'white',
   backgroundColor: colors.indigo.dark,
+  position: 'sticky',
+  bottom: 90,
   h3: {
-    color: 'inherit'
+    color: 'inherit',
+    marginBottom: 16
+  },
+  p: {
+    marginBottom: 32
+  }
+});
+
+const InputRow = styled.div({
+  display: 'flex'
+});
+
+const EmailInput = styled(LargeInput)({
+  flexGrow: 1,
+  marginRight: 24,
+  [['label *:first-child', '> div']]: {
+    marginTop: 0
   }
 });
 
@@ -199,10 +234,14 @@ export default function PostTemplate(props) {
               Sign up for our mailing list and get updates on products, events,
               and more. Oh, and no junk mail. Ever.
             </p>
+            <InputRow>
+              <EmailInput placeholder="Your email address" />
+              <LargeButton color={colors.indigo.dark}>Subscribe</LargeButton>
+            </InputRow>
           </NewsletterSignup>
         </Main>
         <Sidebar>
-          <SidebarSticky>
+          <PostSidebarWrapper>
             <NewsletterForm />
             <SidebarSection>
               <SectionHeading>Share article</SectionHeading>
@@ -224,12 +263,22 @@ export default function PostTemplate(props) {
                 </SocialIcon>
               </SocialIcons>
             </SidebarSection>
-          </SidebarSticky>
-          <SidebarSticky>
+          </PostSidebarWrapper>
+          <PostActionWrapper>
             <PostAction>
               <h3>Don&apos;t miss GraphQL Summit 2020!</h3>
+              <p>
+                Get your ticket now for an earlybird price of just $45! Rates
+                will increase on Feb 1, 2020.
+              </p>
+              <LargeButton
+                color={colors.white}
+                style={{color: colors.indigo.dark}}
+              >
+                Buy tickets
+              </LargeButton>
             </PostAction>
-          </SidebarSticky>
+          </PostActionWrapper>
         </Sidebar>
       </InnerWrapper>
     </Layout>
