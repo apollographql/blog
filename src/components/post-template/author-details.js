@@ -54,17 +54,17 @@ const AuthorBio = styled.div({
 });
 
 export default function AuthorDetails(props) {
-  const {avatar, name, userMetadata, description} = props.author;
+  const {avatar_urls, name, acf, description} = props.author;
   return (
     <div>
       <AuthorHeader>
-        <Avatar size="lg" src={avatar.url} />
+        <Avatar size="lg" src={avatar_urls.wordpress_96} />
         <AuthorByline>
           <h5>Written by</h5>
           <h3>{name}</h3>
         </AuthorByline>
-        {userMetadata.twitter && (
-          <TwitterButton href={userMetadata.twitter}>Follow</TwitterButton>
+        {acf.twitter && (
+          <TwitterButton href={acf.twitter}>Follow</TwitterButton>
         )}
       </AuthorHeader>
       <AuthorBio>

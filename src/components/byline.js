@@ -25,10 +25,10 @@ const Subheading = styled.h6({
 });
 
 export default function Byline(props) {
-  const {avatar, name, userMetadata} = props.author;
+  const {avatar_urls, name, acf} = props.author;
   return (
     <StyledLink to="/">
-      <Avatar size={props.mini ? 'sm' : 'md'} src={avatar.url} />
+      <Avatar size={props.mini ? 'sm' : 'md'} src={avatar_urls.wordpress_96} />
       {props.mini ? (
         <Subheading>
           by <span className="name">{name}</span>
@@ -36,7 +36,7 @@ export default function Byline(props) {
       ) : (
         <div>
           <h5 className="name">{name}</h5>
-          <Subheading>{userMetadata.title}</Subheading>
+          <Subheading>{acf.title}</Subheading>
         </div>
       )}
     </StyledLink>

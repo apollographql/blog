@@ -11,31 +11,34 @@ export default function RecentPosts() {
   const data = useStaticQuery(
     graphql`
       {
-        wordpress {
-          posts(first: 3) {
-            nodes {
-              date
-              excerpt
-              title
-              slug
-              featuredImage {
-                sourceUrl(size: LARGE)
-              }
-              categories {
-                nodes {
-                  slug
+        allWordpressPost(limit: 3) {
+          nodes {
+            date
+            excerpt
+            title
+            slug
+            featured_media {
+              localFile {
+                childImageSharp {
                   id
-                  name
+                  original {
+                    src
+                  }
                 }
               }
-              author {
-                name
-                avatar {
-                  url
-                }
-                userMetadata {
-                  title
-                }
+            }
+            categories {
+              slug
+              id
+              name
+            }
+            author {
+              name
+              avatar_urls {
+                wordpress_96
+              }
+              acf {
+                title
               }
             }
           }
@@ -46,7 +49,7 @@ export default function RecentPosts() {
 
   return (
     <Wrapper>
-      {data.wordpress.posts.nodes.map(post => (
+      {data.allWordpressPost.nodes.map(post => (
         <ArchivePost key={post.id} post={post} />
       ))}
     </Wrapper>

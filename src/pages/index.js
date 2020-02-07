@@ -88,8 +88,7 @@ const CategoryNav = styled.div({
 });
 
 export default function Index(props) {
-  const {posts, categories} = props.data.wordpress;
-  const [featuredPost, ...otherPosts] = posts.nodes;
+  const [featuredPost, ...otherPosts] = props.data.allWordpressPost.nodes;
   const recentPosts = otherPosts.slice(0, 4);
   const archivePosts = otherPosts.slice(4);
   return (
@@ -108,7 +107,10 @@ export default function Index(props) {
             <PostLink to={'/' + featuredPost.slug}>
               <PostImage
                 style={{height: 240}}
-                src={featuredPost.featuredImage.sourceUrl}
+                src={
+                  featuredPost.featured_media.localFile.childImageSharp.original
+                    .src
+                }
               />
               <ExcerptText
                 style={{marginBottom: 24}}
@@ -127,14 +129,16 @@ export default function Index(props) {
                 <PostLink to={'/' + post.slug}>
                   <PostImage
                     style={{height: 160}}
-                    src={post.featuredImage.sourceUrl}
+                    src={
+                      post.featured_media.localFile.childImageSharp.original.src
+                    }
                   />
                   <DateText date={post.date} />
                   <h4>{post.title}</h4>
                   <ExcerptText excerpt={post.excerpt} />
                 </PostLink>
                 <PostCategories>
-                  {post.categories.nodes.map(category => (
+                  {post.categories.map(category => (
                     <Category key={category.id} size="small">
                       {category.name}
                     </Category>
@@ -159,7 +163,7 @@ export default function Index(props) {
           <SidebarSection>
             <SectionHeading>Categories</SectionHeading>
             <CategoryNav>
-              {categories.nodes.map(category => (
+              {props.data.allWordpressCategory.nodes.map(category => (
                 <Category key={category.id}>{category.name}</Category>
               ))}
             </CategoryNav>
@@ -176,40 +180,43 @@ Index.propTypes = {
 
 export const pageQuery = graphql`
   {
-    wordpress {
-      posts(first: 100) {
-        nodes {
-          date
-          excerpt
-          title
-          slug
-          featuredImage {
-            sourceUrl(size: LARGE)
-          }
-          categories {
-            nodes {
-              slug
+    allWordpressPost {
+      nodes {
+        date
+        excerpt
+        title
+        slug
+        featured_media {
+          localFile {
+            childImageSharp {
               id
-              name
+              original {
+                src
+              }
             }
           }
-          author {
-            name
-            avatar {
-              url
-            }
-            userMetadata {
-              title
-            }
+        }
+        categories {
+          slug
+          id
+          name
+        }
+        author {
+          name
+          avatar_urls {
+            wordpress_96
+          }
+          acf {
+            title
           }
         }
       }
-      categories {
-        nodes {
-          id
-          slug
-          name
-        }
+    }
+    allWordpressCategory {
+      nodes {
+        id
+        slug
+        name
       }
     }
   }

@@ -180,10 +180,10 @@ export default function PostTemplate(props) {
     title,
     author,
     categories,
-    featuredImage,
+    featured_media,
     content
-  } = props.data.wordpress.post;
-  const {twitter} = author.userMetadata;
+  } = props.data.wordpressPost;
+  const {twitter} = author.acf;
   return (
     <Layout>
       <Helmet>
@@ -213,14 +213,16 @@ export default function PostTemplate(props) {
           )}
         </BylineWrapper>
         <Categories>
-          {categories.nodes.map(category => (
+          {categories.map(category => (
             <Category key={category.id}>{category.name}</Category>
           ))}
         </Categories>
       </TopFold>
       <InnerWrapper>
         <Main>
-          <FeaturedImage src={featuredImage.sourceUrl} />
+          <FeaturedImage
+            src={featured_media.localFile.childImageSharp.original.src}
+          />
           <PostContent dangerouslySetInnerHTML={{__html: content}} />
           <Divider>
             <IconSingleService />
@@ -290,32 +292,35 @@ PostTemplate.propTypes = {
 };
 
 export const pageQuery = graphql`
-  query PostQuery($id: ID!) {
-    wordpress {
-      post(id: $id) {
-        date
-        title
-        content
-        author {
-          name
-          description
-          avatar {
-            url
-          }
-          userMetadata {
-            title
-            twitter
-          }
+  query PostQuery($id: String) {
+    wordpressPost(id: {eq: $id}) {
+      date
+      title
+      content
+      author {
+        name
+        description
+        avatar_urls {
+          wordpress_96
         }
-        categories {
-          nodes {
+        acf {
+          twitter
+          title
+        }
+      }
+      categories {
+        id
+        slug
+        name
+      }
+      featured_media {
+        localFile {
+          childImageSharp {
             id
-            slug
-            name
+            original {
+              src
+            }
           }
-        }
-        featuredImage {
-          sourceUrl(size: LARGE)
         }
       }
     }

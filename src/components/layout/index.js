@@ -90,43 +90,33 @@ export default function Layout(props) {
   const data = useStaticQuery(
     graphql`
       query LayoutQuery {
-        wordpress {
-          generalSettings {
-            title
-            description
-          }
-          companyMenu: menu(id: "TWVudToy") {
-            ...MenuFragment
-          }
-          communityMenu: menu(id: "TWVudToz") {
-            ...MenuFragment
-          }
-          helpMenu: menu(id: "TWVudTo0") {
-            ...MenuFragment
-          }
+        wordpressSiteMetadata {
+          description
+          title: name
+        }
+        companyMenu: wordpressWpApiMenusMenusItems(wordpress_id: {eq: 2}) {
+          ...MenuFragment
+        }
+        communityMenu: wordpressWpApiMenusMenusItems(wordpress_id: {eq: 3}) {
+          ...MenuFragment
+        }
+        helpMenu: wordpressWpApiMenusMenusItems(wordpress_id: {eq: 4}) {
+          ...MenuFragment
         }
       }
 
-      fragment MenuFragment on Wordpress_Menu {
+      fragment MenuFragment on wordpress__wp_api_menus_menus_items {
         name
-        menuItems {
-          nodes {
-            id
-            url
-            label
-          }
+        items {
+          object_id
+          url
+          title
         }
       }
     `
   );
 
-  const {
-    generalSettings,
-    companyMenu,
-    communityMenu,
-    helpMenu
-  } = data.wordpress;
-  const {title, description} = generalSettings;
+  const {title, description} = data.wordpressSiteMetadata;
   return (
     <Fragment>
       <Helmet defaultTitle={title} titleTemplate={`%s - ${title}`}>
@@ -158,11 +148,11 @@ export default function Layout(props) {
           <FooterInner>
             <RecentPosts />
             <FooterNavGroup>
-              <FooterNav menu={companyMenu} />
+              <FooterNav menu={data.companyMenu} />
             </FooterNavGroup>
             <FooterNavGroup>
-              <FooterNav menu={communityMenu} />
-              <FooterNav menu={helpMenu} />
+              <FooterNav menu={data.communityMenu} />
+              <FooterNav menu={data.helpMenu} />
             </FooterNavGroup>
           </FooterInner>
         </Wrapper>
