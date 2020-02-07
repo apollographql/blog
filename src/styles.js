@@ -1,6 +1,7 @@
 import {colors} from '@apollo/space-kit/colors';
 
 export const HEADINGS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+export const HEADING_COLOR = '#343c5a';
 
 export default {
   body: {
@@ -10,7 +11,7 @@ export default {
     margin: 0
   },
   [HEADINGS]: {
-    color: '#343c5a'
+    color: HEADING_COLOR
   },
   [['h1', 'h2', 'h3']]: {
     fontWeight: 700

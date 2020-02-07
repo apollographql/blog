@@ -20,6 +20,7 @@ import {
   SocialIcons,
   TopFold
 } from '../ui';
+import {HEADING_COLOR} from '../../styles';
 import {IconEmail} from '@apollo/space-kit/icons/IconEmail';
 import {IconFacebook} from '@apollo/space-kit/icons/IconFacebook';
 import {ReactComponent as IconLinkedin} from '../../assets/icons/linkedin.svg';
@@ -69,6 +70,7 @@ const FULL_IMAGE_HEIGHT = 600;
 const FIGCAPTION_MARGIN = 12;
 
 const PostContent = styled.div({
+  color: HEADING_COLOR,
   h2: {
     marginTop: 90
   },
@@ -76,7 +78,7 @@ const PostContent = styled.div({
     marginTop: 60,
     marginBottom: 32
   },
-  p: {
+  [['p', 'li']]: {
     ...largeTextStyles,
     marginBottom: 31
   },
