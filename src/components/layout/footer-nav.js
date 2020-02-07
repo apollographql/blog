@@ -39,7 +39,7 @@ export default function FooterNav(props) {
       <Heading>{props.menu.name}</Heading>
       <Links>
         {props.menu.items.map(item => (
-          <Link key={item.id} href={item.url}>
+          <Link key={item.object_id} href={item.url}>
             {item.title}
           </Link>
         ))}

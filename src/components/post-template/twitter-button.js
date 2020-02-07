@@ -15,6 +15,7 @@ const StyledTwitterIcon = styled(IconTwitter)({
 export default function TwitterButton(props) {
   return (
     <Button
+      as={<a />}
       color={colors.white}
       icon={<StyledTwitterIcon />}
       style={{fontWeight: 'normal'}}

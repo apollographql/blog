@@ -64,7 +64,17 @@ export default function AuthorDetails(props) {
           <h3>{name}</h3>
         </AuthorByline>
         {acf.twitter && (
-          <TwitterButton href={acf.twitter}>Follow</TwitterButton>
+          <TwitterButton
+            as={
+              <a
+                href={`https://twitter.com/${acf.twitter}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              />
+            }
+          >
+            Follow
+          </TwitterButton>
         )}
       </AuthorHeader>
       <AuthorBio>

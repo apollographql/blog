@@ -169,7 +169,7 @@ const InputRow = styled.div({
 const EmailInput = styled(LargeInput)({
   flexGrow: 1,
   marginRight: 24,
-  [['label *:first-child', '> div']]: {
+  [['label > div', '> div']]: {
     marginTop: 0
   }
 });
