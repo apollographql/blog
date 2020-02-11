@@ -5,6 +5,7 @@ import Layout from '../layout';
 import NewsletterForm from '../newsletter-form';
 import PropTypes from 'prop-types';
 import React from 'react';
+import parse from 'html-react-parser';
 import styled from '@emotion/styled';
 import {
   Category,
@@ -183,6 +184,7 @@ export default function PostTemplate(props) {
     featured_media,
     content
   } = props.data.wordpressPost;
+  const media = props.data.allWordpressWpMedia.nodes;
   const {twitter} = author.acf;
   return (
     <Layout>
@@ -223,7 +225,22 @@ export default function PostTemplate(props) {
           <FeaturedImage
             src={featured_media.localFile.childImageSharp.original.src}
           />
-          <PostContent dangerouslySetInnerHTML={{__html: content}} />
+          <PostContent>
+            {parse(content, {
+              replace(domNode) {
+                if (domNode.name === 'img') {
+                  // replace images from wordpress with their local counterparts
+                  for (const {slug, localFile} of media) {
+                    if (domNode.attribs.src.toLowerCase().includes(slug)) {
+                      return (
+                        <img src={localFile.childImageSharp.original.src} />
+                      );
+                    }
+                  }
+                }
+              }
+            })}
+          </PostContent>
           <Divider>
             <IconSingleService />
             <IconSingleService />
@@ -293,6 +310,18 @@ PostTemplate.propTypes = {
 
 export const pageQuery = graphql`
   query PostQuery($id: String) {
+    allWordpressWpMedia {
+      nodes {
+        slug
+        localFile {
+          childImageSharp {
+            original {
+              src
+            }
+          }
+        }
+      }
+    }
     wordpressPost(id: {eq: $id}) {
       date
       title
