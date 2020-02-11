@@ -243,7 +243,10 @@ export default function PostTemplate(props) {
                     break;
                   }
                   case 'figcaption':
-                    if (domNode.parent.attribs.class.includes('alignfull')) {
+                    if (
+                      domNode.parent.attribs.class &&
+                      domNode.parent.attribs.class.includes('alignfull')
+                    ) {
                       const localFile = findLocalFile(
                         mediaNodes,
                         domNode.prev.attribs.src
@@ -254,10 +257,11 @@ export default function PostTemplate(props) {
                           height
                         } = localFile.childImageSharp.original;
                         const aspectRatio = width / height;
-                        console.log(width, height);
                         return (
                           <figcaption
-                            style={{paddingTop: `calc(100vw / ${aspectRatio})`}}
+                            style={{
+                              paddingTop: `calc(var(--rw, 100vw) / ${aspectRatio})`
+                            }}
                           >
                             {domToReact(domNode.children)}
                           </figcaption>
