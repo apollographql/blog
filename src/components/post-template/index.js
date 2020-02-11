@@ -5,7 +5,7 @@ import Layout from '../layout';
 import NewsletterForm from '../newsletter-form';
 import PropTypes from 'prop-types';
 import React from 'react';
-import parse from 'html-react-parser';
+import parse, {domToReact} from 'html-react-parser';
 import styled from '@emotion/styled';
 import {
   Category,
@@ -70,9 +70,6 @@ const TwitterHandle = styled.a({
   }
 });
 
-const FULL_IMAGE_HEIGHT = 600;
-const FIGCAPTION_MARGIN = 12;
-
 const PostContent = styled.div({
   color: HEADING_COLOR,
   h2: {
@@ -91,22 +88,17 @@ const PostContent = styled.div({
     margin: '90px 0',
     '&.alignfull': {
       img: {
-        width: '100%',
+        width: 'var(--rw, 100%)',
         maxWidth: 'none',
-        height: FULL_IMAGE_HEIGHT,
-        objectFit: 'cover',
         position: 'absolute',
         left: 0
-      },
-      figcaption: {
-        paddingTop: FULL_IMAGE_HEIGHT + FIGCAPTION_MARGIN
       }
     },
     img: {
       maxWidth: '100%'
     },
     figcaption: {
-      marginTop: FIGCAPTION_MARGIN,
+      marginTop: 12,
       fontFamily: FONT_FAMILY_MONO,
       color: colors.grey.lighter,
       lineHeight: 1.5
@@ -175,6 +167,14 @@ const EmailInput = styled(LargeInput)({
   }
 });
 
+function findLocalFile(mediaNodes, src) {
+  for (const {slug, localFile} of mediaNodes) {
+    if (src.toLowerCase().includes(slug)) {
+      return localFile;
+    }
+  }
+}
+
 export default function PostTemplate(props) {
   const {
     date,
@@ -184,7 +184,7 @@ export default function PostTemplate(props) {
     featured_media,
     content
   } = props.data.wordpressPost;
-  const media = props.data.allWordpressWpMedia.nodes;
+  const mediaNodes = props.data.allWordpressWpMedia.nodes;
   const {twitter} = author.acf;
   return (
     <Layout>
@@ -228,15 +228,44 @@ export default function PostTemplate(props) {
           <PostContent>
             {parse(content, {
               replace(domNode) {
-                if (domNode.name === 'img') {
-                  // replace images from wordpress with their local counterparts
-                  for (const {slug, localFile} of media) {
-                    if (domNode.attribs.src.toLowerCase().includes(slug)) {
+                switch (domNode.name) {
+                  case 'img': {
+                    // replace images from wordpress with their local counterparts
+                    const localFile = findLocalFile(
+                      mediaNodes,
+                      domNode.attribs.src
+                    );
+                    if (localFile) {
                       return (
                         <img src={localFile.childImageSharp.original.src} />
                       );
                     }
+                    break;
                   }
+                  case 'figcaption':
+                    if (domNode.parent.attribs.class.includes('alignfull')) {
+                      const localFile = findLocalFile(
+                        mediaNodes,
+                        domNode.prev.attribs.src
+                      );
+                      if (localFile) {
+                        const {
+                          width,
+                          height
+                        } = localFile.childImageSharp.original;
+                        const aspectRatio = width / height;
+                        console.log(width, height);
+                        return (
+                          <figcaption
+                            style={{paddingTop: `calc(100vw / ${aspectRatio})`}}
+                          >
+                            {domToReact(domNode.children)}
+                          </figcaption>
+                        );
+                      }
+                    }
+                    break;
+                  default:
                 }
               }
             })}
@@ -317,6 +346,8 @@ export const pageQuery = graphql`
           childImageSharp {
             original {
               src
+              width
+              height
             }
           }
         }
