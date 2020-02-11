@@ -18,17 +18,20 @@ import {
   SectionHeading,
   Sidebar,
   SidebarSection,
-  SocialIcon,
   SocialIcons,
   TopFold,
   largeTextStyles
 } from '../ui';
+import {
+  FacebookShareButton,
+  LinkedinIcon,
+  LinkedinShareButton,
+  TwitterShareButton
+} from 'react-share';
 import {HEADING_COLOR} from '../../styles';
 import {IconEmail} from '@apollo/space-kit/icons/IconEmail';
 import {IconFacebook} from '@apollo/space-kit/icons/IconFacebook';
-import {ReactComponent as IconLinkedin} from '../../assets/icons/linkedin.svg';
 import {IconSingleService} from '@apollo/space-kit/icons/IconSingleService';
-import {ReactComponent as IconSlack} from '../../assets/icons/slack.svg';
 import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
 import {colors} from '@apollo/space-kit/colors';
 import {graphql} from 'gatsby';
@@ -88,7 +91,7 @@ const PostContent = styled.div({
     margin: '90px 0',
     '&.alignfull': {
       img: {
-        width: 'var(--rw, 100%)',
+        width: '100%',
         maxWidth: 'none',
         position: 'absolute',
         left: 0
@@ -177,6 +180,7 @@ function findLocalFile(mediaNodes, src) {
 
 export default function PostTemplate(props) {
   const {
+    path,
     date,
     title,
     author,
@@ -186,6 +190,13 @@ export default function PostTemplate(props) {
   } = props.data.wordpressPost;
   const mediaNodes = props.data.allWordpressWpMedia.nodes;
   const {twitter} = author.acf;
+
+  const shareUrl = 'https://blog.apollographql.com' + path;
+  const shareButtonProps = {
+    resetButtonStyle: false,
+    url: shareUrl
+  };
+
   return (
     <Layout>
       <Helmet>
@@ -298,21 +309,29 @@ export default function PostTemplate(props) {
             <SidebarSection>
               <SectionHeading>Share article</SectionHeading>
               <SocialIcons>
-                <SocialIcon href="#">
+                <TwitterShareButton {...shareButtonProps}>
                   <IconTwitter />
-                </SocialIcon>
-                <SocialIcon href="#">
+                </TwitterShareButton>
+                <FacebookShareButton {...shareButtonProps}>
                   <IconFacebook />
-                </SocialIcon>
-                <SocialIcon href="#">
-                  <IconLinkedin />
-                </SocialIcon>
-                <SocialIcon href="#">
-                  <IconSlack />
-                </SocialIcon>
-                <SocialIcon href="#">
+                </FacebookShareButton>
+                <LinkedinShareButton {...shareButtonProps}>
+                  <LinkedinIcon
+                    bgStyle={{fill: 'transparent'}}
+                    iconFillColor="currentColor"
+                    style={{
+                      transform: 'scale(2)',
+                      pointerEvents: 'none'
+                    }}
+                  />
+                </LinkedinShareButton>
+                <a
+                  href={`mailto:?body=${shareUrl}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <IconEmail />
-                </SocialIcon>
+                </a>
               </SocialIcons>
             </SidebarSection>
           </PostSidebarWrapper>
@@ -358,6 +377,7 @@ export const pageQuery = graphql`
       }
     }
     wordpressPost(id: {eq: $id}) {
+      path
       date
       title
       content

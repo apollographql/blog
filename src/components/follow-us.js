@@ -4,7 +4,7 @@ import {IconGithub} from '@apollo/space-kit/icons/IconGithub';
 import {IconInstagram} from '@apollo/space-kit/icons/IconInstagram';
 import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
 import {IconYoutube} from '@apollo/space-kit/icons/IconYoutube';
-import {SectionHeading, SidebarSection, SocialIcon, SocialIcons} from './ui';
+import {SectionHeading, SidebarSection, SocialIcons} from './ui';
 
 const socialIcons = Object.entries({
   github: IconGithub,
@@ -20,14 +20,14 @@ export default function FollowUs() {
       <SectionHeading>Follow us</SectionHeading>
       <SocialIcons>
         {socialIcons.map(([key, Icon]) => (
-          <SocialIcon
+          <a
             key={key}
             href={`https://${key}.com/apollographql`}
             target="_blank"
             rel="noreferrer noopener"
           >
             <Icon />
-          </SocialIcon>
+          </a>
         ))}
       </SocialIcons>
     </SidebarSection>

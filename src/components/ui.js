@@ -139,21 +139,23 @@ export const SidebarSection = styled.div({
 
 export const SocialIcons = styled.div({
   display: 'flex',
-  marginTop: 16
-});
-
-export const SocialIcon = styled.a({
-  ...size(24),
-  color: colors.silver.darker,
-  svg: {
-    ...size('100%'),
-    fill: 'currentColor'
-  },
-  ':hover': {
-    color: colors.grey.light
-  },
-  ':not(:last-child)': {
-    marginRight: 20
+  marginTop: 16,
+  [['a', 'button']]: {
+    ...size(24),
+    padding: 0,
+    border: 0,
+    cursor: 'pointer',
+    color: colors.silver.darker,
+    svg: {
+      ...size('100%'),
+      fill: 'currentColor'
+    },
+    ':hover': {
+      color: colors.grey.light
+    },
+    ':not(:last-child)': {
+      marginRight: 20
+    }
   }
 });
 
