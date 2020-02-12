@@ -47,5 +47,12 @@ export default {
   h6: {
     fontSize: 13,
     lineHeight: '20px'
+  },
+  [['.mktoLabel', '.mktoButtonRow']]: {
+    display: 'none'
+  },
+  '.mktoError': {
+    marginTop: 8,
+    color: colors.red.base
   }
 };
