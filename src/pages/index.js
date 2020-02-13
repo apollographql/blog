@@ -2,7 +2,7 @@ import ArchivePost from '../components/archive-post';
 import Byline from '../components/byline';
 import FollowUs from '../components/follow-us';
 import Layout from '../components/layout';
-import NewsletterForm from '../components/newsletter-form';
+import NewsletterForm, {useNewsletterForm} from '../components/newsletter-form';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from '@emotion/styled';
@@ -88,6 +88,7 @@ const CategoryNav = styled.div({
 });
 
 export default function Index(props) {
+  const newsletterFormProps = useNewsletterForm();
   const [featuredPost, ...otherPosts] = props.data.allWordpressPost.nodes;
   const recentPosts = otherPosts.slice(0, 4);
   const archivePosts = otherPosts.slice(4);
@@ -158,7 +159,7 @@ export default function Index(props) {
           </ArchivePosts>
         </Main>
         <Sidebar>
-          <NewsletterForm />
+          <NewsletterForm {...newsletterFormProps} />
           <FollowUs />
           <SidebarSection>
             <SectionHeading>Categories</SectionHeading>

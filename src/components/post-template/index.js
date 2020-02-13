@@ -2,9 +2,9 @@ import AuthorDetails, {linkStyles} from './author-details';
 import Byline from '../byline';
 import Helmet from 'react-helmet';
 import Layout from '../layout';
-import NewsletterForm from '../newsletter-form';
+import NewsletterForm, {useNewsletterForm} from '../newsletter-form';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {Fragment} from 'react';
 import parse, {domToReact} from 'html-react-parser';
 import styled from '@emotion/styled';
 import {
@@ -13,13 +13,13 @@ import {
   FONT_FAMILY_MONO,
   InnerWrapper,
   LargeButton,
-  LargeInput,
   Main,
   SectionHeading,
   Sidebar,
   SidebarSection,
   SocialIcons,
   TopFold,
+  largeInputStyles,
   largeTextStyles
 } from '../ui';
 import {
@@ -125,7 +125,9 @@ const NewsletterSignup = styled.div({
   p: {
     ...largeTextStyles,
     marginTop: 14,
-    marginBottom: 32
+    ':not(:last-child)': {
+      marginBottom: 32
+    }
   }
 });
 
@@ -159,14 +161,11 @@ const PostAction = styled(SidebarSection)({
 });
 
 const InputRow = styled.div({
-  display: 'flex'
-});
-
-const EmailInput = styled(LargeInput)({
-  flexGrow: 1,
-  marginRight: 24,
-  [['label > div', '> div']]: {
-    marginTop: 0
+  display: 'flex',
+  '.mktoForm': {
+    flexGrow: 1,
+    marginRight: 24,
+    '.mktoEmailField': largeInputStyles
   }
 });
 
@@ -179,6 +178,8 @@ function findLocalFile(mediaNodes, src) {
 }
 
 export default function PostTemplate(props) {
+  const newsletterFormProps = useNewsletterForm();
+
   const {
     path,
     date,
@@ -293,19 +294,30 @@ export default function PostTemplate(props) {
           <AuthorDetails author={author} />
           <NewsletterSignup>
             <h3>Stay in our orbit</h3>
-            <p>
-              Sign up for our mailing list and get updates on products, events,
-              and more. Oh, and no junk mail. Ever.
-            </p>
-            <InputRow>
-              <EmailInput placeholder="Your email address" />
-              <LargeButton color={colors.indigo.dark}>Subscribe</LargeButton>
-            </InputRow>
+            {newsletterFormProps.success ? (
+              <p>Success! You&apos;ve signed up for the Apollo newsletter.</p>
+            ) : (
+              <Fragment>
+                <p>
+                  Sign up for our mailing list and get updates on products,
+                  events, and more. Oh, and no junk mail. Ever.
+                </p>
+                <InputRow>
+                  <form data-formid="1341" />
+                  <LargeButton
+                    onClick={newsletterFormProps.submitForm}
+                    color={colors.indigo.dark}
+                  >
+                    Subscribe
+                  </LargeButton>
+                </InputRow>
+              </Fragment>
+            )}
           </NewsletterSignup>
         </Main>
         <Sidebar>
           <PostSidebarWrapper>
-            <NewsletterForm />
+            <NewsletterForm {...newsletterFormProps} />
             <SidebarSection>
               <SectionHeading>Share article</SectionHeading>
               <SocialIcons>
