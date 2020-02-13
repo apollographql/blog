@@ -12,6 +12,7 @@ import {Global} from '@emotion/core';
 import {IconSearch} from '@apollo/space-kit/icons/IconSearch';
 import {LargeInput, SectionHeading} from '../ui';
 import {Link, graphql, useStaticQuery} from 'gatsby';
+import {TextField} from '@apollo/space-kit/TextField';
 import {colors} from '@apollo/space-kit/colors';
 import {size} from 'polished';
 
@@ -86,6 +87,10 @@ const FooterNavGroup = styled.div({
   marginLeft: 100
 });
 
+const HiddenInput = styled.div({
+  display: 'none'
+});
+
 export default function Layout(props) {
   const data = useStaticQuery(
     graphql`
@@ -157,6 +162,10 @@ export default function Layout(props) {
           </FooterInner>
         </Wrapper>
       </Footer>
+      {/* for the newsletter form styles */}
+      <HiddenInput id="spaceKitInput">
+        <TextField size="large" type="hidden" />
+      </HiddenInput>
     </Fragment>
   );
 }

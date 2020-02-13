@@ -3,12 +3,7 @@ import React, {Fragment, useEffect, useState} from 'react';
 import styled from '@emotion/styled';
 import {Button} from '@apollo/space-kit/Button';
 import {SectionHeading, SidebarSection} from './ui';
-import {TextField} from '@apollo/space-kit/TextField';
 import {colors} from '@apollo/space-kit/colors';
-
-const HiddenInput = styled.div({
-  display: 'none'
-});
 
 const StyledButton = styled(Button)({
   width: '100%',
@@ -114,9 +109,6 @@ export default function NewsletterForm(props) {
           Subscribe
         </StyledButton>
       )}
-      <HiddenInput id="spaceKitInput">
-        <TextField size="large" type="hidden" />
-      </HiddenInput>
     </SidebarSection>
   );
 }
