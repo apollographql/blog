@@ -3,6 +3,7 @@ import Byline from '../byline';
 import Helmet from 'react-helmet';
 import Layout from '../layout';
 import NewsletterForm, {useNewsletterForm} from '../newsletter-form';
+import Prism from 'prismjs';
 import PropTypes from 'prop-types';
 import React, {Fragment} from 'react';
 import parse, {domToReact} from 'html-react-parser';
@@ -177,6 +178,30 @@ function findLocalFile(mediaNodes, src) {
   }
 }
 
+function getDomNodeText(domNode) {
+  let text = '';
+
+  function addText(children) {
+    for (const child of children) {
+      switch (child.type) {
+        case 'text':
+          text += child.data;
+          break;
+        case 'tag':
+          text += '<' + child.name + '>';
+          addText(child.children);
+          text += '</' + child.name + '>';
+          break;
+        default:
+      }
+    }
+  }
+
+  addText(domNode.children);
+
+  return text;
+}
+
 export default function PostTemplate(props) {
   const newsletterFormProps = useNewsletterForm();
 
@@ -254,11 +279,9 @@ export default function PostTemplate(props) {
                     }
                     break;
                   }
-                  case 'figcaption':
-                    if (
-                      domNode.parent.attribs.class &&
-                      domNode.parent.attribs.class.includes('alignfull')
-                    ) {
+                  case 'figcaption': {
+                    const parentClass = domNode.parent.attribs.class;
+                    if (parentClass && parentClass.includes('alignfull')) {
                       const localFile = findLocalFile(
                         mediaNodes,
                         domNode.prev.attribs.src
@@ -281,6 +304,20 @@ export default function PostTemplate(props) {
                       }
                     }
                     break;
+                  }
+                  case 'code': {
+                    const className = domNode.attribs.class;
+                    if (className && className.startsWith('language-')) {
+                      const text = getDomNodeText(domNode);
+                      const html = Prism.highlight(
+                        text,
+                        Prism.languages.javascript,
+                        'javascript'
+                      );
+                      return <Fragment>{parse(html)}</Fragment>;
+                    }
+                    break;
+                  }
                   default:
                 }
               }
