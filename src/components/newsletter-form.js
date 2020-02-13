@@ -15,6 +15,7 @@ function mktoFormChain(formEls, onLoaded, onSuccess) {
   const formEl = formEls.shift();
   const {formid} = formEl.dataset;
   formEl.id = 'mktoForm_' + formid;
+  formEl.removeAttribute('data-formid');
 
   window.MktoForms2.loadForm(
     '//app-ab16.marketo.com',
