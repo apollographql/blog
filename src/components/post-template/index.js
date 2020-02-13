@@ -37,6 +37,11 @@ import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
 import {colors} from '@apollo/space-kit/colors';
 import {graphql} from 'gatsby';
 
+// import prism languages and css
+import 'prismjs/components/prism-bash';
+import 'prismjs/components/prism-jsx';
+import 'prismjs/themes/prism.css';
+
 const BylineWrapper = styled.div({
   display: 'flex',
   marginTop: 32
@@ -308,13 +313,15 @@ export default function PostTemplate(props) {
                   case 'code': {
                     const className = domNode.attribs.class;
                     if (className && className.startsWith('language-')) {
+                      // reduce the codeblock into a single text node
+                      // to account for incorrect rendering of JSX nodes
                       const text = getDomNodeText(domNode);
                       const html = Prism.highlight(
                         text,
                         Prism.languages.javascript,
                         'javascript'
                       );
-                      return <Fragment>{parse(html)}</Fragment>;
+                      return <code className={className}>{parse(html)}</code>;
                     }
                     break;
                   }
