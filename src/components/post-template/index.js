@@ -3,6 +3,7 @@ import Byline from '../byline';
 import Helmet from 'react-helmet';
 import Layout from '../layout';
 import NewsletterForm, {useNewsletterForm} from '../newsletter-form';
+import PostAction from './post-action';
 import Prism from 'prismjs';
 import PropTypes from 'prop-types';
 import React, {Fragment} from 'react';
@@ -192,32 +193,6 @@ const PostSidebarWrapper = styled.div({
   flexGrow: 0.5
 });
 
-const PostActionWrapper = styled.div({
-  display: 'flex',
-  flexDirection: 'column',
-  flexGrow: 1
-});
-
-const PostAction = styled(SidebarSection)({
-  display: 'flex',
-  flexDirection: 'column',
-  padding: 24,
-  marginTop: 'auto',
-  marginRight: -40,
-  borderRadius: 12,
-  color: 'white',
-  backgroundColor: colors.indigo.dark,
-  position: 'sticky',
-  bottom: 90,
-  h3: {
-    color: 'inherit',
-    marginBottom: 16
-  },
-  p: {
-    marginBottom: 32
-  }
-});
-
 const InputRow = styled.div({
   display: 'flex',
   '.mktoForm': {
@@ -270,9 +245,8 @@ export default function PostTemplate(props) {
     categories,
     featured_media,
     content,
-    acf
+    cta
   } = props.data.wordpressPost;
-  const defaultCta = props.data.wordpressWpCta.acf;
   const mediaNodes = props.data.allWordpressWpMedia.nodes;
   const {twitter} = author.acf;
 
@@ -462,22 +436,7 @@ export default function PostTemplate(props) {
               </SocialIcons>
             </SidebarSection>
           </PostSidebarWrapper>
-          <PostActionWrapper>
-            <PostAction>
-              <h3>{acf.cta_title || defaultCta.cta_title}</h3>
-              <p>{acf.cta_content || defaultCta.cta_content}</p>
-              <LargeButton
-                color={colors.white}
-                style={{color: colors.indigo.dark}}
-                as={<a />}
-                href={acf.cta_link || defaultCta.cta_link}
-                target="_blank"
-                rel-="noopener noreferrer"
-              >
-                {acf.cta_button_text || defaultCta.cta_button_text}
-              </LargeButton>
-            </PostAction>
-          </PostActionWrapper>
+          <PostAction cta={cta} />
         </Sidebar>
       </InnerWrapper>
     </Layout>
@@ -535,19 +494,11 @@ export const pageQuery = graphql`
           }
         }
       }
-      acf {
+      cta: acf {
         cta_title
         cta_content
         cta_button_text
         cta_link
-      }
-    }
-    wordpressWpCta {
-      acf {
-        cta_button_text
-        cta_content
-        cta_link
-        cta_title
       }
     }
   }
