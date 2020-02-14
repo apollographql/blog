@@ -112,6 +112,9 @@ const PostContent = styled.div({
       color: colors.grey.lighter,
       lineHeight: 1.5
     }
+  },
+  'pre[class*="language-"]': {
+    margin: '60px 0'
   }
 });
 
@@ -325,6 +328,30 @@ export default function PostTemplate(props) {
                     }
                     break;
                   }
+                  case 'pre':
+                    // use prism on blocks created with prismatic
+                    if (domNode.attribs.class === 'wp-block-prismatic-blocks') {
+                      const [child] = domNode.children;
+                      if (child.name === 'code') {
+                        const className = child.attribs.class;
+                        if (className && className.startsWith('language-')) {
+                          // reduce the codeblock into a single text node
+                          // to account for incorrect rendering of JSX nodes
+                          const text = getDomNodeText(child);
+                          const html = Prism.highlight(
+                            text,
+                            Prism.languages.javascript,
+                            'javascript'
+                          );
+                          return (
+                            <pre className={className}>
+                              <code className={className}>{parse(html)}</code>
+                            </pre>
+                          );
+                        }
+                      }
+                    }
+                    break;
                   default:
                 }
               }
