@@ -115,6 +115,13 @@ const PostContent = styled.div({
   },
   'pre[class*="language-"]': {
     margin: '60px 0'
+  },
+  '& :not(pre) code': {
+    padding: '.1em .3em',
+    borderRadius: '.3em',
+    fontSize: '0.9em',
+    color: colors.pink.base,
+    backgroundColor: colors.silver.base
   }
 });
 
