@@ -37,10 +37,9 @@ import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
 import {colors} from '@apollo/space-kit/colors';
 import {graphql} from 'gatsby';
 
-// import prism languages and css
+// load prism languages after prism import
 import 'prismjs/components/prism-bash';
 import 'prismjs/components/prism-jsx';
-import 'prismjs/themes/prism.css';
 
 const BylineWrapper = styled.div({
   display: 'flex',
@@ -114,9 +113,51 @@ const PostContent = styled.div({
     }
   },
   'pre[class*="language-"]': {
-    margin: '60px 0'
+    margin: '60px 0',
+    padding: '1em',
+    borderRadius: 8,
+    backgroundColor: colors.silver.light,
+    overflow: 'auto',
+    fontSize: 'calc(21px * 0.9)',
+    '.token': {
+      [['&.comment', '&.prolog', '&.doctype', '&.cdata']]: {
+        color: colors.grey.light
+      },
+      '&.punctuation': {
+        color: colors.grey.base
+      },
+      [[
+        '&.property',
+        '&.tag',
+        '&.boolean',
+        '&.number',
+        '&.constant',
+        '&.symbol',
+        '&.deleted',
+        '&.class-name',
+        '&.function'
+      ]]: {
+        color: colors.pink.base
+      },
+      [[
+        '&.selector',
+        '&.attr-name',
+        '&.string',
+        '&.char',
+        '&.builtin',
+        '&.inserted'
+      ]]: {
+        color: colors.teal.dark
+      },
+      [['&.atrule', '&.attr-value', '&.keyword']]: {
+        color: colors.indigo.base
+      },
+      [['&.regex', '&.important', '&.variable']]: {
+        color: colors.yellow.base
+      }
+    }
   },
-  '& :not(pre) code': {
+  '& :not(pre) > code': {
     padding: '.1em .3em',
     borderRadius: '.3em',
     fontSize: '0.9em',
@@ -320,21 +361,6 @@ export default function PostTemplate(props) {
                     }
                     break;
                   }
-                  case 'code': {
-                    const className = domNode.attribs.class;
-                    if (className && className.startsWith('language-')) {
-                      // reduce the codeblock into a single text node
-                      // to account for incorrect rendering of JSX nodes
-                      const text = getDomNodeText(domNode);
-                      const html = Prism.highlight(
-                        text,
-                        Prism.languages.javascript,
-                        'javascript'
-                      );
-                      return <code className={className}>{parse(html)}</code>;
-                    }
-                    break;
-                  }
                   case 'pre':
                     // use prism on blocks created with prismatic
                     if (domNode.attribs.class === 'wp-block-prismatic-blocks') {
@@ -342,14 +368,22 @@ export default function PostTemplate(props) {
                       if (child.name === 'code') {
                         const className = child.attribs.class;
                         if (className && className.startsWith('language-')) {
-                          // reduce the codeblock into a single text node
-                          // to account for incorrect rendering of JSX nodes
+                          // reduce the codeblock into a single text node to
+                          // account for incorrect rendering of JSX nodes
                           const text = getDomNodeText(child);
+                          const language = className.slice(
+                            className.indexOf('-') + 1
+                          );
+
+                          // highlight the code
                           const html = Prism.highlight(
                             text,
-                            Prism.languages.javascript,
-                            'javascript'
+                            Prism.languages[language],
+                            language
                           );
+
+                          // re-parse the highlighted HTML and put it back in
+                          // its place
                           return (
                             <pre className={className}>
                               <code className={className}>{parse(html)}</code>
