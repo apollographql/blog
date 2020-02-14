@@ -194,6 +194,7 @@ const PostSidebarWrapper = styled.div({
 
 const PostActionWrapper = styled.div({
   display: 'flex',
+  flexDirection: 'column',
   flexGrow: 1
 });
 
@@ -268,8 +269,10 @@ export default function PostTemplate(props) {
     author,
     categories,
     featured_media,
-    content
+    content,
+    acf
   } = props.data.wordpressPost;
+  const defaultCta = props.data.wordpressWpCta.acf;
   const mediaNodes = props.data.allWordpressWpMedia.nodes;
   const {twitter} = author.acf;
 
@@ -461,16 +464,17 @@ export default function PostTemplate(props) {
           </PostSidebarWrapper>
           <PostActionWrapper>
             <PostAction>
-              <h3>Don&apos;t miss GraphQL Summit 2020!</h3>
-              <p>
-                Get your ticket now for an earlybird price of just $45! Rates
-                will increase on Feb 1, 2020.
-              </p>
+              <h3>{acf.cta_title || defaultCta.cta_title}</h3>
+              <p>{acf.cta_content || defaultCta.cta_content}</p>
               <LargeButton
                 color={colors.white}
                 style={{color: colors.indigo.dark}}
+                as={<a />}
+                href={acf.cta_link || defaultCta.cta_link}
+                target="_blank"
+                rel-="noopener noreferrer"
               >
-                Buy tickets
+                {acf.cta_button_text || defaultCta.cta_button_text}
               </LargeButton>
             </PostAction>
           </PostActionWrapper>
@@ -530,6 +534,20 @@ export const pageQuery = graphql`
             }
           }
         }
+      }
+      acf {
+        cta_title
+        cta_content
+        cta_button_text
+        cta_link
+      }
+    }
+    wordpressWpCta {
+      acf {
+        cta_button_text
+        cta_content
+        cta_link
+        cta_title
       }
     }
   }
