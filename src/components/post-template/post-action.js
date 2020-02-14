@@ -6,6 +6,7 @@ import {LargeButton, SidebarSection} from '../ui';
 import {colors} from '@apollo/space-kit/colors';
 import {graphql, useStaticQuery} from 'gatsby';
 import {size} from 'polished';
+import {trackCustomEvent} from 'gatsby-plugin-google-analytics';
 
 const Wrapper = styled.div({
   display: 'flex',
@@ -51,6 +52,8 @@ const CloseButton = styled.button({
   }
 });
 
+const EVENT_CATEGORY = 'Post CTA';
+
 export default function PostAction(props) {
   const [shown, setShown] = useState(true);
   const data = useStaticQuery(
@@ -73,15 +76,36 @@ export default function PostAction(props) {
   }
 
   const defaultCta = data.wordpressWpCta.acf;
+  const ctaTitle = props.cta.cta_title || defaultCta.cta_title;
+  const buttonText = props.cta.cta_button_text || defaultCta.cta_button_text;
+
+  function handleClose() {
+    setShown(false);
+    trackCustomEvent({
+      category: EVENT_CATEGORY,
+      action: 'Close CTA',
+      label: ctaTitle
+    });
+  }
+
+  function handleButtonClick() {
+    trackCustomEvent({
+      category: EVENT_CATEGORY,
+      action: 'Follow link',
+      label: buttonText
+    });
+  }
+
   return (
     <Wrapper>
       <InnerWrapper>
-        <h3>{props.cta.cta_title || defaultCta.cta_title}</h3>
-        <CloseButton onClick={() => setShown(false)}>
+        <h3>{ctaTitle}</h3>
+        <CloseButton onClick={handleClose}>
           <IconClose />
         </CloseButton>
         <p>{props.cta.cta_content || defaultCta.cta_content}</p>
         <LargeButton
+          onClick={handleButtonClick}
           color={colors.white}
           style={{color: colors.indigo.dark}}
           as={<a />}
@@ -89,7 +113,7 @@ export default function PostAction(props) {
           target="_blank"
           rel-="noopener noreferrer"
         >
-          {props.cta.cta_button_text || defaultCta.cta_button_text}
+          {buttonText}
         </LargeButton>
       </InnerWrapper>
     </Wrapper>
