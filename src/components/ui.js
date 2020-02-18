@@ -72,39 +72,45 @@ export const SectionHeading = styled.h4({
   }
 });
 
-export const Category = styled.button(props => {
-  const {dark, base, lighter, lightest} = colors.indigo;
-  const styles = {
-    display: 'inline-block',
-    padding: '6px 12px',
-    border: `1px solid ${lighter}`,
-    borderRadius: 4,
-    fontFamily: FONT_FAMILY_MONO,
-    lineHeight: 1,
-    color: dark,
-    textTransform: 'uppercase',
-    cursor: 'pointer',
-    outline: 'none',
-    ':hover': {
-      borderColor: base,
-      backgroundColor: transparentize(0.5, lightest)
-    },
-    ':active': {
-      backgroundColor: lightest
-    }
-  };
-
-  if (props.size === 'small') {
-    return {
-      ...styles,
-      padding: '1px 6px',
-      fontSize: 13,
-      lineHeight: '18px'
-    };
+const CategoryInner = styled(Link)({
+  padding: '6px 12px',
+  border: `1px solid ${colors.indigo.lighter}`,
+  borderRadius: 4,
+  fontFamily: FONT_FAMILY_MONO,
+  lineHeight: 1,
+  color: colors.indigo.dark,
+  textTransform: 'uppercase',
+  textDecoration: 'none',
+  ':hover': {
+    borderColor: colors.indigo.base,
+    backgroundColor: transparentize(0.5, colors.indigo.lightest)
+  },
+  ':active': {
+    backgroundColor: colors.indigo.lightest
   }
-
-  return styles;
 });
+
+const CategoryInnerSmall = styled(CategoryInner)({
+  padding: '1px 6px',
+  fontSize: 13,
+  lineHeight: '18px'
+});
+
+export function Category({isSmall, category, ...props}) {
+  return React.createElement(
+    isSmall ? CategoryInnerSmall : CategoryInner,
+    {
+      to: `/category/${category.slug}`,
+      ...props
+    },
+    category.name
+  );
+}
+
+Category.propTypes = {
+  category: PropTypes.object.isRequired,
+  isSmall: PropTypes.bool
+};
 
 const SIDEBAR_WIDTH = 262;
 const SIDEBAR_MARGIN = 127;

@@ -62,7 +62,7 @@ const RecentPost = styled.div({
 
 const PostCategories = styled.div({
   display: 'flex',
-  [Category]: {
+  '> :not(:last-child)': {
     marginRight: 12
   }
 });
@@ -80,10 +80,8 @@ const CategoryNav = styled.div({
   flexDirection: 'column',
   alignItems: 'flex-start',
   marginTop: 16,
-  [Category]: {
-    ':not(:last-child)': {
-      marginBottom: 16
-    }
+  '> :not(:last-child)': {
+    marginBottom: 16
   }
 });
 
@@ -140,9 +138,7 @@ export default function Index(props) {
                 </PostLink>
                 <PostCategories>
                   {post.categories.map(category => (
-                    <Category key={category.id} size="small">
-                      {category.name}
-                    </Category>
+                    <Category isSmall key={category.id} category={category} />
                   ))}
                 </PostCategories>
               </RecentPost>
@@ -165,7 +161,7 @@ export default function Index(props) {
             <SectionHeading>Categories</SectionHeading>
             <CategoryNav>
               {props.data.allWordpressCategory.nodes.map(category => (
-                <Category key={category.id}>{category.name}</Category>
+                <Category key={category.id} category={category} />
               ))}
             </CategoryNav>
           </SidebarSection>

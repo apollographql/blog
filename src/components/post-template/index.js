@@ -50,7 +50,7 @@ const BylineWrapper = styled.div({
 const Categories = styled.div({
   display: 'flex',
   marginTop: 32,
-  [Category]: {
+  '> :not(:last-child)': {
     marginRight: 16
   }
 });
@@ -286,7 +286,7 @@ export default function PostTemplate(props) {
         </BylineWrapper>
         <Categories>
           {categories.map(category => (
-            <Category key={category.id}>{category.name}</Category>
+            <Category key={category.id} category={category} />
           ))}
         </Categories>
       </TopFold>
@@ -448,8 +448,8 @@ PostTemplate.propTypes = {
 };
 
 export const pageQuery = graphql`
-  query PostQuery($id: String) {
-    allWordpressWpMedia {
+  query PostQuery($wordpress_id: Int) {
+    allWordpressWpMedia(filter: {post: {eq: $wordpress_id}}) {
       nodes {
         slug
         localFile {
@@ -463,7 +463,7 @@ export const pageQuery = graphql`
         }
       }
     }
-    wordpressPost(id: {eq: $id}) {
+    wordpressPost(wordpress_id: {eq: $wordpress_id}) {
       path
       date
       title
