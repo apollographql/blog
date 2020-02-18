@@ -10,6 +10,7 @@ import React, {Fragment} from 'react';
 import parse, {domToReact} from 'html-react-parser';
 import styled from '@emotion/styled';
 import {
+  Categories,
   Category,
   DateText,
   FONT_FAMILY_MONO,
@@ -44,15 +45,7 @@ import 'prismjs/components/prism-jsx';
 
 const BylineWrapper = styled.div({
   display: 'flex',
-  marginTop: 32
-});
-
-const Categories = styled.div({
-  display: 'flex',
-  marginTop: 32,
-  '> :not(:last-child)': {
-    marginRight: 16
-  }
+  margin: '32px 0'
 });
 
 const FeaturedImage = styled.img({

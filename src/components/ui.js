@@ -72,15 +72,19 @@ export const SectionHeading = styled.h4({
   }
 });
 
-const CategoryInner = styled(Link)({
+export const categoryStyles = {
   padding: '6px 12px',
   border: `1px solid ${colors.indigo.lighter}`,
   borderRadius: 4,
   fontFamily: FONT_FAMILY_MONO,
   lineHeight: 1,
-  color: colors.indigo.dark,
   textTransform: 'uppercase',
-  textDecoration: 'none',
+  textDecoration: 'none'
+};
+
+const CategoryInner = styled(Link)({
+  ...categoryStyles,
+  color: colors.indigo.dark,
   ':hover': {
     borderColor: colors.indigo.base,
     backgroundColor: transparentize(0.5, colors.indigo.lightest)
@@ -111,6 +115,13 @@ Category.propTypes = {
   category: PropTypes.object.isRequired,
   isSmall: PropTypes.bool
 };
+
+export const Categories = styled.div({
+  display: 'flex',
+  '> :not(:last-child)': {
+    marginRight: 16
+  }
+});
 
 const SIDEBAR_WIDTH = 262;
 const SIDEBAR_MARGIN = 127;
