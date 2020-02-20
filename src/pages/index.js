@@ -5,6 +5,7 @@ import Layout from '../components/layout';
 import NewsletterForm, {useNewsletterForm} from '../components/newsletter-form';
 import PropTypes from 'prop-types';
 import React from 'react';
+import RecentPosts, {PostLink} from '../components/recent-posts';
 import styled from '@emotion/styled';
 import {
   Category,
@@ -21,8 +22,7 @@ import {
 } from '../components/ui';
 import {IconBookmark} from '@apollo/space-kit/icons/IconBookmark';
 import {IconTime} from '@apollo/space-kit/icons/IconTime';
-import {Link, graphql} from 'gatsby';
-import {colors} from '@apollo/space-kit/colors';
+import {graphql} from 'gatsby';
 
 const FeaturedPost = styled.div({
   display: 'flex',
@@ -31,48 +31,8 @@ const FeaturedPost = styled.div({
   marginBottom: 124
 });
 
-const PostLink = styled(Link)({
-  display: 'block',
-  textDecoration: 'none',
-  color: 'inherit',
-  img: {
-    transition: 'transform 100ms ease-in-out'
-  },
-  ':hover': {
-    h4: {
-      color: colors.indigo.base
-    },
-    img: {
-      transform: 'scale(1.032)'
-    }
-  }
-});
-
-const RecentPosts = styled.div({
-  display: 'flex',
-  flexWrap: 'wrap',
-  margin: '-30px -15px',
-  marginBottom: 90
-});
-
-const RecentPost = styled.div({
-  width: '50%',
-  padding: '30px 15px'
-});
-
-const PostCategories = styled.div({
-  display: 'flex',
-  '> :not(:last-child)': {
-    marginRight: 12
-  }
-});
-
 const StyledSectionHeading = styled(SectionHeading)({
   marginBottom: 48
-});
-
-const ArchivePosts = styled.div({
-  marginBottom: 120
 });
 
 const CategoryNav = styled.div({
@@ -83,6 +43,10 @@ const CategoryNav = styled.div({
   '> :not(:last-child)': {
     marginBottom: 16
   }
+});
+
+const StyledRecentPosts = styled(RecentPosts)({
+  marginBottom: 90
 });
 
 export default function Index(props) {
@@ -122,37 +86,16 @@ export default function Index(props) {
             <IconTime />
             Recent
           </StyledSectionHeading>
-          <RecentPosts>
-            {recentPosts.map(post => (
-              <RecentPost key={post.id}>
-                <PostLink to={'/' + post.slug}>
-                  <PostImage
-                    style={{height: 160}}
-                    src={
-                      post.featured_media.localFile.childImageSharp.original.src
-                    }
-                  />
-                  <DateText date={post.date} />
-                  <h4>{post.title}</h4>
-                  <ExcerptText excerpt={post.excerpt} />
-                </PostLink>
-                <PostCategories>
-                  {post.categories.map(category => (
-                    <Category isSmall key={category.id} category={category} />
-                  ))}
-                </PostCategories>
-              </RecentPost>
-            ))}
-          </RecentPosts>
+          <StyledRecentPosts posts={recentPosts} />
           <StyledSectionHeading>
             <IconBookmark />
             Archive
           </StyledSectionHeading>
-          <ArchivePosts>
+          <div>
             {archivePosts.map(post => (
               <ArchivePost key={post.id} post={post} />
             ))}
-          </ArchivePosts>
+          </div>
         </Main>
         <Sidebar>
           <NewsletterForm {...newsletterFormProps} />
@@ -179,6 +122,7 @@ export const pageQuery = graphql`
   {
     allWordpressPost {
       nodes {
+        id
         date
         excerpt
         title
@@ -186,7 +130,6 @@ export const pageQuery = graphql`
         featured_media {
           localFile {
             childImageSharp {
-              id
               original {
                 src
               }

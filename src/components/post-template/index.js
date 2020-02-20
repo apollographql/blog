@@ -1,19 +1,17 @@
-import AuthorDetails, {linkStyles} from './author-details';
+import AuthorDetails from './author-details';
 import Byline from '../byline';
 import Helmet from 'react-helmet';
 import Layout from '../layout';
 import NewsletterForm, {useNewsletterForm} from '../newsletter-form';
 import PostAction from './post-action';
-import Prism from 'prismjs';
+import PostContent from './post-content';
 import PropTypes from 'prop-types';
 import React, {Fragment} from 'react';
-import parse, {domToReact} from 'html-react-parser';
 import styled from '@emotion/styled';
 import {
   Categories,
   Category,
   DateText,
-  FONT_FAMILY_MONO,
   InnerWrapper,
   LargeButton,
   Main,
@@ -31,17 +29,12 @@ import {
   LinkedinShareButton,
   TwitterShareButton
 } from 'react-share';
-import {HEADING_COLOR} from '../../styles';
 import {IconEmail} from '@apollo/space-kit/icons/IconEmail';
 import {IconFacebook} from '@apollo/space-kit/icons/IconFacebook';
 import {IconSingleService} from '@apollo/space-kit/icons/IconSingleService';
 import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
 import {colors} from '@apollo/space-kit/colors';
 import {graphql} from 'gatsby';
-
-// load prism languages after prism import
-import 'prismjs/components/prism-bash';
-import 'prismjs/components/prism-jsx';
 
 const BylineWrapper = styled.div({
   display: 'flex',
@@ -69,94 +62,6 @@ const TwitterHandle = styled.a({
   textDecoration: 'none',
   ':hover': {
     color: colors.indigo.base
-  }
-});
-
-const PostContent = styled.div({
-  color: HEADING_COLOR,
-  h2: {
-    marginTop: 90
-  },
-  h3: {
-    marginTop: 60,
-    marginBottom: 32
-  },
-  [['p', 'li']]: {
-    ...largeTextStyles,
-    marginBottom: 31
-  },
-  a: linkStyles,
-  '.wp-block-image': {
-    margin: '90px 0',
-    '&.alignfull': {
-      img: {
-        width: '100%',
-        maxWidth: 'none',
-        position: 'absolute',
-        left: 0
-      }
-    },
-    img: {
-      maxWidth: '100%'
-    },
-    figcaption: {
-      marginTop: 12,
-      fontFamily: FONT_FAMILY_MONO,
-      color: colors.grey.lighter,
-      lineHeight: 1.5
-    }
-  },
-  'pre[class*="language-"]': {
-    margin: '60px 0',
-    padding: '1em',
-    borderRadius: 8,
-    backgroundColor: colors.silver.light,
-    overflow: 'auto',
-    fontSize: 'calc(21px * 0.9)',
-    '.token': {
-      [['&.comment', '&.prolog', '&.doctype', '&.cdata']]: {
-        color: colors.grey.light
-      },
-      '&.punctuation': {
-        color: colors.grey.base
-      },
-      [[
-        '&.property',
-        '&.tag',
-        '&.boolean',
-        '&.number',
-        '&.constant',
-        '&.symbol',
-        '&.deleted',
-        '&.class-name',
-        '&.function'
-      ]]: {
-        color: colors.pink.base
-      },
-      [[
-        '&.selector',
-        '&.attr-name',
-        '&.string',
-        '&.char',
-        '&.builtin',
-        '&.inserted'
-      ]]: {
-        color: colors.teal.dark
-      },
-      [['&.atrule', '&.attr-value', '&.keyword']]: {
-        color: colors.indigo.base
-      },
-      [['&.regex', '&.important', '&.variable']]: {
-        color: colors.yellow.base
-      }
-    }
-  },
-  '& :not(pre) > code': {
-    padding: '.1em .3em',
-    borderRadius: '.3em',
-    fontSize: '0.9em',
-    color: colors.pink.base,
-    backgroundColor: colors.silver.base
   }
 });
 
@@ -195,38 +100,6 @@ const InputRow = styled.div({
   }
 });
 
-function findLocalFile(mediaNodes, src) {
-  for (const {slug, localFile} of mediaNodes) {
-    if (src.toLowerCase().includes(slug)) {
-      return localFile;
-    }
-  }
-}
-
-function getDomNodeText(domNode) {
-  let text = '';
-
-  function addText(children) {
-    for (const child of children) {
-      switch (child.type) {
-        case 'text':
-          text += child.data;
-          break;
-        case 'tag':
-          text += '<' + child.name + '>';
-          addText(child.children);
-          text += '</' + child.name + '>';
-          break;
-        default:
-      }
-    }
-  }
-
-  addText(domNode.children);
-
-  return text;
-}
-
 export default function PostTemplate(props) {
   const newsletterFormProps = useNewsletterForm();
 
@@ -240,7 +113,6 @@ export default function PostTemplate(props) {
     content,
     cta
   } = props.data.wordpressPost;
-  const mediaNodes = props.data.allWordpressWpMedia.nodes;
   const {twitter} = author.acf;
 
   const shareUrl = 'https://blog.apollographql.com' + path;
@@ -288,86 +160,10 @@ export default function PostTemplate(props) {
           <FeaturedImage
             src={featured_media.localFile.childImageSharp.original.src}
           />
-          <PostContent>
-            {parse(content, {
-              replace(domNode) {
-                switch (domNode.name) {
-                  case 'img': {
-                    // replace images from wordpress with their local counterparts
-                    const localFile = findLocalFile(
-                      mediaNodes,
-                      domNode.attribs.src
-                    );
-                    if (localFile) {
-                      return (
-                        <img src={localFile.childImageSharp.original.src} />
-                      );
-                    }
-                    break;
-                  }
-                  case 'figcaption': {
-                    const parentClass = domNode.parent.attribs.class;
-                    if (parentClass && parentClass.includes('alignfull')) {
-                      const localFile = findLocalFile(
-                        mediaNodes,
-                        domNode.prev.attribs.src
-                      );
-                      if (localFile) {
-                        const {
-                          width,
-                          height
-                        } = localFile.childImageSharp.original;
-                        const aspectRatio = width / height;
-                        return (
-                          <figcaption
-                            style={{
-                              paddingTop: `calc(var(--rw, 100vw) / ${aspectRatio})`
-                            }}
-                          >
-                            {domToReact(domNode.children)}
-                          </figcaption>
-                        );
-                      }
-                    }
-                    break;
-                  }
-                  case 'pre':
-                    // use prism on blocks created with prismatic
-                    if (domNode.attribs.class === 'wp-block-prismatic-blocks') {
-                      const [child] = domNode.children;
-                      if (child.name === 'code') {
-                        const className = child.attribs.class;
-                        if (className && className.startsWith('language-')) {
-                          // reduce the codeblock into a single text node to
-                          // account for incorrect rendering of JSX nodes
-                          const text = getDomNodeText(child);
-                          const language = className.slice(
-                            className.indexOf('-') + 1
-                          );
-
-                          // highlight the code
-                          const html = Prism.highlight(
-                            text,
-                            Prism.languages[language],
-                            language
-                          );
-
-                          // re-parse the highlighted HTML and put it back in
-                          // its place
-                          return (
-                            <pre className={className}>
-                              <code className={className}>{parse(html)}</code>
-                            </pre>
-                          );
-                        }
-                      }
-                    }
-                    break;
-                  default:
-                }
-              }
-            })}
-          </PostContent>
+          <PostContent
+            content={content}
+            mediaNodes={props.data.allWordpressWpMedia.nodes}
+          />
           <Divider>
             <IconSingleService />
             <IconSingleService />
@@ -442,6 +238,7 @@ PostTemplate.propTypes = {
 
 export const pageQuery = graphql`
   query PostQuery($wordpress_id: Int) {
+    # get all media nodes for this post to replace images with local files
     allWordpressWpMedia(filter: {post: {eq: $wordpress_id}}) {
       nodes {
         slug
@@ -456,6 +253,7 @@ export const pageQuery = graphql`
         }
       }
     }
+    # everything we need to render a post
     wordpressPost(wordpress_id: {eq: $wordpress_id}) {
       path
       date
@@ -487,6 +285,7 @@ export const pageQuery = graphql`
           }
         }
       }
+      # cta customization fields
       cta: acf {
         cta_title
         cta_content

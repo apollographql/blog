@@ -7,20 +7,13 @@ import {
   avatarMargins,
   avatarSizes,
   dateTextStyles,
-  largeTextStyles
+  largeTextStyles,
+  linkStyles
 } from '../ui';
 import {IconProceed} from '@apollo/space-kit/icons/IconProceed';
 import {Link} from 'gatsby';
 import {colors} from '@apollo/space-kit/colors';
 import {size} from 'polished';
-
-export const linkStyles = {
-  color: colors.indigo.base,
-  textDecoration: 'none',
-  ':hover': {
-    textDecoration: 'underline'
-  }
-};
 
 const AuthorHeader = styled.div({
   display: 'flex',

@@ -200,6 +200,14 @@ export const largeTextStyles = {
   lineHeight: '32px'
 };
 
+export const linkStyles = {
+  color: colors.indigo.base,
+  textDecoration: 'none',
+  ':hover': {
+    textDecoration: 'underline'
+  }
+};
+
 export const HeadingLink = styled(Link)({
   color: 'inherit',
   textDecoration: 'none',

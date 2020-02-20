@@ -1,9 +1,11 @@
+import ArchivePost from './archive-post';
 import FollowUs from './follow-us';
 import Helmet from 'react-helmet';
 import Layout from './layout';
 import NewsletterForm, {useNewsletterForm} from './newsletter-form';
 import PropTypes from 'prop-types';
 import React, {Fragment} from 'react';
+import RecentPosts from './recent-posts';
 import styled from '@emotion/styled';
 import {
   Categories,
@@ -28,9 +30,11 @@ const SelectedCategory = styled.div({
   color: 'white'
 });
 
-const LatestPosts = styled.div({
+const LatestPosts = styled(RecentPosts)({
   marginTop: 48,
-  marginBottom: 120
+  ':not(:last-child)': {
+    marginBottom: 120
+  }
 });
 
 export default function CategoryTemplate(props) {
@@ -40,6 +44,9 @@ export default function CategoryTemplate(props) {
     allWordpressCategory,
     allWordpressPost
   } = props.data;
+  const latestPosts = allWordpressPost.nodes.slice(0, 3);
+  const morePosts = allWordpressPost.nodes.slice(3);
+  const hasMorePosts = morePosts.length > 0;
   return (
     <Layout>
       <Helmet>
@@ -57,14 +64,19 @@ export default function CategoryTemplate(props) {
         ))}
       </StyledCategories>
       <SectionHeading>Latest</SectionHeading>
-      <LatestPosts>
-        {allWordpressPost.nodes.map(post => (
-          <div key={post.id}>{post.title}</div>
-        ))}
-      </LatestPosts>
+      {hasMorePosts && <LatestPosts posts={latestPosts} />}
       <InnerWrapper>
         <Main>
-          <SectionHeading>Read more</SectionHeading>
+          {hasMorePosts ? (
+            <Fragment>
+              <SectionHeading>Read more</SectionHeading>
+              {morePosts.map(post => (
+                <ArchivePost key={post.id} post={post} />
+              ))}
+            </Fragment>
+          ) : (
+            <LatestPosts posts={latestPosts} />
+          )}
         </Main>
         <Sidebar>
           <NewsletterForm {...newsletterFormProps} />
@@ -95,7 +107,33 @@ export const pageQuery = graphql`
     allWordpressPost(filter: {categories: {elemMatch: {id: {eq: $id}}}}) {
       nodes {
         id
+        date
+        excerpt
         title
+        slug
+        featured_media {
+          localFile {
+            childImageSharp {
+              original {
+                src
+              }
+            }
+          }
+        }
+        categories {
+          slug
+          id
+          name
+        }
+        author {
+          name
+          avatar_urls {
+            wordpress_96
+          }
+          acf {
+            title
+          }
+        }
       }
     }
   }
