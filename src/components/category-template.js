@@ -1,11 +1,25 @@
+import FollowUs from './follow-us';
 import Helmet from 'react-helmet';
 import Layout from './layout';
+import NewsletterForm, {useNewsletterForm} from './newsletter-form';
 import PropTypes from 'prop-types';
 import React, {Fragment} from 'react';
 import styled from '@emotion/styled';
-import {Categories, Category, categoryStyles} from './ui';
+import {
+  Categories,
+  Category,
+  InnerWrapper,
+  Main,
+  SectionHeading,
+  Sidebar,
+  categoryStyles
+} from './ui';
 import {colors} from '@apollo/space-kit/colors';
 import {graphql} from 'gatsby';
+
+const StyledCategories = styled(Categories)({
+  marginBottom: 60
+});
 
 const SelectedCategory = styled.div({
   ...categoryStyles,
@@ -14,7 +28,13 @@ const SelectedCategory = styled.div({
   color: 'white'
 });
 
+const LatestPosts = styled.div({
+  marginTop: 48,
+  marginBottom: 120
+});
+
 export default function CategoryTemplate(props) {
+  const newsletterFormProps = useNewsletterForm();
   const {
     wordpressCategory,
     allWordpressCategory,
@@ -25,7 +45,7 @@ export default function CategoryTemplate(props) {
       <Helmet>
         <title>{wordpressCategory.name}</title>
       </Helmet>
-      <Categories>
+      <StyledCategories>
         {allWordpressCategory.nodes.map(category => (
           <Fragment key={category.id}>
             {category.id === props.pageContext.id ? (
@@ -35,10 +55,22 @@ export default function CategoryTemplate(props) {
             )}
           </Fragment>
         ))}
-      </Categories>
-      {allWordpressPost.nodes.map(post => (
-        <div key={post.id}>{post.title}</div>
-      ))}
+      </StyledCategories>
+      <SectionHeading>Latest</SectionHeading>
+      <LatestPosts>
+        {allWordpressPost.nodes.map(post => (
+          <div key={post.id}>{post.title}</div>
+        ))}
+      </LatestPosts>
+      <InnerWrapper>
+        <Main>
+          <SectionHeading>Read more</SectionHeading>
+        </Main>
+        <Sidebar>
+          <NewsletterForm {...newsletterFormProps} />
+          <FollowUs />
+        </Sidebar>
+      </InnerWrapper>
     </Layout>
   );
 }
