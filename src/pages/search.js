@@ -26,7 +26,9 @@ export default function Search(props) {
 
   return (
     <Layout defaultSearchValue={query}>
-      <SectionHeading style={{marginBottom: 60}}>Search results</SectionHeading>
+      <SectionHeading style={{marginBottom: 60}}>
+        Search results ({results.length})
+      </SectionHeading>
       <InnerWrapper>
         <Main>
           {results.map(result => (
