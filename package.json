@@ -10,6 +10,7 @@
     "@apollo/space-kit": "^2.24.0",
     "@emotion/core": "^10.0.27",
     "@emotion/styled": "^10.0.27",
+    "@gatsby-contrib/gatsby-plugin-elasticlunr-search": "^2.3.0",
     "@svgr/webpack": "^5.1.0",
     "date-fns": "^2.9.0",
     "gatsby": "^2.19.8",

@@ -1,3 +1,5 @@
+const {stripHtmlTags} = require('./src/utils');
+
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
@@ -20,6 +22,18 @@ module.exports = {
       resolve: 'gatsby-plugin-google-analytics',
       options: {
         trackingId: 'UA-74643563-9'
+      }
+    },
+    {
+      resolve: '@gatsby-contrib/gatsby-plugin-elasticlunr-search',
+      options: {
+        fields: ['title', 'content'],
+        resolvers: {
+          wordpress__POST: {
+            title: node => node.title,
+            content: node => stripHtmlTags(node.content)
+          }
+        }
       }
     }
   ]

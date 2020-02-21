@@ -7,6 +7,7 @@ import {TextField} from '@apollo/space-kit/TextField';
 import {colors} from '@apollo/space-kit/colors';
 import {format} from 'date-fns';
 import {size, transparentize} from 'polished';
+import {stripHtmlTags} from '../utils';
 
 export const FONT_FAMILY_MONO = "'Source Code Pro', Menlo, monospace";
 
@@ -50,7 +51,7 @@ export function ExcerptText({excerpt, ...props}) {
   return (
     <ExcerptTextInner
       {...props}
-      dangerouslySetInnerHTML={{__html: excerpt.replace(/(<([^>]+)>)/gi, '')}}
+      dangerouslySetInnerHTML={{__html: stripHtmlTags(excerpt)}}
     />
   );
 }
