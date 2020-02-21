@@ -52,9 +52,12 @@ const StyledBlogIcon = styled(BlogIcon)({
   marginTop: 2
 });
 
-const SearchInput = styled(LargeInput)({
+const SearchForm = styled.form({
   flexGrow: 1,
-  marginLeft: 72,
+  marginLeft: 72
+});
+
+const SearchInput = styled(LargeInput)({
   input: {
     paddingLeft: 40
   },
@@ -139,11 +142,15 @@ export default function Layout(props) {
             <StyledApolloIcon />
             <StyledBlogIcon />
           </LogoLink>
-          <SearchInput
-            placeholder="Search blog..."
-            type="search"
-            icon={<StyledSearchIcon />}
-          />
+          <SearchForm action="/search">
+            <SearchInput
+              placeholder="Search blog..."
+              type="search"
+              icon={<StyledSearchIcon />}
+              name="q"
+              defaultValue={props.defaultSearchValue}
+            />
+          </SearchForm>
         </HeaderInner>
       </Header>
       <Wrapper>{props.children}</Wrapper>
@@ -171,5 +178,6 @@ export default function Layout(props) {
 }
 
 Layout.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  defaultSearchValue: PropTypes.string
 };
