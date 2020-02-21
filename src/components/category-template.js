@@ -30,12 +30,20 @@ const SelectedCategory = styled.div({
   color: 'white'
 });
 
-const LatestPosts = styled(RecentPosts)({
-  marginTop: 48,
+const StyledRecentPosts = styled(RecentPosts)({
   ':not(:last-child)': {
     marginBottom: 120
   }
 });
+
+function LatestPosts(props) {
+  return (
+    <Fragment>
+      <SectionHeading>Latest</SectionHeading>
+      <StyledRecentPosts {...props} />
+    </Fragment>
+  );
+}
 
 export default function CategoryTemplate(props) {
   const newsletterFormProps = useNewsletterForm();
@@ -63,7 +71,6 @@ export default function CategoryTemplate(props) {
           </Fragment>
         ))}
       </StyledCategories>
-      <SectionHeading>Latest</SectionHeading>
       {hasMorePosts && <LatestPosts posts={latestPosts} />}
       <InnerWrapper>
         <Main>

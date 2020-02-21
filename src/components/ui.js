@@ -59,19 +59,6 @@ ExcerptText.propTypes = {
   excerpt: PropTypes.string.isRequired
 };
 
-export const SectionHeading = styled.h4({
-  display: 'flex',
-  alignItems: 'center',
-  fontFamily: FONT_FAMILY_MONO,
-  letterSpacing: 3,
-  textTransform: 'uppercase',
-  svg: {
-    ...size(18),
-    marginRight: 12,
-    color: colors.indigo.base
-  }
-});
-
 export const categoryStyles = {
   padding: '6px 12px',
   border: `1px solid ${colors.indigo.lighter}`,
@@ -148,7 +135,17 @@ export const Sidebar = styled.aside({
   marginLeft: 128
 });
 
+export const SectionHeading = styled.h4({
+  marginBottom: 48,
+  fontFamily: FONT_FAMILY_MONO,
+  letterSpacing: 3,
+  textTransform: 'uppercase'
+});
+
 export const SidebarSection = styled.div({
+  [SectionHeading]: {
+    marginBottom: 0
+  },
   ':not(:last-child)': {
     marginBottom: 90
   }

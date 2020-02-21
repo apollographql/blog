@@ -22,7 +22,9 @@ import {
 } from '../components/ui';
 import {IconBookmark} from '@apollo/space-kit/icons/IconBookmark';
 import {IconTime} from '@apollo/space-kit/icons/IconTime';
+import {colors} from '@apollo/space-kit/colors';
 import {graphql} from 'gatsby';
+import {size} from 'polished';
 
 const FeaturedPost = styled.div({
   display: 'flex',
@@ -32,7 +34,13 @@ const FeaturedPost = styled.div({
 });
 
 const StyledSectionHeading = styled(SectionHeading)({
-  marginBottom: 48
+  display: 'flex',
+  alignItems: 'center',
+  svg: {
+    ...size(18),
+    marginRight: 12,
+    color: colors.indigo.base
+  }
 });
 
 const CategoryNav = styled.div({
