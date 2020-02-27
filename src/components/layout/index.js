@@ -169,10 +169,6 @@ export default function Layout(props) {
           </FooterInner>
         </Wrapper>
       </Footer>
-      {/* for the newsletter form styles */}
-      <HiddenInput id="spaceKitInput">
-        <TextField size="large" type="hidden" />
-      </HiddenInput>
     </Fragment>
   );
 }

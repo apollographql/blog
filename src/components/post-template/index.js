@@ -2,7 +2,10 @@ import AuthorDetails from './author-details';
 import Byline from '../byline';
 import Helmet from 'react-helmet';
 import Layout from '../layout';
-import NewsletterForm, {useNewsletterForm} from '../newsletter-form';
+import NewsletterForm, {
+  newsletterInputStyles,
+  useNewsletterForm
+} from '../newsletter-form';
 import PostAction from './post-action';
 import PostContent from './post-content';
 import PropTypes from 'prop-types';
@@ -14,13 +17,13 @@ import {
   DateText,
   InnerWrapper,
   LargeButton,
+  LargeInput,
   Main,
   SectionHeading,
   Sidebar,
   SidebarSection,
   SocialIcons,
   TopFold,
-  largeInputStyles,
   largeTextStyles
 } from '../ui';
 import {
@@ -91,13 +94,14 @@ const PostSidebarWrapper = styled.div({
   flexGrow: 0.5
 });
 
-const InputRow = styled.div({
-  display: 'flex',
-  '.mktoForm': {
-    flexGrow: 1,
-    marginRight: 24,
-    '.mktoEmailField': largeInputStyles
-  }
+const InlineNewsletterForm = styled.form({
+  display: 'flex'
+});
+
+const StyledLargeInput = styled(LargeInput)({
+  flexGrow: 1,
+  marginRight: 24,
+  ...newsletterInputStyles
 });
 
 export default function PostTemplate(props) {
@@ -180,15 +184,19 @@ export default function PostTemplate(props) {
                   Sign up for our mailing list and get updates on products,
                   events, and more. Oh, and no junk mail. Ever.
                 </p>
-                <InputRow>
-                  <form data-formid="1341" />
-                  <LargeButton
-                    onClick={newsletterFormProps.submitForm}
-                    color={colors.indigo.dark}
-                  >
+                <InlineNewsletterForm
+                  onSubmit={newsletterFormProps.handleSubmit}
+                >
+                  <StyledLargeInput
+                    name="email"
+                    type="email"
+                    required
+                    placeholder="Email address"
+                  />
+                  <LargeButton type="submit" color={colors.indigo.dark}>
                     Subscribe
                   </LargeButton>
-                </InputRow>
+                </InlineNewsletterForm>
               </Fragment>
             )}
           </NewsletterSignup>

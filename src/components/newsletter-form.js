@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {Fragment, useState} from 'react';
 import styled from '@emotion/styled';
 import {Button} from '@apollo/space-kit/Button';
 import {SectionHeading, SidebarSection} from './ui';
+import {TextField} from '@apollo/space-kit/TextField';
 import {colors} from '@apollo/space-kit/colors';
 
 const StyledButton = styled(Button)({
@@ -10,77 +11,43 @@ const StyledButton = styled(Button)({
   marginTop: 16
 });
 
-// inspired by https://blog.teknkl.com/multiple-forms-multiple-times/
-function mktoFormChain(formEls, onLoaded, onSuccess) {
-  const formEl = formEls.shift();
-  const {formid} = formEl.dataset;
-  formEl.id = 'mktoForm_' + formid;
-  formEl.removeAttribute('data-formid');
+export const newsletterInputStyles = {
+  '> :last-child': {
+    marginTop: 0
+  },
+  'label > div': {
+    marginTop: 0
+  }
+};
 
-  window.MktoForms2.loadForm(
-    '//app-ab16.marketo.com',
-    '627-RVJ-941',
-    Number(formid),
-    form => {
-      form
-        .onSuccess(() => {
-          onSuccess();
-          form.getFormElem().hide(); // hide the form on success
-          return false; // prevent default behavior (page reload)
-        })
-        // remove inline form styles
-        .getFormElem()
-        .removeAttr('id') // remove the id attr after the form is loaded
-        .removeAttr('style')
-        .find('.mktoFieldDescriptor')
-        .removeAttr('style')
-        .find('.mktoEmailField')
-        .removeAttr('style')
-        // apply Space Kit styles to the email input
-        .addClass(document.querySelector('#spaceKitInput input').className)
-        .attr('placeholder', 'Your email address');
-
-      if (formEls.length) {
-        mktoFormChain(formEls, onLoaded, onSuccess);
-      } else {
-        onLoaded();
-      }
-    }
-  );
-}
+const StyledInput = styled(TextField)(newsletterInputStyles);
 
 export function useNewsletterForm() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-
-  useEffect(() => {
-    if (window.MktoForms2) {
-      const formEls = document.querySelectorAll('[data-formid]');
-      mktoFormChain(
-        Array.from(formEls),
-        () => {
-          // remove marketo CSS
-          document.getElementById('mktoForms2BaseStyle').remove();
-          document.getElementById('mktoForms2ThemeStyle').remove();
-
-          setLoading(false); // indicate that all forms have been loaded
-        },
-        () => {
-          setSuccess(true);
-        }
-      );
-    }
-  }, []);
 
   return {
     loading,
     success,
-    submitForm() {
-      if (window.MktoForms2) {
-        window.MktoForms2.whenReady(form => {
-          form.submit();
-        });
+    async handleSubmit(event) {
+      event.preventDefault();
+
+      setLoading(true);
+
+      const response = await fetch('/.netlify/functions/newsletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: event.target.email.value
+      });
+
+      if (response.ok) {
+        setSuccess(true);
+        return;
       }
+
+      setLoading(false);
     }
   };
 }
@@ -97,18 +64,24 @@ export default function NewsletterForm(props) {
             Don’t miss a single post! Be the first to hear about meetups and
             other news.
           </h5>
-          <form data-formid="1341" />
+          <form onSubmit={props.handleSubmit}>
+            <StyledInput
+              required
+              size="large"
+              name="email"
+              type="email"
+              placeholder="Email address"
+            />
+            <StyledButton
+              type="submit"
+              disabled={props.loading}
+              color={colors.indigo.dark}
+              style={{height: 40}}
+            >
+              Subscribe
+            </StyledButton>
+          </form>
         </Fragment>
-      )}
-      {!props.loading && !props.success && (
-        <StyledButton
-          type="submit"
-          color={colors.indigo.dark}
-          style={{height: 40}}
-          onClick={props.submitForm}
-        >
-          Subscribe
-        </StyledButton>
       )}
     </SidebarSection>
   );
@@ -117,5 +90,5 @@ export default function NewsletterForm(props) {
 NewsletterForm.propTypes = {
   success: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
-  submitForm: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired
 };

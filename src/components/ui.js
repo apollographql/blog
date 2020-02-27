@@ -215,13 +215,11 @@ export const HeadingLink = styled(Link)({
 });
 
 const largeInputHeight = 50;
-export const largeInputStyles = {
-  height: largeInputHeight,
-  fontSize: 18
-};
-
 const LargeInputBase = styled(TextField)({
-  input: largeInputStyles
+  input: {
+    height: largeInputHeight,
+    fontSize: 18
+  }
 });
 
 export function LargeInput(props) {

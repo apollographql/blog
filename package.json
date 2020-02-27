@@ -23,6 +23,7 @@
     "gatsby-source-wordpress": "^3.1.60",
     "gatsby-transformer-sharp": "^2.3.14",
     "html-react-parser": "^0.10.1",
+    "mailchimp-api-v3": "^1.13.1",
     "polished": "^3.4.4",
     "prismjs": "^1.19.0",
     "prop-types": "^15.7.2",
