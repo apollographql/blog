@@ -28,6 +28,10 @@ exports.handler = async event => {
         {
           name: 'Blog',
           status: 'active'
+        },
+        {
+          name: 'Newsletter',
+          status: 'active'
         }
       ]
     });
