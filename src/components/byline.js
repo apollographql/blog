@@ -28,16 +28,20 @@ export default function Byline(props) {
   const {avatar_urls, name, acf} = props.author;
   return (
     <StyledLink to="/">
-      <Avatar size={props.mini ? 'sm' : 'md'} src={avatar_urls.wordpress_96} />
-      {props.mini ? (
-        <Subheading>
-          by <span className="name">{name}</span>
-        </Subheading>
-      ) : (
+      <Avatar size={props.size} src={avatar_urls.wordpress_96} />
+      {props.size === 'md' ? (
         <div>
           <h5 className="name">{name}</h5>
           <Subheading>{acf.title}</Subheading>
         </div>
+      ) : (
+        <Subheading
+          style={{
+            fontSize: props.size === 'sm' && 16
+          }}
+        >
+          by <span className="name">{name}</span>
+        </Subheading>
       )}
     </StyledLink>
   );
@@ -45,5 +49,9 @@ export default function Byline(props) {
 
 Byline.propTypes = {
   author: PropTypes.object.isRequired,
-  mini: PropTypes.bool
+  size: PropTypes.oneOf(['xs', 'sm', 'md'])
+};
+
+Byline.defaultProps = {
+  size: 'md'
 };

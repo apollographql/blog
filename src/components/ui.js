@@ -175,13 +175,15 @@ export const SocialIcons = styled.div({
 });
 
 export const avatarSizes = {
-  sm: 20,
+  xs: 20,
+  sm: 24,
   md: 44,
   lg: 68
 };
 
 export const avatarMargins = {
-  sm: 8,
+  xs: 8,
+  sm: 10,
   md: 16,
   lg: 29
 };

@@ -31,7 +31,9 @@ module.exports = {
         resolvers: {
           wordpress__POST: {
             title: node => node.title,
-            content: node => stripHtmlTags(node.content)
+            content: node => stripHtmlTags(node.content),
+            slug: node => node.slug,
+            author: (node, getNode) => getNode(node.author___NODE)
           }
         }
       }

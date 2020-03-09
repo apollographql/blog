@@ -20,7 +20,7 @@ export default function ArchivePost(props) {
       <h4>
         <HeadingLink to={'/' + props.post.slug}>{props.post.title}</HeadingLink>
       </h4>
-      <Byline mini author={props.post.author} />
+      <Byline size="xs" author={props.post.author} />
     </Wrapper>
   );
 }

@@ -1,6 +1,7 @@
 import Layout from '../components/layout';
 import PropTypes from 'prop-types';
 import React, {useMemo} from 'react';
+import SearchPost from '../components/search-post';
 import {Index} from 'elasticlunr';
 import {
   InnerWrapper,
@@ -32,9 +33,7 @@ export default function Search(props) {
       <InnerWrapper>
         <Main>
           {results.map(result => (
-            <div key={result.id}>
-              <h3>{result.title}</h3>
-            </div>
+            <SearchPost term={query} key={result.id} post={result} size="sm" />
           ))}
         </Main>
         <Sidebar>
