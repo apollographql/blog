@@ -9,6 +9,7 @@ import RecentPosts, {PostLink} from '../components/recent-posts';
 import styled from '@emotion/styled';
 import {
   Category,
+  CategoryNav,
   DateText,
   ExcerptText,
   HeadingLink,
@@ -40,16 +41,6 @@ const StyledSectionHeading = styled(SectionHeading)({
     ...size(18),
     marginRight: 12,
     color: colors.indigo.base
-  }
-});
-
-const CategoryNav = styled.div({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start',
-  marginTop: 16,
-  '> :not(:last-child)': {
-    marginBottom: 16
   }
 });
 

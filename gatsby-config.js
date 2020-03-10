@@ -33,6 +33,7 @@ module.exports = {
             title: node => node.title,
             content: node => stripHtmlTags(node.content),
             slug: node => node.slug,
+            categories: (node, getNode) => node.categories___NODE.map(getNode),
             author: (node, getNode) => getNode(node.author___NODE)
           }
         }

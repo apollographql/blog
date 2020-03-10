@@ -31,18 +31,18 @@ const Wrapper = styled.div({
 });
 
 export default function SearchPost(props) {
-  const {content, id, slug, title, author} = props.post;
+  const content = props.post.content.replace(/&nbsp;/g, ' ');
   const termIndex = content.toLowerCase().indexOf(props.term.toLowerCase());
   const excerpt = content.slice(termIndex);
   return (
-    <Wrapper key={id}>
+    <Wrapper key={props.post.id}>
       <h3>
-        <HeadingLink to={'/' + slug}>{title}</HeadingLink>
+        <HeadingLink to={'/' + props.post.slug}>{props.post.title}</HeadingLink>
       </h3>
       <p>
         <Highlighter textToHighlight={excerpt} searchWords={[props.term]} />
       </p>
-      <Byline size="sm" author={author} />
+      <Byline size="sm" author={props.post.author} />
     </Wrapper>
   );
 }

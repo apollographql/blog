@@ -70,7 +70,7 @@ export const categoryStyles = {
   textDecoration: 'none'
 };
 
-const CategoryInner = styled(Link)({
+export const categoryInnerStyles = {
   ...categoryStyles,
   color: colors.indigo.dark,
   ':hover': {
@@ -80,12 +80,24 @@ const CategoryInner = styled(Link)({
   ':active': {
     backgroundColor: colors.indigo.lightest
   }
-});
+};
+
+const CategoryInner = styled(Link)(categoryInnerStyles);
 
 const CategoryInnerSmall = styled(CategoryInner)({
   padding: '1px 6px',
   fontSize: 13,
   lineHeight: '18px'
+});
+
+export const CategoryNav = styled.div({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  marginTop: 16,
+  '> :not(:last-child)': {
+    marginBottom: 16
+  }
 });
 
 export function Category({isSmall, category, ...props}) {
