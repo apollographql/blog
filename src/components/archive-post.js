@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from '@emotion/styled';
 import {DateText, HeadingLink} from './ui';
+import {decode} from 'he';
 
 const Wrapper = styled.div({
   display: 'flex',
@@ -18,7 +19,9 @@ export default function ArchivePost(props) {
     <Wrapper key={props.post.id}>
       <DateText date={props.post.date} />
       <h4>
-        <HeadingLink to={'/' + props.post.slug}>{props.post.title}</HeadingLink>
+        <HeadingLink to={'/' + props.post.slug}>
+          {decode(props.post.title)}
+        </HeadingLink>
       </h4>
       <Byline size="xs" author={props.post.author} />
     </Wrapper>

@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import {Category, DateText, ExcerptText, PostImage} from './ui';
 import {Link} from 'gatsby';
 import {colors} from '@apollo/space-kit/colors';
+import {decode} from 'he';
 
 const Wrapper = styled.div({
   display: 'grid',
@@ -47,7 +48,7 @@ export default function RecentPosts({posts, ...props}) {
               src={post.featured_media.localFile.childImageSharp.original.src}
             />
             <DateText date={post.date} />
-            <h4>{post.title}</h4>
+            <h4>{decode(post.title)}</h4>
             <ExcerptText excerpt={post.excerpt} />
           </PostLink>
           <PostCategories>

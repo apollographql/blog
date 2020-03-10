@@ -24,6 +24,7 @@ import {
 import {IconBookmark} from '@apollo/space-kit/icons/IconBookmark';
 import {IconTime} from '@apollo/space-kit/icons/IconTime';
 import {colors} from '@apollo/space-kit/colors';
+import {decode} from 'he';
 import {graphql} from 'gatsby';
 import {size} from 'polished';
 
@@ -59,7 +60,7 @@ export default function Index(props) {
         <DateText style={{marginBottom: 12}} date={featuredPost.date} />
         <h2>
           <HeadingLink to={'/' + featuredPost.slug}>
-            {featuredPost.title}
+            {decode(featuredPost.title)}
           </HeadingLink>
         </h2>
       </TopFold>

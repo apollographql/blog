@@ -1,6 +1,6 @@
 import Layout from '../components/layout';
 import PropTypes from 'prop-types';
-import React, {useMemo} from 'react';
+import React, {useMemo, useState} from 'react';
 import SearchPost from '../components/search-post';
 import styled from '@emotion/styled';
 import {
@@ -13,13 +13,19 @@ import {
   categoryInnerStyles
 } from '../components/ui';
 import {Index} from 'elasticlunr';
+import {colors} from '@apollo/space-kit/colors';
 import {graphql} from 'gatsby';
 import {parse} from 'querystring';
 
 const CategoryButton = styled.button({
   ...categoryInnerStyles,
   cursor: 'pointer',
-  outline: 'none'
+  outline: 'none',
+  '&.selected': {
+    color: 'white',
+    borderColor: colors.indigo.base,
+    backgroundColor: colors.indigo.base
+  }
 });
 
 export default function Search(props) {
@@ -34,6 +40,7 @@ export default function Search(props) {
     [index, query]
   );
 
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const categories = useMemo(
     () =>
       Object.entries(
@@ -50,7 +57,11 @@ export default function Search(props) {
     [results]
   );
 
-  console.log(categories);
+  function toggleCategory(category) {
+    setSelectedCategory(prevCategory =>
+      prevCategory === category ? null : category
+    );
+  }
 
   return (
     <Layout defaultSearchValue={query}>
@@ -59,16 +70,33 @@ export default function Search(props) {
       </SectionHeading>
       <InnerWrapper>
         <Main>
-          {results.map(result => (
-            <SearchPost term={query} key={result.id} post={result} size="sm" />
-          ))}
+          {results
+            .filter(result =>
+              selectedCategory
+                ? result.categories.some(
+                    category => category.name === selectedCategory
+                  )
+                : true
+            )
+            .map(result => (
+              <SearchPost
+                term={query}
+                key={result.id}
+                post={result}
+                size="sm"
+              />
+            ))}
         </Main>
         <Sidebar>
           <SidebarSection>
             <SectionHeading>Filter articles</SectionHeading>
             <CategoryNav>
               {categories.map(([category, count]) => (
-                <CategoryButton key={category}>
+                <CategoryButton
+                  key={category}
+                  className={category === selectedCategory && 'selected'}
+                  onClick={() => toggleCategory(category)}
+                >
                   {category} ({count})
                 </CategoryButton>
               ))}
