@@ -14,9 +14,9 @@ import {
   Main,
   SectionHeading,
   Sidebar,
-  categoryStyles
+  categoryStyles,
+  selectedCategoryStyles
 } from './ui';
-import {colors} from '@apollo/space-kit/colors';
 import {graphql} from 'gatsby';
 
 const StyledCategories = styled(Categories)({
@@ -25,9 +25,7 @@ const StyledCategories = styled(Categories)({
 
 const SelectedCategory = styled.div({
   ...categoryStyles,
-  backgroundColor: colors.indigo.dark,
-  borderColor: colors.indigo.dark,
-  color: 'white'
+  ...selectedCategoryStyles
 });
 
 const StyledRecentPosts = styled(RecentPosts)({

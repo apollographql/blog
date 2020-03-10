@@ -70,6 +70,12 @@ export const categoryStyles = {
   textDecoration: 'none'
 };
 
+export const selectedCategoryStyles = {
+  backgroundColor: colors.indigo.dark,
+  borderColor: colors.indigo.dark,
+  color: 'white'
+};
+
 export const categoryInnerStyles = {
   ...categoryStyles,
   color: colors.indigo.dark,

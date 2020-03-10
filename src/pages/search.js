@@ -10,10 +10,10 @@ import {
   SectionHeading,
   Sidebar,
   SidebarSection,
-  categoryInnerStyles
+  categoryInnerStyles,
+  selectedCategoryStyles
 } from '../components/ui';
 import {Index} from 'elasticlunr';
-import {colors} from '@apollo/space-kit/colors';
 import {graphql} from 'gatsby';
 import {parse} from 'querystring';
 
@@ -21,11 +21,7 @@ const CategoryButton = styled.button({
   ...categoryInnerStyles,
   cursor: 'pointer',
   outline: 'none',
-  '&.selected': {
-    color: 'white',
-    borderColor: colors.indigo.base,
-    backgroundColor: colors.indigo.base
-  }
+  '&.selected': selectedCategoryStyles
 });
 
 export default function Search(props) {
