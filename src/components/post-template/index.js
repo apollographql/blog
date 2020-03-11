@@ -126,7 +126,10 @@ export default function PostTemplate(props) {
   };
 
   return (
-    <Layout>
+    <Layout
+      recentPosts={props.data.similarPosts}
+      recentPostsTitle="Similar posts"
+    >
       <Helmet>
         <title>{title}</title>
       </Helmet>
@@ -245,7 +248,7 @@ PostTemplate.propTypes = {
 };
 
 export const pageQuery = graphql`
-  query PostQuery($wordpress_id: Int) {
+  query PostQuery($wordpress_id: Int, $categoriesIn: [String]) {
     # get all media nodes for this post to replace images with local files
     allWordpressWpMedia(filter: {post: {eq: $wordpress_id}}) {
       nodes {
@@ -261,6 +264,7 @@ export const pageQuery = graphql`
         }
       }
     }
+
     # everything we need to render a post
     wordpressPost(wordpress_id: {eq: $wordpress_id}) {
       path
@@ -293,12 +297,34 @@ export const pageQuery = graphql`
           }
         }
       }
+
       # cta customization fields
       cta: acf {
         cta_title
         cta_content
         cta_button_text
         cta_link
+      }
+    }
+
+    # query posts that share categories with the current post
+    similarPosts: allWordpressPost(
+      limit: 3
+      filter: {
+        wordpress_id: {ne: $wordpress_id}
+        categories: {elemMatch: {id: {in: $categoriesIn}}}
+      }
+    ) {
+      nodes {
+        date
+        title
+        slug
+        author {
+          name
+          avatar_urls {
+            wordpress_96
+          }
+        }
       }
     }
   }

@@ -13,6 +13,7 @@ import {
 import {IconProceed} from '@apollo/space-kit/icons/IconProceed';
 import {Link} from 'gatsby';
 import {colors} from '@apollo/space-kit/colors';
+import {decode} from 'he';
 import {size} from 'polished';
 
 const AuthorHeader = styled.div({
@@ -71,7 +72,7 @@ export default function AuthorDetails(props) {
         )}
       </AuthorHeader>
       <AuthorBio>
-        <p>{description}</p>
+        <p>{decode(description)}</p>
         <p>
           <Link to="/author/name">
             Read more by {name} <IconProceed />

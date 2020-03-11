@@ -1,9 +1,9 @@
 import '@apollo/space-kit/reset.css';
+import ArchivePost from '../archive-post';
 import FooterNav from './footer-nav';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
 import React, {Fragment} from 'react';
-import RecentPosts from './recent-posts';
 import styled from '@emotion/styled';
 import styles from '../../styles';
 import {ApolloIcon} from '@apollo/space-kit/icons/ApolloIcon';
@@ -89,10 +89,14 @@ const FooterNavGroup = styled.div({
   marginLeft: 100
 });
 
+const RecentPosts = styled.div({
+  flexGrow: 1
+});
+
 export default function Layout(props) {
   const data = useStaticQuery(
     graphql`
-      query LayoutQuery {
+      {
         wordpressSiteMetadata {
           description
           title: name
@@ -105,6 +109,19 @@ export default function Layout(props) {
         }
         helpMenu: wordpressWpApiMenusMenusItems(wordpress_id: {eq: 4}) {
           ...MenuFragment
+        }
+        recentPosts: allWordpressPost(limit: 3) {
+          nodes {
+            date
+            title
+            slug
+            author {
+              name
+              avatar_urls {
+                wordpress_96
+              }
+            }
+          }
         }
       }
 
@@ -151,9 +168,13 @@ export default function Layout(props) {
       <Wrapper>{props.children}</Wrapper>
       <Footer>
         <Wrapper>
-          <SectionHeading>Recent articles</SectionHeading>
+          <SectionHeading>{props.recentPostsTitle}</SectionHeading>
           <FooterInner>
-            <RecentPosts />
+            <RecentPosts>
+              {(props.recentPosts || data.recentPosts).nodes.map(post => (
+                <ArchivePost key={post.id} post={post} />
+              ))}
+            </RecentPosts>
             <FooterNavGroup>
               <FooterNav menu={data.companyMenu} />
             </FooterNavGroup>
@@ -170,5 +191,11 @@ export default function Layout(props) {
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
-  defaultSearchValue: PropTypes.string
+  defaultSearchValue: PropTypes.string,
+  recentPosts: PropTypes.array,
+  recentPostsTitle: PropTypes.string
+};
+
+Layout.defaultProps = {
+  recentPostsTitle: 'Recent posts'
 };

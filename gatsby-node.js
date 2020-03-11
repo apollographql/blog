@@ -5,6 +5,9 @@ exports.createPages = async ({actions, graphql}) => {
         nodes {
           wordpress_id
           slug
+          categories {
+            id
+          }
         }
       }
       allWordpressCategory {
@@ -22,7 +25,8 @@ exports.createPages = async ({actions, graphql}) => {
       path: '/' + post.slug,
       component: postTemplate,
       context: {
-        wordpress_id: post.wordpress_id
+        wordpress_id: post.wordpress_id,
+        categoriesIn: post.categories.map(category => category.id)
       }
     });
   });
