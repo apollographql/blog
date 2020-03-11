@@ -129,11 +129,17 @@ export const Categories = styled.div({
   }
 });
 
-const SIDEBAR_WIDTH = 262;
-const SIDEBAR_MARGIN = 127;
+export const BREAKPOINT_LG = 1220;
+export const BREAKPOINT_MD = 900;
+
+const SIDEBAR_WIDTH = 312;
+const SIDEBAR_MARGIN = 128;
 
 export const TopFold = styled.div({
-  width: `calc(100% - ${SIDEBAR_WIDTH + SIDEBAR_MARGIN}px)`
+  width: `calc(100% - ${SIDEBAR_WIDTH + SIDEBAR_MARGIN}px)`,
+  [`@media(max-width: ${BREAKPOINT_LG}px)`]: {
+    width: 'auto'
+  }
 });
 
 export const InnerWrapper = styled.div({
@@ -150,8 +156,15 @@ export const Sidebar = styled.aside({
   display: 'flex',
   flexDirection: 'column',
   flexShrink: 0,
-  width: 312,
-  marginLeft: 128
+  width: SIDEBAR_WIDTH,
+  marginLeft: SIDEBAR_MARGIN,
+  [`@media(max-width: ${BREAKPOINT_LG}px)`]: {
+    width: 250,
+    marginLeft: SIDEBAR_MARGIN * 0.75
+  },
+  [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
+    display: 'none'
+  }
 });
 
 export const SectionHeading = styled.h4({

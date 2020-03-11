@@ -7,16 +7,16 @@ import React, {Fragment} from 'react';
 import styled from '@emotion/styled';
 import styles from '../../styles';
 import {ApolloIcon} from '@apollo/space-kit/icons/ApolloIcon';
+import {BREAKPOINT_LG, BREAKPOINT_MD, LargeInput, SectionHeading} from '../ui';
 import {ReactComponent as BlogIcon} from '../../assets/blog.svg';
 import {Global} from '@emotion/core';
 import {IconSearch} from '@apollo/space-kit/icons/IconSearch';
-import {LargeInput, SectionHeading} from '../ui';
 import {Link, graphql, useStaticQuery} from 'gatsby';
 import {colors} from '@apollo/space-kit/colors';
 import {size} from 'polished';
 
 const Wrapper = styled.div({
-  maxWidth: 1220,
+  maxWidth: BREAKPOINT_LG,
   margin: '0 auto',
   padding: '0 40px'
 });
@@ -53,7 +53,10 @@ const StyledBlogIcon = styled(BlogIcon)({
 
 const SearchForm = styled.form({
   flexGrow: 1,
-  marginLeft: 72
+  marginLeft: 72,
+  [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
+    marginLeft: 40
+  }
 });
 
 const SearchInput = styled(LargeInput)({
@@ -82,15 +85,27 @@ const Footer = styled.footer({
 
 const FooterInner = styled.div({
   display: 'flex',
-  marginTop: 60
+  marginTop: 60,
+  [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
+    display: 'block'
+  }
 });
 
 const FooterNavGroup = styled.div({
-  marginLeft: 100
+  marginLeft: 100,
+  [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
+    marginLeft: 0,
+    ':not(:last-child)': {
+      marginBottom: 48
+    }
+  }
 });
 
 const RecentPosts = styled.div({
-  flexGrow: 1
+  flexGrow: 1,
+  [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
+    marginBottom: 100
+  }
 });
 
 export default function Layout(props) {

@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React, {useState} from 'react';
 import styled from '@emotion/styled';
+import {BREAKPOINT_LG, LargeButton, SidebarSection} from '../ui';
 import {IconClose} from '@apollo/space-kit/icons/IconClose';
-import {LargeButton, SidebarSection} from '../ui';
 import {colors} from '@apollo/space-kit/colors';
 import {graphql, useStaticQuery} from 'gatsby';
 import {size} from 'polished';
@@ -31,6 +31,10 @@ const InnerWrapper = styled(SidebarSection)({
   },
   p: {
     marginBottom: 32
+  },
+  [`@media(max-width: ${BREAKPOINT_LG}px)`]: {
+    borderTopRightRadius: 0,
+    borderBottomRightRadius: 0
   }
 });
 
