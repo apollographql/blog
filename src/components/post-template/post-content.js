@@ -184,19 +184,18 @@ function renderContent(content, mediaNodes) {
                 const language = className.slice(className.indexOf('-') + 1);
 
                 // highlight the code
-                const html = Prism.highlight(
-                  text,
-                  Prism.languages[language],
-                  language
-                );
+                const grammar = Prism.languages[language];
+                if (grammar) {
+                  const html = Prism.highlight(text, grammar, language);
 
-                // re-parse the highlighted HTML and put it back in
-                // its place
-                return (
-                  <pre className={className}>
-                    <code className={className}>{parse(html)}</code>
-                  </pre>
-                );
+                  // re-parse the highlighted HTML and put it back in
+                  // its place
+                  return (
+                    <pre className={className}>
+                      <code className={className}>{parse(html)}</code>
+                    </pre>
+                  );
+                }
               }
             }
           }
