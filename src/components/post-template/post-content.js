@@ -10,6 +10,7 @@ import {colors} from '@apollo/space-kit/colors';
 // load prism languages after prism import
 import 'prismjs/components/prism-bash';
 import 'prismjs/components/prism-graphql';
+import 'prismjs/components/prism-json';
 import 'prismjs/components/prism-jsx';
 import 'prismjs/components/prism-tsx';
 import 'prismjs/components/prism-typescript';
