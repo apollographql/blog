@@ -10,11 +10,11 @@ module.exports = {
     {
       resolve: 'gatsby-source-wordpress',
       options: {
-        protocol: 'http',
-        // protocol: isProduction ? 'https' : 'http',
+        protocol: isProduction ? 'https' : 'http',
         baseUrl: isProduction
           ? process.env.WORDPRESS_URL_PROD
-          : process.env.WORDPRESS_URL_DEV
+          : process.env.WORDPRESS_URL_DEV,
+        restApiRoutePrefix: 'wp-json/'
       }
     },
     'gatsby-plugin-sharp',
