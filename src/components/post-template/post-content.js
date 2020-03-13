@@ -143,7 +143,7 @@ function renderContent(content, mediaNodes) {
         case 'img': {
           // replace images from wordpress with their local counterparts
           const localFile = findLocalFile(mediaNodes, domNode.attribs.src);
-          if (localFile) {
+          if (localFile && localFile.childImageSharp) {
             return <img src={localFile.childImageSharp.original.src} />;
           }
           break;
@@ -155,7 +155,7 @@ function renderContent(content, mediaNodes) {
               mediaNodes,
               domNode.prev.attribs.src
             );
-            if (localFile) {
+            if (localFile && localFile.childImageSharp) {
               const {width, height} = localFile.childImageSharp.original;
               const aspectRatio = width / height;
               return (

@@ -37,6 +37,7 @@ import {IconEmail} from '@apollo/space-kit/icons/IconEmail';
 import {IconFacebook} from '@apollo/space-kit/icons/IconFacebook';
 import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
 import {colors} from '@apollo/space-kit/colors';
+import {decode} from 'he';
 import {graphql} from 'gatsby';
 
 const BylineWrapper = styled.div({
@@ -127,7 +128,7 @@ export default function PostTemplate(props) {
       </Helmet>
       <TopFold style={{paddingBottom: 90}}>
         <DateText style={{marginBottom: 12}} date={date} />
-        <h1>{title}</h1>
+        <h1>{decode(title)}</h1>
         <BylineWrapper>
           <Byline author={author} />
           {twitter && (
@@ -270,6 +271,15 @@ export const pageQuery = graphql`
         acf {
           twitter
           title
+          avatar {
+            localFile {
+              childImageSharp {
+                original {
+                  src
+                }
+              }
+            }
+          }
         }
       }
       categories {
@@ -313,6 +323,17 @@ export const pageQuery = graphql`
           name
           avatar_urls {
             wordpress_96
+          }
+          acf {
+            avatar {
+              localFile {
+                childImageSharp {
+                  original {
+                    src
+                  }
+                }
+              }
+            }
           }
         }
       }

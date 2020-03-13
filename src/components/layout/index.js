@@ -135,6 +135,17 @@ export default function Layout(props) {
               avatar_urls {
                 wordpress_96
               }
+              acf {
+                avatar {
+                  localFile {
+                    childImageSharp {
+                      original {
+                        src
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         }

@@ -1,3 +1,25 @@
+exports.createResolvers = ({createResolvers}) => {
+  createResolvers({
+    wordpress__wp_usersAcf: {
+      avatar: {
+        type: 'wordpress__wp_media',
+        resolve: (source, args, context) =>
+          context.nodeModel.runQuery({
+            query: {
+              filter: {
+                wordpress_id: {
+                  eq: source.avatar_id
+                }
+              }
+            },
+            type: 'wordpress__wp_media',
+            firstOnly: true
+          })
+      }
+    }
+  });
+};
+
 exports.createPages = async ({actions, graphql}) => {
   const {data} = await graphql(`
     {

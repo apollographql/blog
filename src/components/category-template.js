@@ -137,6 +137,15 @@ export const pageQuery = graphql`
           }
           acf {
             title
+            avatar {
+              localFile {
+                childImageSharp {
+                  original {
+                    src
+                  }
+                }
+              }
+            }
           }
         }
       }

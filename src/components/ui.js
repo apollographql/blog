@@ -205,27 +205,6 @@ export const SocialIcons = styled.div({
   }
 });
 
-export const avatarSizes = {
-  xs: 20,
-  sm: 24,
-  md: 44,
-  lg: 68
-};
-
-export const avatarMargins = {
-  xs: 8,
-  sm: 10,
-  md: 16,
-  lg: 29
-};
-
-export const Avatar = styled.img(props => ({
-  ...size(avatarSizes[props.size]),
-  borderRadius: 4,
-  marginRight: avatarMargins[props.size],
-  objectFit: 'cover'
-}));
-
 export const largeTextStyles = {
   fontSize: 21,
   lineHeight: '32px'

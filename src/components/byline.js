@@ -1,7 +1,7 @@
+import Avatar from './avatar';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from '@emotion/styled';
-import {Avatar} from './ui';
 import {Link} from 'gatsby';
 import {colors} from '@apollo/space-kit/colors';
 
@@ -25,10 +25,10 @@ const Subheading = styled.h6({
 });
 
 export default function Byline(props) {
-  const {avatar_urls, name, acf} = props.author;
+  const {name, acf} = props.author;
   return (
     <StyledLink to="/">
-      <Avatar size={props.size} src={avatar_urls.wordpress_96} />
+      <Avatar size={props.size} author={props.author} />
       {props.size === 'md' ? (
         <div>
           <h5 className="name">{name}</h5>

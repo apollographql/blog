@@ -1,18 +1,12 @@
+import Avatar, {avatarMargins, avatarSizes} from '../avatar';
 import PropTypes from 'prop-types';
 import React from 'react';
 import TwitterButton from './twitter-button';
 import styled from '@emotion/styled';
-import {
-  Avatar,
-  avatarMargins,
-  avatarSizes,
-  dateTextStyles,
-  largeTextStyles,
-  linkStyles
-} from '../ui';
-import {IconProceed} from '@apollo/space-kit/icons/IconProceed';
-import {Link} from 'gatsby';
+// import {IconProceed} from '@apollo/space-kit/icons/IconProceed';
+// import {Link} from 'gatsby';
 import {colors} from '@apollo/space-kit/colors';
+import {dateTextStyles, largeTextStyles, linkStyles} from '../ui';
 import {decode} from 'he';
 import {size} from 'polished';
 
@@ -48,11 +42,11 @@ const AuthorBio = styled.div({
 });
 
 export default function AuthorDetails(props) {
-  const {avatar_urls, name, acf, description} = props.author;
+  const {name, acf, description} = props.author;
   return (
     <div>
       <AuthorHeader>
-        <Avatar size="lg" src={avatar_urls.wordpress_96} />
+        <Avatar size="lg" author={props.author} />
         <AuthorByline>
           <h5>Written by</h5>
           <h3>{name}</h3>
@@ -73,11 +67,12 @@ export default function AuthorDetails(props) {
       </AuthorHeader>
       <AuthorBio>
         <p>{decode(description)}</p>
-        <p>
+        {/* TODO: implement author pages */}
+        {/* <p>
           <Link to="/author/name">
             Read more by {name} <IconProceed />
           </Link>
-        </p>
+        </p> */}
       </AuthorBio>
     </div>
   );
