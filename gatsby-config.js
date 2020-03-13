@@ -10,7 +10,8 @@ module.exports = {
     {
       resolve: 'gatsby-source-wordpress',
       options: {
-        protocol: isProduction ? 'https' : 'http',
+        protocol: 'http',
+        // protocol: isProduction ? 'https' : 'http',
         baseUrl: isProduction
           ? process.env.WORDPRESS_URL_PROD
           : process.env.WORDPRESS_URL_DEV
