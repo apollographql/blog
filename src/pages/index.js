@@ -68,13 +68,14 @@ export default function Index(props) {
         <Main>
           <FeaturedPost>
             <PostLink to={'/' + featuredPost.slug}>
-              <PostImage
-                style={{height: 240}}
-                src={
-                  featuredPost.featured_media.localFile.childImageSharp.original
-                    .src
-                }
-              />
+              {featuredPost.featured_media && (
+                <PostImage
+                  src={
+                    featuredPost.featured_media.localFile.childImageSharp
+                      .original.src
+                  }
+                />
+              )}
               <ExcerptText
                 style={{marginBottom: 24}}
                 excerpt={featuredPost.excerpt}

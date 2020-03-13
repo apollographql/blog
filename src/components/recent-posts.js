@@ -43,10 +43,12 @@ export default function RecentPosts({posts, ...props}) {
       {posts.map(post => (
         <div key={post.id}>
           <PostLink to={'/' + post.slug}>
-            <PostImage
-              style={{height: 160}}
-              src={post.featured_media.localFile.childImageSharp.original.src}
-            />
+            {post.featured_media && (
+              <PostImage
+                style={{height: 160}}
+                src={post.featured_media.localFile.childImageSharp.original.src}
+              />
+            )}
             <DateText date={post.date} />
             <h4>{decode(post.title)}</h4>
             <ExcerptText excerpt={post.excerpt} />

@@ -1,5 +1,6 @@
 import AuthorDetails from './author-details';
 import Byline from '../byline';
+import Divider from './divider';
 import Helmet from 'react-helmet';
 import Layout from '../layout';
 import NewsletterForm, {
@@ -34,7 +35,6 @@ import {
 } from 'react-share';
 import {IconEmail} from '@apollo/space-kit/icons/IconEmail';
 import {IconFacebook} from '@apollo/space-kit/icons/IconFacebook';
-import {IconSingleService} from '@apollo/space-kit/icons/IconSingleService';
 import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
 import {colors} from '@apollo/space-kit/colors';
 import {graphql} from 'gatsby';
@@ -65,14 +65,6 @@ const TwitterHandle = styled.a({
   textDecoration: 'none',
   ':hover': {
     color: colors.indigo.base
-  }
-});
-
-const Divider = styled.div({
-  margin: '120px 0',
-  color: colors.indigo.base,
-  svg: {
-    marginRight: 16
   }
 });
 
@@ -164,18 +156,16 @@ export default function PostTemplate(props) {
       </TopFold>
       <InnerWrapper>
         <Main>
-          <FeaturedImage
-            src={featured_media.localFile.childImageSharp.original.src}
-          />
+          {featured_media && (
+            <FeaturedImage
+              src={featured_media.localFile.childImageSharp.original.src}
+            />
+          )}
           <PostContent
             content={content}
             mediaNodes={props.data.allWordpressWpMedia.nodes}
           />
-          <Divider>
-            <IconSingleService />
-            <IconSingleService />
-            <IconSingleService />
-          </Divider>
+          <Divider />
           <AuthorDetails author={author} />
           <NewsletterSignup>
             <h3>Stay in our orbit</h3>

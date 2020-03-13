@@ -10,6 +10,7 @@ import {colors} from '@apollo/space-kit/colors';
 // load prism languages after prism import
 import 'prismjs/components/prism-bash';
 import 'prismjs/components/prism-jsx';
+import Divider from './divider';
 
 const Wrapper = styled.div({
   color: HEADING_COLOR,
@@ -196,6 +197,8 @@ function renderContent(content, mediaNodes) {
             }
           }
           break;
+        case 'hr':
+          return <Divider />;
         default:
       }
     }
