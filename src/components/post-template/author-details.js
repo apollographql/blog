@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import TwitterButton from './twitter-button';
 import styled from '@emotion/styled';
-// import {IconProceed} from '@apollo/space-kit/icons/IconProceed';
-// import {Link} from 'gatsby';
+import {IconProceed} from '@apollo/space-kit/icons/IconProceed';
+import {Link} from 'gatsby';
 import {colors} from '@apollo/space-kit/colors';
 import {dateTextStyles, largeTextStyles, linkStyles} from '../ui';
 import {decode} from 'he';
@@ -42,7 +42,7 @@ const AuthorBio = styled.div({
 });
 
 export default function AuthorDetails(props) {
-  const {name, acf, description} = props.author;
+  const {name, slug, acf, description} = props.author;
   return (
     <div>
       <AuthorHeader>
@@ -67,12 +67,11 @@ export default function AuthorDetails(props) {
       </AuthorHeader>
       <AuthorBio>
         <p>{decode(description)}</p>
-        {/* TODO: implement author pages */}
-        {/* <p>
-          <Link to="/author/name">
+        <p>
+          <Link to={`/author/${slug}`}>
             Read more by {name} <IconProceed />
           </Link>
-        </p> */}
+        </p>
       </AuthorBio>
     </div>
   );

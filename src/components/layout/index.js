@@ -132,6 +132,7 @@ export default function Layout(props) {
             slug
             author {
               name
+              slug
               avatar_urls {
                 wordpress_96
               }

@@ -264,6 +264,7 @@ export const pageQuery = graphql`
       content
       author {
         name
+        slug
         description
         avatar_urls {
           wordpress_96
@@ -321,6 +322,7 @@ export const pageQuery = graphql`
         slug
         author {
           name
+          slug
           avatar_urls {
             wordpress_96
           }

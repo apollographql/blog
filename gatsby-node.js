@@ -38,6 +38,12 @@ exports.createPages = async ({actions, graphql}) => {
           slug
         }
       }
+      allWordpressWpUsers {
+        nodes {
+          id
+          slug
+        }
+      }
     }
   `);
 
@@ -62,6 +68,17 @@ exports.createPages = async ({actions, graphql}) => {
       component: categoryTemplate,
       context: {
         id: category.id
+      }
+    });
+  });
+
+  const authorTemplate = require.resolve('./src/components/author-template');
+  data.allWordpressWpUsers.nodes.forEach(author => {
+    actions.createPage({
+      path: '/author/' + author.slug,
+      component: authorTemplate,
+      context: {
+        id: author.id
       }
     });
   });

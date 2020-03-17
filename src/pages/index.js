@@ -144,6 +144,7 @@ export const pageQuery = graphql`
         }
         author {
           name
+          slug
           avatar_urls {
             wordpress_96
           }

@@ -25,9 +25,9 @@ const Subheading = styled.h6({
 });
 
 export default function Byline(props) {
-  const {name, acf} = props.author;
+  const {name, slug, acf} = props.author;
   return (
-    <StyledLink to="/">
+    <StyledLink to={`/author/${slug}`}>
       <Avatar size={props.size} author={props.author} />
       {props.size === 'md' ? (
         <div>

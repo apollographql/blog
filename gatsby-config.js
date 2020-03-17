@@ -1,6 +1,6 @@
 const {stripHtmlTags} = require('./src/utils');
 
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = true; // process.env.NODE_ENV === 'production';
 
 module.exports = {
   plugins: [
@@ -13,8 +13,7 @@ module.exports = {
         protocol: isProduction ? 'https' : 'http',
         baseUrl: isProduction
           ? process.env.WORDPRESS_URL_PROD
-          : process.env.WORDPRESS_URL_DEV,
-        restApiRoutePrefix: 'wp-json/'
+          : process.env.WORDPRESS_URL_DEV
       }
     },
     'gatsby-plugin-sharp',
