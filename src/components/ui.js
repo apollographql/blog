@@ -3,7 +3,6 @@ import React from 'react';
 import styled from '@emotion/styled';
 import {Button} from '@apollo/space-kit/Button';
 import {Link} from 'gatsby';
-import {TextField} from '@apollo/space-kit/TextField';
 import {colors} from '@apollo/space-kit/colors';
 import {format} from 'date-fns';
 import {size, transparentize} from 'polished';
@@ -226,24 +225,12 @@ export const HeadingLink = styled(Link)({
   }
 });
 
-const largeInputHeight = 50;
-const LargeInputBase = styled(TextField)({
-  input: {
-    height: largeInputHeight,
-    fontSize: 18
-  }
-});
-
-export function LargeInput(props) {
-  return <LargeInputBase size="large" {...props} />;
-}
-
 export function LargeButton({style, ...props}) {
   return (
     <Button
       size="large"
       style={{
-        height: largeInputHeight,
+        height: 50,
         ...style
       }}
       {...props}

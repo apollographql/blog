@@ -18,7 +18,6 @@ import {
   DateText,
   InnerWrapper,
   LargeButton,
-  LargeInput,
   Main,
   SectionHeading,
   Sidebar,
@@ -36,6 +35,7 @@ import {
 import {IconEmail} from '@apollo/space-kit/icons/IconEmail';
 import {IconFacebook} from '@apollo/space-kit/icons/IconFacebook';
 import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
+import {TextField} from '@apollo/space-kit/TextField';
 import {colors} from '@apollo/space-kit/colors';
 import {decode} from 'he';
 import {graphql} from 'gatsby';
@@ -91,10 +91,14 @@ const InlineNewsletterForm = styled.form({
   display: 'flex'
 });
 
-const StyledLargeInput = styled(LargeInput)({
+const EmailInput = styled(TextField)({
   flexGrow: 1,
   marginRight: 24,
-  ...newsletterInputStyles
+  ...newsletterInputStyles,
+  input: {
+    height: 50,
+    fontSize: 18
+  }
 });
 
 export default function PostTemplate(props) {
@@ -181,9 +185,10 @@ export default function PostTemplate(props) {
                 <InlineNewsletterForm
                   onSubmit={newsletterFormProps.handleSubmit}
                 >
-                  <StyledLargeInput
+                  <EmailInput
                     name="email"
                     type="email"
+                    size="large"
                     required
                     placeholder="Email address"
                   />

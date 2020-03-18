@@ -7,11 +7,12 @@ import React, {Fragment} from 'react';
 import styled from '@emotion/styled';
 import styles from '../../styles';
 import {ApolloIcon} from '@apollo/space-kit/icons/ApolloIcon';
-import {BREAKPOINT_LG, BREAKPOINT_MD, LargeInput, SectionHeading} from '../ui';
+import {BREAKPOINT_LG, BREAKPOINT_MD, SectionHeading} from '../ui';
 import {ReactComponent as BlogIcon} from '../../assets/blog.svg';
 import {Global} from '@emotion/core';
 import {IconSearch} from '@apollo/space-kit/icons/IconSearch';
 import {Link, graphql, useStaticQuery} from 'gatsby';
+import {TextField} from '@apollo/space-kit/TextField';
 import {colors} from '@apollo/space-kit/colors';
 import {size} from 'polished';
 
@@ -31,36 +32,41 @@ const Header = styled.header({
 });
 
 const HeaderInner = styled(Wrapper)({
-  display: 'flex',
-  alignItems: 'center'
+  display: 'grid',
+  gridTemplateColumns: '0.75fr 1fr 0.75fr',
+  alignItems: 'center',
+  [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
+    display: 'flex'
+  }
 });
 
 const LogoLink = styled(Link)({
   display: 'flex',
   alignItems: 'flex-start',
-  color: 'inherit'
-});
-
-const StyledApolloIcon = styled(ApolloIcon)({
-  height: 28,
-  marginRight: 8
-});
-
-const StyledBlogIcon = styled(BlogIcon)({
-  height: 22,
-  marginTop: 2
-});
-
-const SearchForm = styled.form({
-  flexGrow: 1,
-  marginLeft: 72,
+  color: 'inherit',
+  fontSize: 24,
   [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
-    marginLeft: 40
+    marginRight: 48
   }
 });
 
-const SearchInput = styled(LargeInput)({
+const StyledApolloIcon = styled(ApolloIcon)({
+  height: '1em',
+  marginRight: '0.2857142857em'
+});
+
+const StyledBlogIcon = styled(BlogIcon)({
+  height: '0.7857142857em',
+  marginTop: '0.07142857143em'
+});
+
+const SearchForm = styled.form({
+  flexGrow: 1
+});
+
+const SearchInput = styled(TextField)({
   input: {
+    fontSize: 16,
     paddingLeft: 40
   },
   'label div div': {
@@ -68,7 +74,7 @@ const SearchInput = styled(LargeInput)({
   }
 });
 
-const StyledSearchIcon = styled(IconSearch)(size(16));
+const StyledSearchIcon = styled(IconSearch)(size(14));
 
 const Footer = styled.footer({
   marginTop: 120,
@@ -183,6 +189,7 @@ export default function Layout(props) {
           </LogoLink>
           <SearchForm action="/search">
             <SearchInput
+              size="large"
               placeholder="Search blog..."
               type="search"
               icon={<StyledSearchIcon />}
