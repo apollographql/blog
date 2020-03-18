@@ -50,7 +50,7 @@ const Wrapper = styled.div({
       lineHeight: 1.5
     }
   },
-  'pre[class*="language-"]': {
+  [['pre[class*="language-"]', 'pre.wp-block-preformatted']]: {
     margin: '60px 0',
     padding: '1em',
     borderRadius: 8,
