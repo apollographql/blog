@@ -24,7 +24,6 @@ const Wrapper = styled.div({
 
 const Header = styled.header({
   marginBottom: 66,
-  padding: '8px 0',
   backgroundColor: 'white',
   position: 'sticky',
   top: 0,
@@ -33,6 +32,7 @@ const Header = styled.header({
 
 const HeaderInner = styled(Wrapper)({
   display: 'grid',
+  height: 72,
   gridTemplateColumns: '0.75fr 1fr 0.75fr',
   alignItems: 'center',
   [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
