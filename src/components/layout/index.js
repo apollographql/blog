@@ -45,6 +45,7 @@ const LogoLink = styled(Link)({
   alignItems: 'flex-start',
   color: 'inherit',
   fontSize: 24,
+  color: colors.black.lighter,
   [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
     marginRight: 48
   }
