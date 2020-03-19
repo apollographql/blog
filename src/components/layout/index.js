@@ -43,7 +43,6 @@ const HeaderInner = styled(Wrapper)({
 const LogoLink = styled(Link)({
   display: 'flex',
   alignItems: 'flex-start',
-  color: 'inherit',
   fontSize: 24,
   color: colors.black.lighter,
   [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
