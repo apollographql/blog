@@ -22,7 +22,8 @@ const Links = styled.nav({
 });
 
 const Link = styled.a({
-  ...largeTextStyles,
+  fontSize: 18,
+  lineHeight: '28px',
   color: 'inherit',
   textDecoration: 'none',
   ':hover': {
