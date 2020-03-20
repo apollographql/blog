@@ -14,7 +14,6 @@ import 'prismjs/components/prism-json';
 import 'prismjs/components/prism-jsx';
 import 'prismjs/components/prism-tsx';
 import 'prismjs/components/prism-typescript';
-import Divider from './divider';
 
 const Wrapper = styled.div({
   color: HEADING_COLOR,
@@ -101,6 +100,9 @@ const Wrapper = styled.div({
     fontSize: '0.9em',
     color: colors.pink.base,
     backgroundColor: colors.silver.base
+  },
+  hr: {
+    margin: '60px 0'
   }
 });
 
@@ -200,8 +202,6 @@ function renderContent(content, mediaNodes) {
             }
           }
           break;
-        case 'hr':
-          return <Divider />;
         default:
       }
     }
