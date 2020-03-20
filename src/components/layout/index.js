@@ -10,11 +10,9 @@ import {ApolloIcon} from '@apollo/space-kit/icons/ApolloIcon';
 import {BREAKPOINT_LG, BREAKPOINT_MD, SectionHeading} from '../ui';
 import {ReactComponent as BlogIcon} from '../../assets/blog.svg';
 import {Global} from '@emotion/core';
-import {IconSearch} from '@apollo/space-kit/icons/IconSearch';
 import {Link, graphql, useStaticQuery} from 'gatsby';
 import {TextField} from '@apollo/space-kit/TextField';
 import {colors} from '@apollo/space-kit/colors';
-import {size} from 'polished';
 
 const Wrapper = styled.div({
   maxWidth: BREAKPOINT_LG,
@@ -66,15 +64,12 @@ const SearchForm = styled.form({
 
 const SearchInput = styled(TextField)({
   input: {
-    fontSize: 16,
-    paddingLeft: 40
+    fontSize: 16
   },
   'label div div': {
     left: 16
   }
 });
-
-const StyledSearchIcon = styled(IconSearch)(size(14));
 
 const Footer = styled.footer({
   marginTop: 120,
@@ -190,9 +185,8 @@ export default function Layout(props) {
           <SearchForm action="/search">
             <SearchInput
               size="large"
-              placeholder="Search blog..."
+              placeholder="Search Apollo Blog"
               type="search"
-              icon={<StyledSearchIcon />}
               name="q"
               defaultValue={props.defaultSearchValue}
             />
