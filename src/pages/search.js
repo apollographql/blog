@@ -26,8 +26,10 @@ const CategoryButton = styled.button({
 
 export default function Search(props) {
   const {q: query} = parse(props.location.search.slice(1));
-  const index = useMemo(() => Index.load(props.data.siteSearchIndex.index), [
-    props.data.siteSearchIndex.index
+
+  const {siteSearchIndex, allWordpressWpMedia} = props.data;
+  const index = useMemo(() => Index.load(siteSearchIndex.index), [
+    siteSearchIndex.index
   ]);
 
   const results = useMemo(
@@ -53,35 +55,52 @@ export default function Search(props) {
     [results]
   );
 
-  function toggleCategory(category) {
-    setSelectedCategory(prevCategory =>
-      prevCategory === category ? null : category
-    );
-  }
+  const avatarById = useMemo(() => {
+    const avatarIds = results.map(result => result.author.acf.avatar_id);
+    return allWordpressWpMedia.nodes
+      .filter(media => avatarIds.includes(media.wordpress_id))
+      .reduce(
+        (acc, media) => ({
+          ...acc,
+          [media.wordpress_id]: media
+        }),
+        {}
+      );
+  }, [allWordpressWpMedia.nodes, results]);
+
+  const filteredResults = useMemo(
+    () =>
+      results
+        .filter(result =>
+          selectedCategory
+            ? result.categories.some(
+                category => category.name === selectedCategory
+              )
+            : true
+        )
+        .map(result => ({
+          ...result,
+          author: {
+            ...result.author,
+            acf: {
+              ...result.author.acf,
+              avatar: avatarById[result.author.acf.avatar_id]
+            }
+          }
+        })),
+    [avatarById, results, selectedCategory]
+  );
 
   return (
     <Layout defaultSearchValue={query}>
       <SectionHeading style={{marginBottom: 60}}>
-        Search results ({results.length})
+        Search results ({filteredResults.length})
       </SectionHeading>
       <InnerWrapper>
         <Main>
-          {results
-            .filter(result =>
-              selectedCategory
-                ? result.categories.some(
-                    category => category.name === selectedCategory
-                  )
-                : true
-            )
-            .map(result => (
-              <SearchPost
-                term={query}
-                key={result.id}
-                post={result}
-                size="sm"
-              />
-            ))}
+          {filteredResults.map(result => (
+            <SearchPost term={query} key={result.id} post={result} size="sm" />
+          ))}
         </Main>
         <Sidebar>
           <SidebarSection>
@@ -91,7 +110,11 @@ export default function Search(props) {
                 <CategoryButton
                   key={category}
                   className={category === selectedCategory && 'selected'}
-                  onClick={() => toggleCategory(category)}
+                  onClick={() =>
+                    setSelectedCategory(prevCategory =>
+                      prevCategory === category ? null : category
+                    )
+                  }
                 >
                   {category} ({count})
                 </CategoryButton>
@@ -113,6 +136,18 @@ export const pageQuery = graphql`
   {
     siteSearchIndex {
       index
+    }
+    allWordpressWpMedia {
+      nodes {
+        wordpress_id
+        localFile {
+          childImageSharp {
+            original {
+              src
+            }
+          }
+        }
+      }
     }
   }
 `;
