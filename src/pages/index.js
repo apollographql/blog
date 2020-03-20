@@ -21,8 +21,6 @@ import {
   SidebarSection,
   TopFold
 } from '../components/ui';
-import {IconBookmark} from '@apollo/space-kit/icons/IconBookmark';
-import {IconTime} from '@apollo/space-kit/icons/IconTime';
 import {colors} from '@apollo/space-kit/colors';
 import {decode} from 'he';
 import {graphql} from 'gatsby';
@@ -77,21 +75,18 @@ export default function Index(props) {
                 />
               )}
               <ExcerptText
-                style={{marginBottom: 24}}
+                style={{
+                  fontSize: 15,
+                  marginBottom: 24
+                }}
                 excerpt={featuredPost.excerpt}
               />
             </PostLink>
             <Byline author={featuredPost.author} />
           </FeaturedPost>
-          <StyledSectionHeading>
-            <IconTime />
-            Recent
-          </StyledSectionHeading>
+          <StyledSectionHeading>Recent</StyledSectionHeading>
           <StyledRecentPosts posts={recentPosts} />
-          <StyledSectionHeading>
-            <IconBookmark />
-            Archive
-          </StyledSectionHeading>
+          <StyledSectionHeading>Archive</StyledSectionHeading>
           <div>
             {archivePosts.map(post => (
               <ArchivePost key={post.id} post={post} />
@@ -163,7 +158,7 @@ export const pageQuery = graphql`
         }
       }
     }
-    allWordpressCategory {
+    allWordpressCategory(filter: {slug: {ne: "uncategorized"}}) {
       nodes {
         id
         slug
