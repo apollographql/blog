@@ -34,10 +34,14 @@ DateText.propTypes = {
   date: PropTypes.string.isRequired
 };
 
-export const PostImage = styled.img({
+export const postImageStyles = {
   width: '100%',
   marginBottom: 24,
-  borderRadius: 4,
+  borderRadius: 4
+};
+
+export const PostImage = styled.img({
+  ...postImageStyles,
   objectFit: 'cover'
 });
 
