@@ -46,8 +46,7 @@ export const PostImage = styled.img({
 });
 
 const ExcerptTextInner = styled.p({
-  marginBottom: 16,
-  fontSize: 13
+  marginBottom: 24
 });
 
 export function ExcerptText({excerpt, ...props}) {

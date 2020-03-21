@@ -79,7 +79,13 @@ export default function RecentPosts({posts, ...props}) {
             )}
             <DateText date={post.date} />
             <h4>{decode(post.title)}</h4>
-            <ExcerptText excerpt={post.excerpt} />
+            <ExcerptText
+              excerpt={post.excerpt}
+              style={{
+                fontSize: 13,
+                marginBottom: 16
+              }}
+            />
           </PostLink>
           <PostCategories>
             {post.categories.map(category => (

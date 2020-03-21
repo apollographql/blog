@@ -74,13 +74,7 @@ export default function Index(props) {
                   }
                 />
               )}
-              <ExcerptText
-                style={{
-                  fontSize: 15,
-                  marginBottom: 24
-                }}
-                excerpt={featuredPost.excerpt}
-              />
+              <ExcerptText excerpt={featuredPost.excerpt} />
             </PostLink>
             <Byline author={featuredPost.author} />
           </FeaturedPost>
