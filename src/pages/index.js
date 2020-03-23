@@ -1,5 +1,6 @@
 import ArchivePost from '../components/archive-post';
 import Byline from '../components/byline';
+import Categories from '../components/categories';
 import FollowUs from '../components/follow-us';
 import Layout from '../components/layout';
 import NewsletterForm, {useNewsletterForm} from '../components/newsletter-form';
@@ -8,8 +9,6 @@ import React from 'react';
 import RecentPosts, {PostLink} from '../components/recent-posts';
 import styled from '@emotion/styled';
 import {
-  Category,
-  CategoryNav,
   DateText,
   ExcerptText,
   HeadingLink,
@@ -18,7 +17,6 @@ import {
   PostImage,
   SectionHeading,
   Sidebar,
-  SidebarSection,
   TopFold
 } from '../components/ui';
 import {colors} from '@apollo/space-kit/colors';
@@ -80,7 +78,9 @@ export default function Index(props) {
           </FeaturedPost>
           <StyledSectionHeading>Recent</StyledSectionHeading>
           <StyledRecentPosts posts={recentPosts} />
-          <StyledSectionHeading>Archive</StyledSectionHeading>
+          <StyledSectionHeading>
+            <HeadingLink to="/archive">Archive</HeadingLink>
+          </StyledSectionHeading>
           <div>
             {archivePosts.map(post => (
               <ArchivePost key={post.id} post={post} />
@@ -90,14 +90,7 @@ export default function Index(props) {
         <Sidebar>
           <NewsletterForm {...newsletterFormProps} />
           <FollowUs />
-          <SidebarSection>
-            <SectionHeading>Categories</SectionHeading>
-            <CategoryNav>
-              {props.data.allWordpressCategory.nodes.map(category => (
-                <Category key={category.id} category={category} />
-              ))}
-            </CategoryNav>
-          </SidebarSection>
+          <Categories />
         </Sidebar>
       </InnerWrapper>
     </Layout>
@@ -110,7 +103,7 @@ Index.propTypes = {
 
 export const pageQuery = graphql`
   {
-    allWordpressPost {
+    allWordpressPost(limit: 10) {
       nodes {
         id
         date
@@ -150,13 +143,6 @@ export const pageQuery = graphql`
             }
           }
         }
-      }
-    }
-    allWordpressCategory(filter: {slug: {ne: "uncategorized"}}) {
-      nodes {
-        id
-        slug
-        name
       }
     }
   }
