@@ -1,7 +1,8 @@
 import Layout from '../components/layout';
 import PropTypes from 'prop-types';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import SearchContent from '../components/search-content';
+import {Index} from 'elasticlunr';
 import {SectionHeading} from '../components/ui';
 import {graphql} from 'gatsby';
 import {parse} from 'querystring';
@@ -15,13 +16,19 @@ export default function Search(props) {
   const {siteSearchIndex, allWordpressWpMedia} = props.data;
   const {q: query} = parse(props.location.search.slice(1));
 
+  // TODO: if we don't like the performance of elasticlunr, we could try flexsearch
+  // https://github.com/nextapps-de/flexsearch
+  const index = useMemo(() => Index.load(siteSearchIndex.index), [
+    siteSearchIndex.index
+  ]);
+
   return (
     <Layout defaultSearchValue={query}>
       {mounted ? (
         <SearchContent
-          index={siteSearchIndex.index}
-          media={allWordpressWpMedia.nodes}
+          index={index}
           query={query}
+          media={allWordpressWpMedia.nodes}
         />
       ) : (
         <SectionHeading>Loading results...</SectionHeading>

@@ -12,7 +12,6 @@ import {
   categoryInnerStyles,
   selectedCategoryStyles
 } from './ui';
-import {Index} from 'elasticlunr';
 
 const CategoryButton = styled.button({
   ...categoryInnerStyles,
@@ -22,14 +21,12 @@ const CategoryButton = styled.button({
 });
 
 export default function SearchContent(props) {
-  const index = useMemo(() => Index.load(props.index), [props.index]);
-
   const results = useMemo(
     () =>
-      index
+      props.index
         .search(props.query)
-        .map(result => index.documentStore.getDoc(result.ref)),
-    [index, props.query]
+        .map(result => props.index.documentStore.getDoc(result.ref)),
+    [props.index, props.query]
   );
 
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -84,6 +81,10 @@ export default function SearchContent(props) {
         })),
     [avatarById, results, selectedCategory]
   );
+
+  if (!results.length) {
+    return <SectionHeading>No results found</SectionHeading>;
+  }
 
   return (
     <Fragment>

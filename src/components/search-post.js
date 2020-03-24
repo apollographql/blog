@@ -34,7 +34,7 @@ const Wrapper = styled.div({
 export default function SearchPost(props) {
   const content = decode(props.post.content);
   const termIndex = content.toLowerCase().indexOf(props.term.toLowerCase());
-  const excerpt = content.slice(termIndex);
+  const excerpt = termIndex > -1 ? content.slice(termIndex) : content;
   return (
     <Wrapper key={props.post.id}>
       <h3>
