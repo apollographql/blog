@@ -103,6 +103,11 @@ const Wrapper = styled.div({
   },
   hr: {
     margin: '60px 0'
+  },
+  blockquote: {
+    margin: '90px 0',
+    paddingLeft: 60,
+    fontFamily: FONT_FAMILY_MONO
   }
 });
 
