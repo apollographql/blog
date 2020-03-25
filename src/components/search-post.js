@@ -3,7 +3,7 @@ import Highlighter from 'react-highlight-words';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from '@emotion/styled';
-import {HeadingLink} from './ui';
+import {DateText, HeadingLink} from './ui';
 import {colors} from '@apollo/space-kit/colors';
 import {decode} from 'he';
 
@@ -37,6 +37,7 @@ export default function SearchPost(props) {
   const excerpt = termIndex > -1 ? content.slice(termIndex) : content;
   return (
     <Wrapper key={props.post.id}>
+      <DateText date={props.post.date} style={{marginBottom: 8}} />
       <h3>
         <HeadingLink to={'/' + props.post.slug}>
           {decode(props.post.title)}

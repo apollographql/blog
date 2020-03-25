@@ -25,11 +25,11 @@ export default function SearchContent(props) {
     () =>
       props.index
         .search(props.query)
-        .map(result => props.index.documentStore.getDoc(result.ref)),
+        .map(result => props.index.documentStore.getDoc(result.ref))
+        .sort((a, b) => new Date(b.date) - new Date(a.date)),
     [props.index, props.query]
   );
 
-  const [selectedCategory, setSelectedCategory] = useState(null);
   const categories = useMemo(
     () =>
       Object.entries(
@@ -59,6 +59,7 @@ export default function SearchContent(props) {
       );
   }, [props.media, results]);
 
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const filteredResults = useMemo(
     () =>
       results
