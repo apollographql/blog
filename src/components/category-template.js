@@ -45,23 +45,20 @@ function LatestPosts(props) {
 
 export default function CategoryTemplate(props) {
   const newsletterFormProps = useNewsletterForm();
-  const {
-    wordpressCategory,
-    allWordpressCategory,
-    allWordpressPost
-  } = props.data;
+  const {id, name, categories} = props.pageContext;
+  const {allWordpressPost} = props.data;
   const latestPosts = allWordpressPost.nodes.slice(0, 3);
   const morePosts = allWordpressPost.nodes.slice(3);
   const hasMorePosts = morePosts.length > 0;
   return (
     <Layout>
       <Helmet>
-        <title>{wordpressCategory.name}</title>
+        <title>{name}</title>
       </Helmet>
       <StyledCategories>
-        {allWordpressCategory.nodes.map(category => (
+        {categories.map(category => (
           <Fragment key={category.id}>
-            {category.id === props.pageContext.id ? (
+            {category.id === id ? (
               <SelectedCategory>{category.name}</SelectedCategory>
             ) : (
               <Category category={category} />
@@ -99,16 +96,6 @@ CategoryTemplate.propTypes = {
 
 export const pageQuery = graphql`
   query CategoryQuery($id: String) {
-    wordpressCategory(id: {eq: $id}) {
-      name
-    }
-    allWordpressCategory(filter: {slug: {ne: "uncategorized"}}) {
-      nodes {
-        id
-        slug
-        name
-      }
-    }
     allWordpressPost(filter: {categories: {elemMatch: {id: {eq: $id}}}}) {
       nodes {
         id

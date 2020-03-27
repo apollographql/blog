@@ -20,6 +20,8 @@ exports.createResolvers = ({createResolvers}) => {
   });
 };
 
+const PAGE_SIZE = 10;
+
 exports.createPages = async ({actions, graphql}) => {
   const {data} = await graphql(`
     {
@@ -36,6 +38,7 @@ exports.createPages = async ({actions, graphql}) => {
         nodes {
           id
           slug
+          name
         }
       }
       allWordpressWpUsers {
@@ -62,12 +65,13 @@ exports.createPages = async ({actions, graphql}) => {
   const categoryTemplate = require.resolve(
     './src/components/category-template'
   );
-  data.allWordpressCategory.nodes.forEach(category => {
+  data.allWordpressCategory.nodes.forEach((category, index, categories) => {
     actions.createPage({
       path: '/category/' + category.slug,
       component: categoryTemplate,
       context: {
-        id: category.id
+        ...category,
+        categories
       }
     });
   });
@@ -82,4 +86,17 @@ exports.createPages = async ({actions, graphql}) => {
       }
     });
   });
+
+  const pageCount = Math.ceil(data.allWordpressPost.nodes.length / PAGE_SIZE);
+  const archiveTemplate = require.resolve('./src/components/archive-template');
+  for (let i = 0; i < pageCount; i++) {
+    actions.createPage({
+      path: '/archive/' + (i + 1),
+      component: archiveTemplate,
+      context: {
+        limit: PAGE_SIZE,
+        skip: PAGE_SIZE * i
+      }
+    });
+  }
 };

@@ -79,7 +79,7 @@ export default function Index(props) {
           <StyledSectionHeading>Recent</StyledSectionHeading>
           <StyledRecentPosts posts={recentPosts} />
           <StyledSectionHeading>
-            <HeadingLink to="/archive">Archive</HeadingLink>
+            <HeadingLink to="/archive/1">Archive</HeadingLink>
           </StyledSectionHeading>
           <div>
             {archivePosts.map(post => (
