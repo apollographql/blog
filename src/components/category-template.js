@@ -102,7 +102,7 @@ export const pageQuery = graphql`
     wordpressCategory(id: {eq: $id}) {
       name
     }
-    allWordpressCategory {
+    allWordpressCategory(filter: {slug: {ne: "uncategorized"}}) {
       nodes {
         id
         slug

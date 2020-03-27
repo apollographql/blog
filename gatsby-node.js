@@ -32,7 +32,7 @@ exports.createPages = async ({actions, graphql}) => {
           }
         }
       }
-      allWordpressCategory {
+      allWordpressCategory(filter: {slug: {ne: "uncategorized"}}) {
         nodes {
           id
           slug
