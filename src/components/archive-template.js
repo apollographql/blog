@@ -44,9 +44,18 @@ const Pagination = styled.nav({
   }
 });
 
+const MAX_PAGES_SHOWN = 9;
+
 export default function Archive(props) {
   const newsletterFormProps = useNewsletterForm();
   const {nodes, pageInfo} = props.data.allWordpressPost;
+  const {currentPage, pageCount} = pageInfo;
+  const pageIndex = currentPage - 1;
+  const maxPageOffset = pageCount - MAX_PAGES_SHOWN;
+  const pageOffset = Math.min(
+    maxPageOffset,
+    Math.max(0, pageIndex - Math.floor(MAX_PAGES_SHOWN / 2))
+  );
   return (
     <Layout>
       <StyledSectionHeading>Archive</StyledSectionHeading>
@@ -63,18 +72,20 @@ export default function Archive(props) {
         </Sidebar>
       </InnerWrapper>
       <Pagination>
-        {Array.from(Array(pageInfo.pageCount).keys()).map(index => {
-          const page = index + 1;
-          return (
-            <Link
-              key={index}
-              to={'/archive/' + page}
-              className={page === pageInfo.currentPage && 'selected'}
-            >
-              {page}
-            </Link>
-          );
-        })}
+        {Array.from(Array(pageCount).keys())
+          .slice(pageOffset, MAX_PAGES_SHOWN + pageOffset)
+          .map(index => {
+            const page = index + 1;
+            return (
+              <Link
+                key={index}
+                to={'/archive/' + page}
+                className={page === currentPage ? 'selected' : null}
+              >
+                {page}
+              </Link>
+            );
+          })}
       </Pagination>
     </Layout>
   );
