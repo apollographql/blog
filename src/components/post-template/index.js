@@ -124,7 +124,7 @@ export default function PostTemplate(props) {
 
   return (
     <Layout
-      recentPosts={props.data.similarPosts}
+      recentPosts={props.data.similarPosts.nodes}
       recentPostsTitle="Similar posts"
     >
       <Helmet>
