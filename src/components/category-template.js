@@ -20,7 +20,11 @@ import {
 import {graphql} from 'gatsby';
 
 const StyledCategories = styled(Categories)({
-  marginBottom: 60
+  flexWrap: 'wrap',
+  marginBottom: 46,
+  '> *': {
+    marginBottom: 12
+  }
 });
 
 const SelectedCategory = styled.div({

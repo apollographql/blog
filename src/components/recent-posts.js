@@ -20,18 +20,26 @@ const Wrapper = styled.div({
   gridRowGap: 60
 });
 
+const POST_IMAGE_HEIGHT = 160;
+const PostImagePlaceholderWrapper = styled.div({
+  ...postImageStyles,
+  height: POST_IMAGE_HEIGHT,
+  backgroundColor: colors.silver.dark,
+  color: colors.silver.light,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
+});
+
 export const PostLink = styled(Link)({
   display: 'block',
   textDecoration: 'none',
   color: 'inherit',
-  img: {
-    transition: 'opacity 100ms ease-in-out'
-  },
   ':hover': {
     h4: {
       color: colors.indigo.base
     },
-    img: {
+    [['img', PostImagePlaceholderWrapper]]: {
       opacity: 0.8
     }
   }
@@ -42,17 +50,6 @@ const PostCategories = styled.div({
   '> :not(:last-child)': {
     marginRight: 12
   }
-});
-
-const POST_IMAGE_HEIGHT = 160;
-const PostImagePlaceholderWrapper = styled.div({
-  ...postImageStyles,
-  height: POST_IMAGE_HEIGHT,
-  backgroundColor: colors.silver.dark,
-  color: colors.silver.light,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
 });
 
 function PostImagePlaceholder() {
