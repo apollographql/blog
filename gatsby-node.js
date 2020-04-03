@@ -16,6 +16,23 @@ exports.createResolvers = ({createResolvers}) => {
             firstOnly: true
           })
       }
+    },
+    wordpress__POSTAcf: {
+      cta: {
+        type: 'wordpress__wp_cta',
+        resolve: (source, args, context) =>
+          context.nodeModel.runQuery({
+            query: {
+              filter: {
+                wordpress_id: {
+                  eq: source.cta_id
+                }
+              }
+            },
+            type: 'wordpress__wp_cta',
+            firstOnly: true
+          })
+      }
     }
   });
 };

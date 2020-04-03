@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import {Button} from '@apollo/space-kit/Button';
 import {Link} from 'gatsby';
 import {colors} from '@apollo/space-kit/colors';
+import {decode} from 'he';
 import {format} from 'date-fns';
 import {size, transparentize} from 'polished';
 import {stripHtmlTags} from '../utils';
@@ -51,10 +52,9 @@ const ExcerptTextInner = styled.p({
 
 export function ExcerptText({excerpt, ...props}) {
   return (
-    <ExcerptTextInner
-      {...props}
-      dangerouslySetInnerHTML={{__html: stripHtmlTags(excerpt)}}
-    />
+    <ExcerptTextInner {...props}>
+      {decode(stripHtmlTags(excerpt))}
+    </ExcerptTextInner>
   );
 }
 

@@ -4,8 +4,10 @@ import styled from '@emotion/styled';
 import {BREAKPOINT_LG, LargeButton, SidebarSection} from '../ui';
 import {IconClose} from '@apollo/space-kit/icons/IconClose';
 import {colors} from '@apollo/space-kit/colors';
+import {decode} from 'he';
 import {graphql, useStaticQuery} from 'gatsby';
 import {size} from 'polished';
+import {stripHtmlTags} from '../../utils';
 import {trackCustomEvent} from 'gatsby-plugin-google-analytics';
 
 const Wrapper = styled.div({
@@ -63,12 +65,12 @@ export default function PostAction(props) {
   const data = useStaticQuery(
     graphql`
       {
-        wordpressWpCta {
+        defaultCta: wordpressWpCta(acf: {default: {eq: true}}) {
+          title
+          excerpt
           acf {
+            cta_button_url
             cta_button_text
-            cta_content
-            cta_link
-            cta_title
           }
         }
       }
@@ -79,16 +81,15 @@ export default function PostAction(props) {
     return null;
   }
 
-  const defaultCta = data.wordpressWpCta.acf;
-  const ctaTitle = props.cta.cta_title || defaultCta.cta_title;
-  const buttonText = props.cta.cta_button_text || defaultCta.cta_button_text;
+  const {title, excerpt, acf} = props.cta || data.defaultCta;
+  const {cta_button_url, cta_button_text} = acf;
 
   function handleClose() {
     setShown(false);
     trackCustomEvent({
       category: EVENT_CATEGORY,
       action: 'Close CTA',
-      label: ctaTitle
+      label: title
     });
   }
 
@@ -96,28 +97,28 @@ export default function PostAction(props) {
     trackCustomEvent({
       category: EVENT_CATEGORY,
       action: 'Follow link',
-      label: buttonText
+      label: cta_button_text
     });
   }
 
   return (
     <Wrapper>
       <InnerWrapper>
-        <h3>{ctaTitle}</h3>
+        <h3>{decode(title)}</h3>
         <CloseButton onClick={handleClose}>
           <IconClose />
         </CloseButton>
-        <p>{props.cta.cta_content || defaultCta.cta_content}</p>
+        <p>{stripHtmlTags(excerpt)}</p>
         <LargeButton
           onClick={handleButtonClick}
           color={colors.white}
           style={{color: colors.indigo.dark}}
           as={<a />}
-          href={props.cta.cta_link || defaultCta.cta_link}
+          href={cta_button_url}
           target="_blank"
           rel-="noopener noreferrer"
         >
-          {buttonText}
+          {cta_button_text}
         </LargeButton>
       </InnerWrapper>
     </Wrapper>
@@ -125,5 +126,5 @@ export default function PostAction(props) {
 }
 
 PostAction.propTypes = {
-  cta: PropTypes.object.isRequired
+  cta: PropTypes.object
 };

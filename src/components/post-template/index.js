@@ -112,7 +112,7 @@ export default function PostTemplate(props) {
     categories,
     featured_media,
     content,
-    cta
+    acf
   } = props.data.wordpressPost;
   const {twitter} = author.acf;
 
@@ -232,7 +232,7 @@ export default function PostTemplate(props) {
               </SocialIcons>
             </SidebarSection>
           </PostSidebarWrapper>
-          <PostAction cta={cta} />
+          <PostAction cta={acf.cta} />
         </Sidebar>
       </InnerWrapper>
     </Layout>
@@ -304,12 +304,16 @@ export const pageQuery = graphql`
         }
       }
 
-      # cta customization fields
-      cta: acf {
-        cta_title
-        cta_content
-        cta_button_text
-        cta_link
+      # retrieve post CTA
+      acf {
+        cta {
+          title
+          excerpt
+          acf {
+            cta_button_url
+            cta_button_text
+          }
+        }
       }
     }
 
