@@ -5,7 +5,6 @@ import {BREAKPOINT_LG, LargeButton, SidebarSection} from '../ui';
 import {IconClose} from '@apollo/space-kit/icons/IconClose';
 import {colors} from '@apollo/space-kit/colors';
 import {decode} from 'he';
-import {graphql, useStaticQuery} from 'gatsby';
 import {size} from 'polished';
 import {stripHtmlTags} from '../../utils';
 import {trackCustomEvent} from 'gatsby-plugin-google-analytics';
@@ -62,26 +61,12 @@ const EVENT_CATEGORY = 'Post CTA';
 
 export default function PostAction(props) {
   const [shown, setShown] = useState(true);
-  const data = useStaticQuery(
-    graphql`
-      {
-        defaultCta: wordpressWpCta(acf: {default: {eq: true}}) {
-          title
-          excerpt
-          acf {
-            cta_button_url
-            cta_button_text
-          }
-        }
-      }
-    `
-  );
 
   if (!shown) {
     return null;
   }
 
-  const {title, excerpt, acf} = props.cta || data.defaultCta;
+  const {title, excerpt, acf} = props.cta;
   const {cta_button_url, cta_button_text} = acf;
 
   function handleClose() {
@@ -126,5 +111,5 @@ export default function PostAction(props) {
 }
 
 PostAction.propTypes = {
-  cta: PropTypes.object
+  cta: PropTypes.object.isRequired
 };

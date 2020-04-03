@@ -232,7 +232,7 @@ export default function PostTemplate(props) {
               </SocialIcons>
             </SidebarSection>
           </PostSidebarWrapper>
-          <PostAction cta={acf.cta} />
+          <PostAction cta={acf.cta || props.data.defaultCta} />
         </Sidebar>
       </InnerWrapper>
     </Layout>
@@ -307,14 +307,13 @@ export const pageQuery = graphql`
       # retrieve post CTA
       acf {
         cta {
-          title
-          excerpt
-          acf {
-            cta_button_url
-            cta_button_text
-          }
+          ...CtaFragment
         }
       }
+    }
+
+    defaultCta: wordpressWpCta(acf: {default: {eq: true}}) {
+      ...CtaFragment
     }
 
     # query posts that share categories with the current post
@@ -348,6 +347,15 @@ export const pageQuery = graphql`
           }
         }
       }
+    }
+  }
+
+  fragment CtaFragment on wordpress__wp_cta {
+    title
+    excerpt
+    acf {
+      cta_button_url
+      cta_button_text
     }
   }
 `;
