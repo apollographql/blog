@@ -3,6 +3,7 @@ import FollowUs from './follow-us';
 import Helmet from 'react-helmet';
 import Layout from './layout';
 import NewsletterForm, {useNewsletterForm} from './newsletter-form';
+import Pagination from './pagination';
 import PropTypes from 'prop-types';
 import React, {Fragment} from 'react';
 import RecentPosts from './recent-posts';
@@ -49,11 +50,12 @@ function LatestPosts(props) {
 
 export default function CategoryTemplate(props) {
   const newsletterFormProps = useNewsletterForm();
-  const {id, name, categories} = props.pageContext;
-  const {allWordpressPost} = props.data;
-  const latestPosts = allWordpressPost.nodes.slice(0, 3);
-  const morePosts = allWordpressPost.nodes.slice(3);
+  const {id, slug, name, categories} = props.pageContext;
+  const {nodes, pageInfo} = props.data.allWordpressPost;
+  const latestPosts = nodes.slice(0, 3);
+  const morePosts = nodes.slice(3);
   const hasMorePosts = morePosts.length > 0;
+  const isFirstPage = pageInfo.currentPage === 1;
   return (
     <Layout>
       <Helmet>
@@ -70,13 +72,13 @@ export default function CategoryTemplate(props) {
           </Fragment>
         ))}
       </StyledCategories>
-      {hasMorePosts && <LatestPosts posts={latestPosts} />}
+      {hasMorePosts && isFirstPage && <LatestPosts posts={latestPosts} />}
       <InnerWrapper>
         <Main>
-          {hasMorePosts ? (
+          {hasMorePosts || !isFirstPage ? (
             <Fragment>
               <SectionHeading>Read more</SectionHeading>
-              {morePosts.map(post => (
+              {(isFirstPage ? morePosts : nodes).map(post => (
                 <ArchivePost key={post.id} post={post} />
               ))}
             </Fragment>
@@ -89,6 +91,7 @@ export default function CategoryTemplate(props) {
           <FollowUs />
         </Sidebar>
       </InnerWrapper>
+      <Pagination basePath={`/category/${slug}/`} pageInfo={pageInfo} />
     </Layout>
   );
 }
@@ -99,8 +102,16 @@ CategoryTemplate.propTypes = {
 };
 
 export const pageQuery = graphql`
-  query CategoryQuery($id: String) {
-    allWordpressPost(filter: {categories: {elemMatch: {id: {eq: $id}}}}) {
+  query CategoryQuery($id: String, $limit: Int, $skip: Int) {
+    allWordpressPost(
+      filter: {categories: {elemMatch: {id: {eq: $id}}}}
+      limit: $limit
+      skip: $skip
+    ) {
+      pageInfo {
+        currentPage
+        pageCount
+      }
       nodes {
         id
         date

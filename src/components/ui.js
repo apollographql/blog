@@ -112,7 +112,7 @@ export function Category({isSmall, category, ...props}) {
   return React.createElement(
     isSmall ? CategoryInnerSmall : CategoryInner,
     {
-      to: `/category/${category.slug}`,
+      to: `/category/${category.slug}/1`,
       ...props
     },
     category.name

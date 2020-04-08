@@ -3,18 +3,13 @@ import Categories from './categories';
 import FollowUs from './follow-us';
 import Layout from './layout';
 import NewsletterForm, {useNewsletterForm} from './newsletter-form';
+import Pagination from './pagination';
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from '@emotion/styled';
-import {
-  InnerWrapper,
-  Main,
-  SectionHeading,
-  Sidebar,
-  largeTextStyles
-} from './ui';
-import {Link, graphql} from 'gatsby';
+import {InnerWrapper, Main, SectionHeading, Sidebar} from './ui';
 import {colors} from '@apollo/space-kit/colors';
+import {graphql} from 'gatsby';
 import {size} from 'polished';
 
 const StyledSectionHeading = styled(SectionHeading)({
@@ -27,35 +22,9 @@ const StyledSectionHeading = styled(SectionHeading)({
   }
 });
 
-const Pagination = styled.nav({
-  marginTop: 90,
-  textAlign: 'center',
-  a: {
-    ...largeTextStyles,
-    color: colors.black.lighter,
-    fontWeight: 'bold',
-    textDecoration: 'none',
-    [[':hover', '&.selected']]: {
-      color: colors.indigo.base
-    },
-    ':not(:last-child)': {
-      marginRight: 16
-    }
-  }
-});
-
-const MAX_PAGES_SHOWN = 9;
-
 export default function Archive(props) {
   const newsletterFormProps = useNewsletterForm();
   const {nodes, pageInfo} = props.data.allWordpressPost;
-  const {currentPage, pageCount} = pageInfo;
-  const pageIndex = currentPage - 1;
-  const maxPageOffset = pageCount - MAX_PAGES_SHOWN;
-  const pageOffset = Math.min(
-    maxPageOffset,
-    Math.max(0, pageIndex - Math.floor(MAX_PAGES_SHOWN / 2))
-  );
   return (
     <Layout>
       <StyledSectionHeading>Archive</StyledSectionHeading>
@@ -71,22 +40,7 @@ export default function Archive(props) {
           <Categories />
         </Sidebar>
       </InnerWrapper>
-      <Pagination>
-        {Array.from(Array(pageCount).keys())
-          .slice(pageOffset, MAX_PAGES_SHOWN + pageOffset)
-          .map(index => {
-            const page = index + 1;
-            return (
-              <Link
-                key={index}
-                to={'/archive/' + page}
-                className={page === currentPage ? 'selected' : null}
-              >
-                {page}
-              </Link>
-            );
-          })}
-      </Pagination>
+      <Pagination basePath="/archive/" pageInfo={pageInfo} />
     </Layout>
   );
 }

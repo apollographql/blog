@@ -56,6 +56,7 @@ exports.createPages = async ({actions, graphql}) => {
           id
           slug
           name
+          count
         }
       }
       allWordpressWpUsers {
@@ -83,14 +84,19 @@ exports.createPages = async ({actions, graphql}) => {
     './src/components/category-template'
   );
   data.allWordpressCategory.nodes.forEach((category, index, categories) => {
-    actions.createPage({
-      path: '/category/' + category.slug,
-      component: categoryTemplate,
-      context: {
-        ...category,
-        categories
-      }
-    });
+    const pageCount = Math.ceil(category.count / PAGE_SIZE);
+    for (let i = 0; i < pageCount; i++) {
+      actions.createPage({
+        path: `/category/${category.slug}/${i + 1}`,
+        component: categoryTemplate,
+        context: {
+          ...category,
+          categories,
+          limit: PAGE_SIZE,
+          skip: PAGE_SIZE * i
+        }
+      });
+    }
   });
 
   const authorTemplate = require.resolve('./src/components/author-template');
@@ -108,7 +114,7 @@ exports.createPages = async ({actions, graphql}) => {
   const archiveTemplate = require.resolve('./src/components/archive-template');
   for (let i = 0; i < pageCount; i++) {
     actions.createPage({
-      path: '/archive/' + (i + 1),
+      path: `/archive/${i + 1}`,
       component: archiveTemplate,
       context: {
         limit: PAGE_SIZE,
