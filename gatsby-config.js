@@ -3,6 +3,7 @@ const {stripHtmlTags} = require('./src/utils');
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
+  pathPrefix: '/blog',
   plugins: [
     'gatsby-plugin-svgr',
     'gatsby-plugin-emotion',
