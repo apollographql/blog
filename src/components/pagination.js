@@ -26,12 +26,14 @@ const MAX_PAGES_SHOWN = 9;
 
 export default function Pagination(props) {
   const {currentPage, pageCount} = props.pageInfo;
-  const pageIndex = currentPage - 1;
-  const maxPageOffset = pageCount - MAX_PAGES_SHOWN;
-  const pageOffset = Math.min(
-    maxPageOffset,
-    Math.max(0, pageIndex - Math.floor(MAX_PAGES_SHOWN / 2))
+  const pageOffset = Math.max(
+    0,
+    Math.min(
+      pageCount - MAX_PAGES_SHOWN,
+      currentPage - 1 - Math.floor(MAX_PAGES_SHOWN / 2)
+    )
   );
+
   return (
     <Wrapper>
       {Array.from(Array(pageCount).keys())
