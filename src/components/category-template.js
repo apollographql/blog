@@ -60,6 +60,8 @@ export default function CategoryTemplate(props) {
     <Layout>
       <Helmet>
         <title>{name}</title>
+        <meta property="og:title" content={name} />
+        <meta name="twitter:title" content={name} />
       </Helmet>
       <StyledCategories>
         {categories.map(category => (

@@ -109,6 +109,8 @@ const RecentPosts = styled.div({
   }
 });
 
+const DEFAULT_SOCIAL_IMAGE = 'https://www.apollographql.com/blog/social.jpg';
+
 export default function Layout(props) {
   const data = useStaticQuery(
     graphql`
@@ -173,7 +175,14 @@ export default function Layout(props) {
           href="https://fonts.googleapis.com/css?family=Source+Code+Pro:700|Source+Sans+Pro:700&display=swap"
           rel="stylesheet"
         />
-        <link rel="icon" href="https://apollographql.com/favicon.ico" />
+        <link rel="icon" href="https://www.apollographql.com/favicon.ico" />
+        <meta property="og:site_name" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={DEFAULT_SOCIAL_IMAGE} />
+        <meta name="twitter:site" content="@apollographql" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={DEFAULT_SOCIAL_IMAGE} />
       </Helmet>
       <Global styles={styles} />
       <Header>

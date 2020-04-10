@@ -1,4 +1,5 @@
 import ArchivePost from './archive-post';
+import Helmet from 'react-helmet';
 import Layout from './layout';
 import NewsletterForm, {useNewsletterForm} from './newsletter-form';
 import PropTypes from 'prop-types';
@@ -8,13 +9,18 @@ import {graphql} from 'gatsby';
 
 export default function AuthorTemplate(props) {
   const newsletterFormProps = useNewsletterForm();
-  const {wordpressWpUsers, allWordpressPost} = props.data;
+  const {name} = props.data.wordpressWpUsers;
   return (
     <Layout>
-      <SectionHeading>Posts by {wordpressWpUsers.name}</SectionHeading>
+      <Helmet>
+        <title>{name}</title>
+        <meta property="og:title" content={name} />
+        <meta name="twitter:title" content={name} />
+      </Helmet>
+      <SectionHeading>Posts by {name}</SectionHeading>
       <InnerWrapper>
         <Main>
-          {allWordpressPost.nodes.map(post => (
+          {props.data.allWordpressPost.nodes.map(post => (
             <ArchivePost key={post.id} post={post} />
           ))}
         </Main>

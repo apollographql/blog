@@ -1,6 +1,7 @@
 import ArchivePost from './archive-post';
 import Categories from './categories';
 import FollowUs from './follow-us';
+import Helmet from 'react-helmet';
 import Layout from './layout';
 import NewsletterForm, {useNewsletterForm} from './newsletter-form';
 import Pagination from './pagination';
@@ -22,12 +23,19 @@ const StyledSectionHeading = styled(SectionHeading)({
   }
 });
 
+const ARCHIVE_TITLE = 'Archive';
+
 export default function Archive(props) {
   const newsletterFormProps = useNewsletterForm();
   const {nodes, pageInfo} = props.data.allWordpressPost;
   return (
     <Layout>
-      <StyledSectionHeading>Archive</StyledSectionHeading>
+      <Helmet>
+        <title>{ARCHIVE_TITLE}</title>
+        <meta property="og:title" content={ARCHIVE_TITLE} />
+        <meta name="twitter:title" content={ARCHIVE_TITLE} />
+      </Helmet>
+      <StyledSectionHeading>{ARCHIVE_TITLE}</StyledSectionHeading>
       <InnerWrapper>
         <Main>
           {nodes.map(post => (

@@ -39,6 +39,7 @@ import {TextField} from '@apollo/space-kit/TextField';
 import {colors} from '@apollo/space-kit/colors';
 import {decode} from 'he';
 import {graphql} from 'gatsby';
+import {stripHtmlTags} from '../../utils';
 
 const BylineWrapper = styled.div({
   display: 'flex',
@@ -109,6 +110,7 @@ export default function PostTemplate(props) {
     date,
     title,
     author,
+    excerpt,
     categories,
     featured_media,
     content,
@@ -116,7 +118,8 @@ export default function PostTemplate(props) {
   } = props.data.wordpressPost;
   const {twitter} = author.acf;
 
-  const shareUrl = 'https://blog.apollographql.com' + path;
+  const description = stripHtmlTags(excerpt);
+  const shareUrl = 'https://www.apollographql.com/blog' + path;
   const shareButtonProps = {
     resetButtonStyle: false,
     url: shareUrl
@@ -129,6 +132,16 @@ export default function PostTemplate(props) {
     >
       <Helmet>
         <title>{title}</title>
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        {featured_media && (
+          <meta property="og:image" content={featured_media.localFile.url} />
+        )}
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        {featured_media && (
+          <meta name="twitter:image" content={featured_media.localFile.url} />
+        )}
       </Helmet>
       <TopFold style={{paddingBottom: 90}}>
         <DateText style={{marginBottom: 12}} date={date} />
@@ -266,6 +279,7 @@ export const pageQuery = graphql`
       path
       date
       title
+      excerpt
       content
       author {
         name
@@ -295,6 +309,7 @@ export const pageQuery = graphql`
       }
       featured_media {
         localFile {
+          url
           childImageSharp {
             id
             original {
