@@ -49,7 +49,7 @@ In the event of an outage, one might want to check on the status of services tha
 
 ### Netlify
 
-[Status page](https://www.netlifystatus.com/)
+✅ [Status page](https://www.netlifystatus.com/)
 
 We use Netlify to build and host the static Gatsby site portion of this website. Site settings can be configured [on Netlify](https://app.netlify.com/sites/distracted-snyder-7d1f01/overview).
 
@@ -59,7 +59,7 @@ We also leverage Netlify redirects to proxy requests from `/blog` to our Netlify
 
 ### WP Engine
 
-[Status page](https://wpenginestatus.com/)
+✅ [Status page](https://wpenginestatus.com/)
 
 The Wordpress component of this website is hosted by WP Engine. They are a service that specializes in secure Wordpress hosting.
 
