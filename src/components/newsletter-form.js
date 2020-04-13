@@ -55,14 +55,16 @@ export function useNewsletterForm() {
 export default function NewsletterForm(props) {
   return (
     <SidebarSection>
-      <SectionHeading>Mailing list</SectionHeading>
+      <SectionHeading>Join our community</SectionHeading>
       {props.success ? (
-        <h5>Success! You&apos;ve signed up for the Apollo newsletter.</h5>
+        <h5>
+          Mission accomplished! You&apos;ve signed up for the Apollo newsletter.
+        </h5>
       ) : (
         <Fragment>
           <h5 style={{marginBottom: 24}}>
-            Don’t miss a single post! Be the first to hear about meetups and
-            other news.
+            Be the first to learn about new Apollo features, best practices, and
+            community events.
           </h5>
           <form onSubmit={props.handleSubmit}>
             <StyledInput
@@ -70,7 +72,7 @@ export default function NewsletterForm(props) {
               size="large"
               name="email"
               type="email"
-              placeholder="Email address"
+              placeholder="Enter your email"
             />
             <StyledButton
               type="submit"
