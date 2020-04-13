@@ -10,7 +10,7 @@ import {ApolloIcon} from '@apollo/space-kit/icons/ApolloIcon';
 import {BREAKPOINT_LG, BREAKPOINT_MD, SectionHeading} from '../ui';
 import {ReactComponent as BlogIcon} from '../../assets/blog.svg';
 import {Global} from '@emotion/core';
-import {Link, graphql, useStaticQuery} from 'gatsby';
+import {Link, graphql, useStaticQuery, withPrefix} from 'gatsby';
 import {TextField} from '@apollo/space-kit/TextField';
 import {colors} from '@apollo/space-kit/colors';
 
@@ -191,7 +191,7 @@ export default function Layout(props) {
             <StyledApolloIcon />
             <StyledBlogIcon />
           </LogoLink>
-          <SearchForm action="/search">
+          <SearchForm action={withPrefix('/search')}>
             <SearchInput
               size="large"
               placeholder="Search Apollo Blog"
