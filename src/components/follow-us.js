@@ -17,7 +17,7 @@ const socialIcons = Object.entries({
 export default function FollowUs() {
   return (
     <SidebarSection>
-      <SectionHeading>Follow us</SectionHeading>
+      <SectionHeading>Connect with us</SectionHeading>
       <SocialIcons>
         {socialIcons.map(([key, Icon]) => (
           <a

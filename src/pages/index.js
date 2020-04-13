@@ -76,7 +76,7 @@ export default function Index(props) {
             </PostLink>
             <Byline author={featuredPost.author} />
           </FeaturedPost>
-          <StyledSectionHeading>Recent</StyledSectionHeading>
+          <StyledSectionHeading>What&apos;s new</StyledSectionHeading>
           <StyledRecentPosts posts={recentPosts} />
           <StyledSectionHeading>
             <HeadingLink to="/archive/1">Archive</HeadingLink>
