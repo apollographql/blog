@@ -119,6 +119,8 @@ export default function PostTemplate(props) {
   const {twitter} = author.acf;
 
   const description = stripHtmlTags(excerpt);
+  const featuredImage = featured_media?.localFile.childImageSharp.original.src;
+
   const shareUrl = 'https://www.apollographql.com/blog' + path;
   const shareButtonProps = {
     resetButtonStyle: false,
@@ -134,13 +136,14 @@ export default function PostTemplate(props) {
         <title>{title}</title>
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        {featured_media && (
-          <meta property="og:image" content={featured_media.localFile.url} />
-        )}
+        {featuredImage && <meta property="og:image" content={featuredImage} />}
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
-        {featured_media && (
-          <meta name="twitter:image" content={featured_media.localFile.url} />
+        {featuredImage && (
+          <meta
+            name="twitter:image"
+            content={'https://www.apollographql.com' + featuredImage}
+          />
         )}
       </Helmet>
       <TopFold style={{paddingBottom: 90}}>
@@ -174,11 +177,7 @@ export default function PostTemplate(props) {
       </TopFold>
       <InnerWrapper>
         <Main>
-          {featured_media && (
-            <FeaturedImage
-              src={featured_media.localFile.childImageSharp.original.src}
-            />
-          )}
+          {featuredImage && <FeaturedImage src={featuredImage} />}
           <PostContent
             content={content}
             mediaNodes={props.data.allWordpressWpMedia.nodes}
