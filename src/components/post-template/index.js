@@ -186,14 +186,18 @@ export default function PostTemplate(props) {
           <Divider />
           <AuthorDetails author={author} />
           <NewsletterSignup>
-            <h3>Stay in our orbit</h3>
+            <h3>Stay in our orbit!</h3>
             {newsletterFormProps.success ? (
-              <p>Success! You&apos;ve signed up for the Apollo newsletter.</p>
+              <p>
+                Mission accomplished! You&apos;ve signed up for the Apollo
+                newsletter.
+              </p>
             ) : (
               <Fragment>
                 <p>
-                  Sign up for our mailing list and get updates on products,
-                  events, and more. Oh, and no junk mail. Ever.
+                  Become an Apollo insider and get first access to new features,
+                  best practices, and community events. Oh, and no junk mail.
+                  Ever.
                 </p>
                 <InlineNewsletterForm
                   onSubmit={newsletterFormProps.handleSubmit}
@@ -203,7 +207,7 @@ export default function PostTemplate(props) {
                     type="email"
                     size="large"
                     required
-                    placeholder="Email address"
+                    placeholder="Enter your email"
                   />
                   <LargeButton type="submit" color={colors.indigo.dark}>
                     Subscribe
