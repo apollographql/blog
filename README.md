@@ -1,6 +1,6 @@
 # Apollo Blog
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/6bae8279-10f9-456b-82cd-0b6d56a84042/deploy-status)](https://app.netlify.com/sites/distracted-snyder-7d1f01/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/6bae8279-10f9-456b-82cd-0b6d56a84042/deploy-status)](https://app.netlify.com/sites/apollographql-blog/deploys)
 
 This website is a static [Gatsby](https://gatsbyjs.org) website, created using data served from a Wordpress instance running on [WP Engine](https://wpengine.com/). It is built and deployed on Netlify, and leverages the [NetlifyPress](https://wordpress.org/plugins/deploy-netlifypress/) Wordpress plugin to trigger new deploys when content is created or updated.
 
@@ -51,7 +51,7 @@ In the event of an outage, one might want to check on the status of services tha
 
 [Status page](https://www.netlifystatus.com/)
 
-We use Netlify to build and host the static Gatsby site portion of this website. Site settings can be configured [on Netlify](https://app.netlify.com/sites/distracted-snyder-7d1f01/overview).
+We use Netlify to build and host the static Gatsby site portion of this website. Site settings can be configured [on Netlify](https://app.netlify.com/sites/apollographql-blog/overview).
 
 > **Note:** If a new deploy fails to build on Netlify, it won't have an effect on the site currently in production. Netlify will only deploy successful builds.
 
@@ -63,4 +63,13 @@ We also leverage Netlify redirects to proxy requests from `/blog` to our Netlify
 
 The Wordpress component of this website is hosted by WP Engine. They are a service that specializes in secure Wordpress hosting.
 
-One can log in to WP Engine to update our hosting configuration, view server error logs, inspect the database using phpMyAdmin, and more. Login credentials for WP Engine can be found in 1Password.
+One can [log in to WP Engine](https://identity.wpengine.com/) using the login credentials found in 1Password. Once you're in there, you can do things like:
+
+- Change our hosting configuration
+- Update server software
+- View server access/error logs
+- Inspect/administrate the database using phpMyAdmin
+- Roll back the entire site to a previous daily backup
+- Contact WP Engine support
+
+In case of a malware infection, WP Engine offers support for diagnosing and removing malware, excluding some circumstances. More information on this topic and their protocols can be found in [this article from their website](https://wpengine.com/support/malware-scans-cleaning/).
