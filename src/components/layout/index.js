@@ -131,20 +131,21 @@ export default function Layout(props) {
         helpMenu: wordpressWpApiMenusMenusItems(wordpress_id: {eq: 4}) {
           ...MenuFragment
         }
-        recentPosts: allWordpressPost(limit: 3) {
+        recentPosts: allWpPost(limit: 3) {
           nodes {
             date
             title
             slug
             author {
+              # TODO: move to fragment in author component
               name
               slug
-              avatar_urls {
-                wordpress_96
+              avatar {
+                url
               }
-              acf {
-                avatar {
-                  localFile {
+              userMetadata {
+                avatarId {
+                  remoteFile {
                     childImageSharp {
                       original {
                         src

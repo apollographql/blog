@@ -66,8 +66,8 @@ export default function PostAction(props) {
     return null;
   }
 
-  const {title, excerpt, acf} = props.cta;
-  const {cta_button_url, cta_button_text} = acf;
+  const {title, excerpt, ctaSettings} = props.cta;
+  const {ctaButtonUrl, ctaButtonText} = ctaSettings;
 
   function handleClose() {
     setShown(false);
@@ -82,7 +82,7 @@ export default function PostAction(props) {
     trackCustomEvent({
       category: EVENT_CATEGORY,
       action: 'Follow link',
-      label: cta_button_text
+      label: ctaButtonText
     });
   }
 
@@ -99,11 +99,11 @@ export default function PostAction(props) {
           color={colors.white}
           style={{color: colors.indigo.dark}}
           as={<a />}
-          href={cta_button_url}
+          href={ctaButtonUrl}
           target="_blank"
           rel-="noopener noreferrer"
         >
-          {cta_button_text}
+          {ctaButtonText}
         </LargeButton>
       </InnerWrapper>
     </Wrapper>

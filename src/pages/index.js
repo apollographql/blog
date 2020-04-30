@@ -47,7 +47,7 @@ const StyledRecentPosts = styled(RecentPosts)({
 
 export default function Index(props) {
   const newsletterFormProps = useNewsletterForm();
-  const [featuredPost, ...otherPosts] = props.data.allWordpressPost.nodes;
+  const [featuredPost, ...otherPosts] = props.data.allWpPost.nodes;
   const recentPosts = otherPosts.slice(0, 4);
   const archivePosts = otherPosts.slice(4);
   return (
@@ -64,10 +64,10 @@ export default function Index(props) {
         <Main>
           <FeaturedPost>
             <PostLink to={'/' + featuredPost.slug}>
-              {featuredPost.featured_media && (
+              {featuredPost.featuredImage && (
                 <PostImage
                   src={
-                    featuredPost.featured_media.localFile.childImageSharp
+                    featuredPost.featuredImage.remoteFile.childImageSharp
                       .original.src
                   }
                 />
@@ -103,15 +103,15 @@ Index.propTypes = {
 
 export const pageQuery = graphql`
   {
-    allWordpressPost(limit: 10) {
+    allWpPost(limit: 10) {
       nodes {
         id
         date
         excerpt
         title
         slug
-        featured_media {
-          localFile {
+        featuredImage {
+          remoteFile {
             childImageSharp {
               original {
                 src
@@ -120,20 +120,22 @@ export const pageQuery = graphql`
           }
         }
         categories {
-          slug
-          id
-          name
+          nodes {
+            slug
+            id
+            name
+          }
         }
         author {
           name
           slug
-          avatar_urls {
-            wordpress_96
+          avatar {
+            url
           }
-          acf {
+          userMetadata {
             title
-            avatar {
-              localFile {
+            avatarId {
+              remoteFile {
                 childImageSharp {
                   original {
                     src

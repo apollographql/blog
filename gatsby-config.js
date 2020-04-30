@@ -11,6 +11,18 @@ module.exports = {
     'gatsby-plugin-svgr',
     'gatsby-plugin-emotion',
     'gatsby-plugin-react-helmet',
+    // TODO: add gatsby-wordpress-experimental-inline-images
+    {
+      resolve: 'gatsby-source-wordpress-experimental',
+      options: {
+        url: 'http://localhost:10005/graphql',
+        type: {
+          User: {
+            excludeFieldNames: null
+          }
+        }
+      }
+    },
     {
       resolve: 'gatsby-source-wordpress',
       options: {

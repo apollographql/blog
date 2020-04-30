@@ -5,7 +5,8 @@ export const HEADING_COLOR = colors.black.lighter;
 
 export default {
   body: {
-    color: colors.grey.dark
+    color: colors.grey.dark,
+    backgroundColor: 'white'
   },
   [[...HEADINGS, 'p', 'ul', 'ol']]: {
     margin: 0
