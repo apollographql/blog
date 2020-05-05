@@ -27,7 +27,7 @@ const ARCHIVE_TITLE = 'Archive';
 
 export default function Archive(props) {
   const newsletterFormProps = useNewsletterForm();
-  const {nodes, pageInfo} = props.data.allWordpressPost;
+  const {nodes, pageInfo} = props.data.allWpPost;
   return (
     <Layout>
       <Helmet>
@@ -59,7 +59,7 @@ Archive.propTypes = {
 
 export const pageQuery = graphql`
   query ArchiveQuery($limit: Int, $skip: Int) {
-    allWordpressPost(limit: $limit, skip: $skip) {
+    allWpPost(limit: $limit, skip: $skip) {
       pageInfo {
         currentPage
         pageCount
@@ -70,8 +70,8 @@ export const pageQuery = graphql`
         excerpt
         title
         slug
-        featured_media {
-          localFile {
+        featuredImage {
+          remoteFile {
             childImageSharp {
               original {
                 src
@@ -80,20 +80,22 @@ export const pageQuery = graphql`
           }
         }
         categories {
-          slug
-          id
-          name
+          nodes {
+            slug
+            id
+            name
+          }
         }
         author {
           name
           slug
-          avatar_urls {
-            wordpress_96
+          avatar {
+            url
           }
-          acf {
+          userMetadata {
             title
-            avatar {
-              localFile {
+            avatarId {
+              remoteFile {
                 childImageSharp {
                   original {
                     src

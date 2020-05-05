@@ -179,10 +179,7 @@ export default function PostTemplate(props) {
       <InnerWrapper>
         <Main>
           {featuredImage && <FeaturedImage src={featuredImage} />}
-          <PostContent
-            content={content}
-            mediaNodes={props.data.allWordpressWpMedia.nodes}
-          />
+          <PostContent content={content} />
           <Divider />
           <AuthorDetails author={author} />
           <NewsletterSignup>
@@ -261,31 +258,15 @@ PostTemplate.propTypes = {
 };
 
 export const pageQuery = graphql`
-  query PostQuery($wordpress_id: Int, $categoriesIn: [String]) {
+  query PostQuery($databaseId: Int, $categoriesIn: [String]) {
     site {
       siteMetadata {
         siteUrl
       }
     }
 
-    # get all media nodes for this post to replace images with local files
-    allWordpressWpMedia(filter: {post: {eq: $wordpress_id}}) {
-      nodes {
-        slug
-        localFile {
-          childImageSharp {
-            original {
-              src
-              width
-              height
-            }
-          }
-        }
-      }
-    }
-
     # everything we need to render a post
-    wpPost(databaseId: {eq: $wordpress_id}) {
+    wpPost(databaseId: {eq: $databaseId}) {
       path: uri
       date
       title
@@ -347,7 +328,7 @@ export const pageQuery = graphql`
     similarPosts: allWpPost(
       limit: 3
       filter: {
-        databaseId: {ne: $wordpress_id}
+        databaseId: {ne: $databaseId}
         categories: {nodes: {elemMatch: {id: {in: $categoriesIn}}}}
       }
     ) {
@@ -358,6 +339,7 @@ export const pageQuery = graphql`
         author {
           name
           slug
+          description
           avatar {
             url
           }

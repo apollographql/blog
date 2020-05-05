@@ -66,7 +66,7 @@ export default function AuthorDetails(props) {
         )}
       </AuthorHeader>
       <AuthorBio>
-        <p>{decode(description)}</p>
+        {description && <p>{decode(description)}</p>}
         <p>
           <Link to={`/author/${slug}`}>
             Read more by {name} <IconProceed />

@@ -46,19 +46,6 @@ export default function SearchContent(props) {
     [results]
   );
 
-  const avatarById = useMemo(() => {
-    const avatarIds = results.map(result => result.author.acf.avatar_id);
-    return props.media
-      .filter(media => avatarIds.includes(media.wordpress_id))
-      .reduce(
-        (acc, media) => ({
-          ...acc,
-          [media.wordpress_id]: media
-        }),
-        {}
-      );
-  }, [props.media, results]);
-
   const [selectedCategory, setSelectedCategory] = useState(null);
   const filteredResults = useMemo(
     () =>
@@ -72,15 +59,9 @@ export default function SearchContent(props) {
         )
         .map(result => ({
           ...result,
-          author: {
-            ...result.author,
-            acf: {
-              ...result.author.acf,
-              avatar: avatarById[result.author.acf.avatar_id]
-            }
-          }
+          author: props.users.find(user => user.id === result.author.id)
         })),
-    [avatarById, results, selectedCategory]
+    [props.users, results, selectedCategory]
   );
 
   if (!results.length) {
@@ -130,6 +111,6 @@ export default function SearchContent(props) {
 
 SearchContent.propTypes = {
   index: PropTypes.object.isRequired,
-  media: PropTypes.array.isRequired,
+  users: PropTypes.array.isRequired,
   query: PropTypes.string.isRequired
 };

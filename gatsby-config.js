@@ -1,6 +1,10 @@
 const {stripHtmlTags} = require('./src/utils');
 
 const isProduction = process.env.NODE_ENV === 'production';
+const protocol = isProduction ? 'https' : 'http';
+const baseUrl = isProduction
+  ? 'wp.apollographql.com'
+  : process.env.WORDPRESS_URL_DEV;
 
 module.exports = {
   pathPrefix: '/blog',
@@ -11,25 +15,24 @@ module.exports = {
     'gatsby-plugin-svgr',
     'gatsby-plugin-emotion',
     'gatsby-plugin-react-helmet',
-    // TODO: add gatsby-wordpress-experimental-inline-images
     {
       resolve: 'gatsby-source-wordpress-experimental',
       options: {
-        url: 'http://localhost:10005/graphql',
+        url: `${protocol}://${baseUrl}?graphql`,
         type: {
           User: {
             excludeFieldNames: null
           }
-        }
-      }
-    },
-    {
-      resolve: 'gatsby-source-wordpress',
-      options: {
-        protocol: isProduction ? 'https' : 'http',
-        baseUrl: isProduction
-          ? 'wp.apollographql.com'
-          : process.env.WORDPRESS_URL_DEV
+        },
+        plugins: [
+          {
+            resolve: 'gatsby-wordpress-experimental-inline-images',
+            options: {
+              protocol,
+              baseUrl
+            }
+          }
+        ]
       }
     },
     'gatsby-plugin-sharp',
@@ -45,12 +48,12 @@ module.exports = {
       options: {
         fields: ['title', 'content'],
         resolvers: {
-          wordpress__POST: {
+          WpPost: {
             title: node => node.title,
             content: node => stripHtmlTags(node.content),
             slug: node => node.slug,
-            categories: (node, getNode) => node.categories___NODE.map(getNode),
-            author: (node, getNode) => getNode(node.author___NODE)
+            categories: (node, getNode) =>
+              node.categories.nodes.map(category => getNode(category.id))
           }
         }
       }

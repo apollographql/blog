@@ -118,17 +118,19 @@ export default function Layout(props) {
             siteUrl
           }
         }
-        wordpressSiteMetadata {
-          description
-          title: name
+        wp {
+          generalSettings {
+            description
+            title
+          }
         }
-        companyMenu: wordpressWpApiMenusMenusItems(wordpress_id: {eq: 2}) {
+        companyMenu: wpMenu(menuId: {eq: 2}) {
           ...MenuFragment
         }
-        communityMenu: wordpressWpApiMenusMenusItems(wordpress_id: {eq: 3}) {
+        communityMenu: wpMenu(menuId: {eq: 3}) {
           ...MenuFragment
         }
-        helpMenu: wordpressWpApiMenusMenusItems(wordpress_id: {eq: 4}) {
+        helpMenu: wpMenu(menuId: {eq: 4}) {
           ...MenuFragment
         }
         recentPosts: allWpPost(limit: 3) {
@@ -159,18 +161,20 @@ export default function Layout(props) {
         }
       }
 
-      fragment MenuFragment on wordpress__wp_api_menus_menus_items {
+      fragment MenuFragment on WpMenu {
         name
-        items {
-          object_id
-          url
-          title
+        menuItems {
+          nodes {
+            id
+            url
+            label
+          }
         }
       }
     `
   );
 
-  const {title, description} = data.wordpressSiteMetadata;
+  const {title, description} = data.wp.generalSettings;
   const defaultSocialImage = data.site.siteMetadata.siteUrl + '/social.jpg';
   return (
     <Fragment>

@@ -39,9 +39,9 @@ export default function FooterNav(props) {
     <Wrapper>
       <Heading>{props.menu.name}</Heading>
       <Links>
-        {props.menu.items.map(item => (
-          <Link key={item.object_id} href={item.url}>
-            {item.title}
+        {props.menu.menuItems.nodes.map(item => (
+          <Link key={item.id} href={item.url}>
+            {item.label}
           </Link>
         ))}
       </Links>

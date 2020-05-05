@@ -9,7 +9,7 @@ import {graphql} from 'gatsby';
 
 export default function AuthorTemplate(props) {
   const newsletterFormProps = useNewsletterForm();
-  const {name} = props.data.wordpressWpUsers;
+  const {name} = props.data.wpUser;
   return (
     <Layout>
       <Helmet>
@@ -20,7 +20,7 @@ export default function AuthorTemplate(props) {
       <SectionHeading>Posts by {name}</SectionHeading>
       <InnerWrapper>
         <Main>
-          {props.data.allWordpressPost.nodes.map(post => (
+          {props.data.allWpPost.nodes.map(post => (
             <ArchivePost key={post.id} post={post} />
           ))}
         </Main>
@@ -38,18 +38,18 @@ AuthorTemplate.propTypes = {
 
 export const pageQuery = graphql`
   query AuthorQuery($id: String) {
-    wordpressWpUsers(id: {eq: $id}) {
+    wpUser(id: {eq: $id}) {
       name
     }
-    allWordpressPost(filter: {author: {id: {eq: $id}}}) {
+    allWpPost(filter: {author: {id: {eq: $id}}}) {
       nodes {
         id
         date
         excerpt
         title
         slug
-        featured_media {
-          localFile {
+        featuredImage {
+          remoteFile {
             childImageSharp {
               original {
                 src
@@ -58,20 +58,22 @@ export const pageQuery = graphql`
           }
         }
         categories {
-          slug
-          id
-          name
+          nodes {
+            slug
+            id
+            name
+          }
         }
         author {
           name
           slug
-          avatar_urls {
-            wordpress_96
+          avatar {
+            url
           }
-          acf {
+          userMetadata {
             title
-            avatar {
-              localFile {
+            avatarId {
+              remoteFile {
                 childImageSharp {
                   original {
                     src

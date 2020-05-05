@@ -112,14 +112,6 @@ const Wrapper = styled.div({
   }
 });
 
-function findLocalFile(mediaNodes, src) {
-  for (const {slug, localFile} of mediaNodes) {
-    if (src.toLowerCase().includes(slug)) {
-      return localFile;
-    }
-  }
-}
-
 function getDomNodeText(domNode) {
   let text = '';
 
@@ -144,7 +136,7 @@ function getDomNodeText(domNode) {
   return text;
 }
 
-function renderContent(content, mediaNodes) {
+function renderContent(content) {
   return parse(content, {
     replace(domNode) {
       switch (domNode.name) {
@@ -156,37 +148,33 @@ function renderContent(content, mediaNodes) {
               )}
             </code>
           );
-        case 'img': {
-          // replace images from wordpress with their local counterparts
-          const localFile = findLocalFile(mediaNodes, domNode.attribs.src);
-          if (localFile && localFile.childImageSharp) {
-            return <img src={localFile.childImageSharp.original.src} />;
-          }
-          break;
-        }
-        case 'figcaption': {
-          const parentClass = domNode.parent.attribs.class;
-          if (parentClass && parentClass.includes('alignfull')) {
-            const localFile = findLocalFile(
-              mediaNodes,
-              domNode.prev.attribs.src
-            );
-            if (localFile && localFile.childImageSharp) {
-              const {width, height} = localFile.childImageSharp.original;
-              const aspectRatio = width / height;
-              return (
-                <figcaption
-                  style={{
-                    paddingTop: `calc(var(--rw, 100vw) / ${aspectRatio})`
-                  }}
-                >
-                  {domToReact(domNode.children)}
-                </figcaption>
-              );
-            }
-          }
-          break;
-        }
+        // case 'img': {
+        //   // replace images from wordpress with their local counterparts
+        //   const localFile = findLocalFile(mediaNodes, domNode.attribs.src);
+        //   if (localFile && localFile.childImageSharp) {
+        //     return <img src={localFile.childImageSharp.original.src} />;
+        //   }
+        //   break;
+        // }
+        // case 'figcaption': {
+        //   const parentClass = domNode.parent.attribs.class;
+        //   if (parentClass && parentClass.includes('alignfull')) {
+        //     if (localFile && localFile.childImageSharp) {
+        //       const {width, height} = localFile.childImageSharp.original;
+        //       const aspectRatio = width / height;
+        //       return (
+        //         <figcaption
+        //           style={{
+        //             paddingTop: `calc(var(--rw, 100vw) / ${aspectRatio})`
+        //           }}
+        //         >
+        //           {domToReact(domNode.children)}
+        //         </figcaption>
+        //       );
+        //     }
+        //   }
+        //   break;
+        // }
         case 'pre':
           // use prism on blocks created with prismatic
           if (domNode.attribs.class === 'wp-block-prismatic-blocks') {
@@ -223,10 +211,9 @@ function renderContent(content, mediaNodes) {
 }
 
 export default function PostContent(props) {
-  return <Wrapper>{renderContent(props.content, props.mediaNodes)}</Wrapper>;
+  return <Wrapper>{renderContent(props.content)}</Wrapper>;
 }
 
 PostContent.propTypes = {
-  content: PropTypes.string.isRequired,
-  mediaNodes: PropTypes.array.isRequired
+  content: PropTypes.string.isRequired
 };
