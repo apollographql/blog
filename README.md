@@ -16,6 +16,8 @@ To run Wordpress on your local machine, we use [Local](https://localwp.com/), an
 
 [Follow this guide](https://wpengine.com/support/local/) to install Local on your machine, connect to our WP Engine account, and pull the `apollographql` site.
 
+By default, Local uses it's own routing solution to serve Wordpress instances at the `.local` TLD. To run this site locally, you'll need to disable this feature by going into Preferences > Advanced > Router Mode, and selecting "localhost" from the dropdown.
+
 Once you have a local copy of our Wordpress instance up and running, you're ready to start the Gatsby local development environment...
 
 ## Local development
@@ -35,10 +37,10 @@ Next, install the project's dependencies.
 npm install
 ```
 
-Finally, start your development environment.
+Finally, start your development environment. Take note of the "Site Host" value in your Local app. You'll need to supply this to the following call in the form of a `WORDPRESS_URL_DEV` environment variable. For instance, if your "Site Host" is localhost:10003, you can run the following command in your terminal:
 
 ```bash
-netlify dev
+WORDPRESS_URL_DEV=localhost:10003 netlify dev
 ```
 
 Now, you should have a development server running at http://localhost:8888! 🚀
