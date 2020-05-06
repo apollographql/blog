@@ -18,7 +18,7 @@ module.exports = {
     {
       resolve: 'gatsby-source-wordpress-experimental',
       options: {
-        url: `${protocol}://${baseUrl}?graphql`,
+        url: `${protocol}://${baseUrl}/graphql`,
         type: {
           User: {
             excludeFieldNames: null
