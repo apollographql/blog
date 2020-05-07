@@ -19,20 +19,30 @@ module.exports = {
       resolve: 'gatsby-source-wordpress-experimental',
       options: {
         url: `${protocol}://${baseUrl}/graphql`,
+        debug: {
+          graphql: {
+            showQueryVarsOnError: true,
+            copyQueryOnError: true,
+            panicOnError: true
+          }
+        },
         type: {
           User: {
             excludeFieldNames: null
+          },
+          Post: {
+            limit: isProduction ? undefined : 10
           }
-        },
-        plugins: [
-          {
-            resolve: 'gatsby-wordpress-experimental-inline-images',
-            options: {
-              protocol,
-              baseUrl
-            }
-          }
-        ]
+        }
+        // plugins: [
+        //   {
+        //     resolve: 'gatsby-wordpress-experimental-inline-images',
+        //     options: {
+        //       protocol,
+        //       baseUrl
+        //     }
+        //   }
+        // ]
       }
     },
     'gatsby-plugin-sharp',
