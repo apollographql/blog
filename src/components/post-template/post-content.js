@@ -24,6 +24,11 @@ const Wrapper = styled.div({
     marginTop: 60,
     marginBottom: 32
   },
+  h5: {
+    fontWeight: 'bold',
+    marginBottom: '1rem',
+    fontSize: '1.3rem'
+  },
   [['p', 'li']]: {
     ...largeTextStyles,
     marginBottom: 31
