@@ -45,6 +45,7 @@ export const pageQuery = graphql`
     }
     allWpUser {
       nodes {
+        id
         name
         slug
         avatar {

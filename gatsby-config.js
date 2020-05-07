@@ -53,7 +53,8 @@ module.exports = {
             content: node => stripHtmlTags(node.content),
             slug: node => node.slug,
             categories: (node, getNode) =>
-              node.categories.nodes.map(category => getNode(category.id))
+              node.categories.nodes.map(category => getNode(category.id)),
+            author: node => node.author
           }
         }
       }
