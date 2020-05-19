@@ -11,6 +11,12 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-feed',
       options: {
+        query: `
+          wordpressSiteMetadata {
+            name
+            description
+          }
+        `,
         feeds: [
           {
             serialize: ({query}) => {
