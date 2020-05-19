@@ -1,6 +1,6 @@
 const {stripHtmlTags} = require('./src/utils');
 
-const isProduction = process.env.NODE_ENV === 'production';
+const isProduction = true; // process.env.NODE_ENV === 'production';
 
 module.exports = {
   pathPrefix: '/blog',
@@ -8,6 +8,48 @@ module.exports = {
     'gatsby-plugin-svgr',
     'gatsby-plugin-emotion',
     'gatsby-plugin-react-helmet',
+    {
+      resolve: 'gatsby-plugin-feed',
+      options: {
+        query: `
+          {
+            wordpressSiteMetadata {
+              name
+              description
+            }
+          }
+        `,
+        feeds: [
+          {
+            serialize: ({query}) => {
+              return query.allWordpressPost.nodes.map(node => ({
+                title: node.title,
+                description: node.excerpt,
+                date: node.date,
+                url: node.slug,
+                guid: node.slug,
+                custom_elements: [{'content:encoded': node.html}]
+              }));
+            },
+            query: `
+              {
+                allWordpressPost {
+                  nodes {
+                    html
+                    excerpt
+                    title
+                    date
+                    slug
+                  }
+                }
+              }
+            `,
+            output: '/rss.xml',
+            title: "Your Site's RSS Feed"
+          }
+        ]
+      }
+    },
     {
       resolve: 'gatsby-source-wordpress',
       options: {
