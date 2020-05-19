@@ -1,7 +1,7 @@
 import Prism from 'prismjs';
 import PropTypes from 'prop-types';
 import React from 'react';
-import parse, {domToReact} from 'html-react-parser';
+import parse, {domToReact, htmlToDOM} from 'html-react-parser';
 import styled from '@emotion/styled';
 import {FONT_FAMILY_MONO, largeTextStyles, linkStyles} from '../ui';
 import {HEADING_COLOR} from '../../styles';
@@ -147,6 +147,14 @@ function renderContent(content, mediaNodes) {
   return parse(content, {
     replace(domNode) {
       switch (domNode.name) {
+        case 'code':
+          return (
+            <code>
+              {domToReact(
+                domNode.children.flatMap(child => htmlToDOM(child.data))
+              )}
+            </code>
+          );
         case 'img': {
           // replace images from wordpress with their local counterparts
           const localFile = findLocalFile(mediaNodes, domNode.attribs.src);
