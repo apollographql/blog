@@ -11,14 +11,6 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-feed',
       options: {
-        query: `
-          {
-            wordpressSiteMetadata {
-              name
-              description
-            }
-          }
-        `,
         feeds: [
           {
             serialize: ({query}) => {
@@ -28,14 +20,14 @@ module.exports = {
                 date: node.date,
                 url: node.slug,
                 guid: node.slug,
-                custom_elements: [{'content:encoded': node.html}]
+                custom_elements: [{'content:encoded': node.content}]
               }));
             },
             query: `
               {
                 allWordpressPost {
                   nodes {
-                    html
+                    content
                     excerpt
                     title
                     date
