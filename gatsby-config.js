@@ -12,9 +12,11 @@ module.exports = {
       resolve: 'gatsby-plugin-feed',
       options: {
         query: `
-          wordpressSiteMetadata {
-            name
-            description
+          {
+            wordpressSiteMetadata {
+              name
+              description
+            }
           }
         `,
         feeds: [
