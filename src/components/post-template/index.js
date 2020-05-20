@@ -121,7 +121,7 @@ export default function PostTemplate(props) {
   const description = stripHtmlTags(excerpt);
   const featuredImage = featured_media?.localFile.childImageSharp.original.src;
 
-  const shareUrl = 'https://www.apollographql.com/blog' + path;
+  const shareUrl = props.data.site.siteMetadata.siteUrl + path;
   const shareButtonProps = {
     resetButtonStyle: false,
     url: shareUrl
@@ -261,6 +261,12 @@ PostTemplate.propTypes = {
 
 export const pageQuery = graphql`
   query PostQuery($wordpress_id: Int, $categoriesIn: [String]) {
+    site {
+      siteMetadata {
+        siteUrl
+      }
+    }
+
     # get all media nodes for this post to replace images with local files
     allWordpressWpMedia(filter: {post: {eq: $wordpress_id}}) {
       nodes {
