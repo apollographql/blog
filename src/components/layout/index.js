@@ -109,12 +109,15 @@ const RecentPosts = styled.div({
   }
 });
 
-const DEFAULT_SOCIAL_IMAGE = 'https://www.apollographql.com/blog/social.jpg';
-
 export default function Layout(props) {
   const data = useStaticQuery(
     graphql`
       {
+        site {
+          siteMetadata {
+            siteUrl
+          }
+        }
         wordpressSiteMetadata {
           description
           title: name
@@ -167,6 +170,7 @@ export default function Layout(props) {
   );
 
   const {title, description} = data.wordpressSiteMetadata;
+  const defaultSocialImage = data.site.siteMetadata.siteUrl + '/social.jpg';
   return (
     <Fragment>
       <Helmet defaultTitle={title} titleTemplate={`%s - ${title}`}>
@@ -179,12 +183,12 @@ export default function Layout(props) {
         <meta property="og:title" content={title} />
         <meta property="og:site_name" content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:image" content={DEFAULT_SOCIAL_IMAGE} />
+        <meta property="og:image" content={defaultSocialImage} />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:site" content="@apollographql" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:description" content={description} />
-        <meta name="twitter:image" content={DEFAULT_SOCIAL_IMAGE} />
+        <meta name="twitter:image" content={defaultSocialImage} />
       </Helmet>
       <Global styles={styles} />
       <Header>

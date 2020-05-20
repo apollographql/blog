@@ -4,52 +4,13 @@ const isProduction = true; // process.env.NODE_ENV === 'production';
 
 module.exports = {
   pathPrefix: '/blog',
+  siteMetadata: {
+    siteUrl: 'https://www.apollographql.com/blog'
+  },
   plugins: [
     'gatsby-plugin-svgr',
     'gatsby-plugin-emotion',
     'gatsby-plugin-react-helmet',
-    {
-      resolve: 'gatsby-plugin-feed',
-      options: {
-        query: `
-          {
-            wordpressSiteMetadata {
-              name
-              description
-            }
-          }
-        `,
-        feeds: [
-          {
-            serialize: ({query}) => {
-              return query.allWordpressPost.nodes.map(node => ({
-                title: node.title,
-                description: node.excerpt,
-                date: node.date,
-                url: node.slug,
-                guid: node.slug,
-                custom_elements: [{'content:encoded': node.content}]
-              }));
-            },
-            query: `
-              {
-                allWordpressPost {
-                  nodes {
-                    content
-                    excerpt
-                    title
-                    date
-                    slug
-                  }
-                }
-              }
-            `,
-            output: '/rss.xml',
-            title: "Your Site's RSS Feed"
-          }
-        ]
-      }
-    },
     {
       resolve: 'gatsby-source-wordpress',
       options: {
@@ -80,6 +41,66 @@ module.exports = {
             author: (node, getNode) => getNode(node.author___NODE)
           }
         }
+      }
+    },
+    {
+      resolve: 'gatsby-plugin-feed',
+      options: {
+        query: `
+          {
+            site {
+              siteMetadata {
+                siteUrl
+              }
+            }
+            wordpressSiteMetadata {
+              title: name
+              description
+            }
+          }
+        `,
+        setup: ({query, ...rest}) => {
+          const {title, description} = query.wordpressSiteMetadata;
+          return {
+            title,
+            description,
+            site_url: query.site.siteMetadata.siteUrl,
+            ...rest
+          };
+        },
+        feeds: [
+          {
+            serialize: ({query}) => {
+              const {siteUrl} = query.site.siteMetadata;
+              return query.allWordpressPost.nodes.map(node => {
+                const url = siteUrl + node.path;
+                return {
+                  title: node.title,
+                  description: node.excerpt,
+                  date: node.date,
+                  url,
+                  guid: url,
+                  custom_elements: [{'content:encoded': node.content}]
+                };
+              });
+            },
+            query: `
+              {
+                allWordpressPost {
+                  nodes {
+                    content
+                    excerpt
+                    title
+                    date
+                    path
+                  }
+                }
+              }
+            `,
+            output: '/rss.xml',
+            title: "Your Site's RSS Feed"
+          }
+        ]
       }
     }
   ]
