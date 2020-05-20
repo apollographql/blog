@@ -16,7 +16,7 @@ module.exports = {
       options: {
         protocol: isProduction ? 'https' : 'http',
         baseUrl: isProduction
-          ? process.env.WORDPRESS_URL_PROD
+          ? 'wp.apollographql.com'
           : process.env.WORDPRESS_URL_DEV
       }
     },
@@ -97,8 +97,7 @@ module.exports = {
                 }
               }
             `,
-            output: '/rss.xml',
-            title: "Your Site's RSS Feed"
+            output: '/rss.xml'
           }
         ]
       }
