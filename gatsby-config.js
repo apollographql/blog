@@ -76,7 +76,7 @@ module.exports = {
                 const url = siteUrl + node.path;
                 return {
                   title: node.title,
-                  description: node.excerpt,
+                  description: stripHtmlTags(node.excerpt),
                   date: node.date,
                   url,
                   guid: url,
