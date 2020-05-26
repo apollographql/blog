@@ -55,7 +55,8 @@ const Wrapper = styled.div({
     borderRadius: 8,
     backgroundColor: colors.silver.light,
     overflow: 'auto',
-    fontSize: 'calc(21px * 0.9)',
+    fontSize: `calc(${largeTextStyles.fontSize}px * 0.9)`,
+    lineHeight: 1.3,
     '.token': {
       [['&.comment', '&.prolog', '&.doctype', '&.cdata']]: {
         color: colors.grey.light
