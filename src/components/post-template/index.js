@@ -118,6 +118,7 @@ export default function PostTemplate(props) {
   } = props.data.wordpressPost;
   const {twitter} = author.acf;
 
+  const postTitle = decode(title);
   const description = stripHtmlTags(excerpt);
   const featuredImage = featured_media?.localFile.childImageSharp.original.src;
 
@@ -133,11 +134,11 @@ export default function PostTemplate(props) {
       recentPostsTitle="Similar posts"
     >
       <Helmet>
-        <title>{title}</title>
-        <meta property="og:title" content={title} />
+        <title>{postTitle}</title>
+        <meta property="og:title" content={postTitle} />
         <meta property="og:description" content={description} />
         {featuredImage && <meta property="og:image" content={featuredImage} />}
-        <meta name="twitter:title" content={title} />
+        <meta name="twitter:title" content={postTitle} />
         <meta name="twitter:description" content={description} />
         {featuredImage && (
           <meta
@@ -148,7 +149,7 @@ export default function PostTemplate(props) {
       </Helmet>
       <TopFold style={{paddingBottom: 90}}>
         <DateText style={{marginBottom: 12}} date={date} />
-        <h1>{decode(title)}</h1>
+        <h1>{postTitle}</h1>
         <BylineWrapper>
           <Byline author={author} />
           {twitter && (

@@ -1,6 +1,6 @@
 const {stripHtmlTags} = require('./src/utils');
 
-const isProduction = true; // process.env.NODE_ENV === 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
   pathPrefix: '/blog',
