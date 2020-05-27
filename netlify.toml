@@ -1,4 +1,6 @@
 [build]
   publish = "public"
-  command = "gatsby build --prefix-paths && mkdir blog && mv public/* blog && mv blog public/"
+  command = "GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build --log-pages --prefix-paths && mkdir blog && mv public/* blog && mv blog public/"
   functions = "functions"
+[[plugins]]
+  package = "netlify-plugin-gatsby-cache"
