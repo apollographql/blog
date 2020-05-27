@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import parse, {domToReact, htmlToDOM} from 'html-react-parser';
 import styled from '@emotion/styled';
-import {FONT_FAMILY_MONO, largeTextStyles, linkStyles} from '../ui';
+import {
+  BREAKPOINT_LG,
+  FONT_FAMILY_MONO,
+  WRAPPER_PADDING_X,
+  largeTextStyles,
+  linkStyles
+} from '../ui';
 import {HEADING_COLOR} from '../../styles';
 import {colors} from '@apollo/space-kit/colors';
 
@@ -14,6 +20,9 @@ import 'prismjs/components/prism-json';
 import 'prismjs/components/prism-jsx';
 import 'prismjs/components/prism-tsx';
 import 'prismjs/components/prism-typescript';
+
+const DOUBLE_WRAPPER_PADDING_X = WRAPPER_PADDING_X * 2;
+const ALIGNFULL_WIDTH = 'var(--rw, 100vw)';
 
 const Wrapper = styled.div({
   color: HEADING_COLOR,
@@ -32,12 +41,10 @@ const Wrapper = styled.div({
   '.wp-block-image': {
     margin: '90px 0',
     '&.alignfull': {
-      img: {
-        width: '100%',
-        maxWidth: 'none',
-        position: 'absolute',
-        left: 0
-      }
+      width: ALIGNFULL_WIDTH,
+      marginLeft: `calc(min(${BREAKPOINT_LG -
+        DOUBLE_WRAPPER_PADDING_X}px - ${ALIGNFULL_WIDTH}, -${DOUBLE_WRAPPER_PADDING_X}px) / 2)`,
+      position: 'relative'
     },
     img: {
       maxWidth: '100%'
@@ -148,25 +155,15 @@ function renderContent(content) {
               )}
             </code>
           );
-        // case 'figcaption': {
-        //   const parentClass = domNode.parent.attribs.class;
-        //   if (parentClass && parentClass.includes('alignfull')) {
-        //     if (localFile && localFile.childImageSharp) {
-        //       const {width, height} = localFile.childImageSharp.original;
-        //       const aspectRatio = width / height;
-        //       return (
-        //         <figcaption
-        //           style={{
-        //             paddingTop: `calc(var(--rw, 100vw) / ${aspectRatio})`
-        //           }}
-        //         >
-        //           {domToReact(domNode.children)}
-        //         </figcaption>
-        //       );
-        //     }
-        //   }
-        //   break;
-        // }
+        case 'div': {
+          if (
+            domNode.attribs.class?.includes('gatsby-image-wrapper') &&
+            domNode.parent.attribs.class?.includes('alignfull')
+          ) {
+            return <>{domToReact(domNode.children)}</>;
+          }
+          break;
+        }
         case 'pre':
           // use prism on blocks created with prismatic
           if (domNode.attribs.class === 'wp-block-prismatic-blocks') {

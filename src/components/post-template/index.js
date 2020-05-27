@@ -333,6 +333,7 @@ export const pageQuery = graphql`
       }
     ) {
       nodes {
+        id
         date
         title
         slug

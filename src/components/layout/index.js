@@ -7,7 +7,12 @@ import React, {Fragment} from 'react';
 import styled from '@emotion/styled';
 import styles from '../../styles';
 import {ApolloIcon} from '@apollo/space-kit/icons/ApolloIcon';
-import {BREAKPOINT_LG, BREAKPOINT_MD, SectionHeading} from '../ui';
+import {
+  BREAKPOINT_LG,
+  BREAKPOINT_MD,
+  SectionHeading,
+  WRAPPER_PADDING_X
+} from '../ui';
 import {ReactComponent as BlogIcon} from '../../assets/blog.svg';
 import {Global} from '@emotion/core';
 import {Link, graphql, useStaticQuery, withPrefix} from 'gatsby';
@@ -17,7 +22,7 @@ import {colors} from '@apollo/space-kit/colors';
 const Wrapper = styled.div({
   maxWidth: BREAKPOINT_LG,
   margin: '0 auto',
-  padding: '0 40px'
+  padding: `0 ${WRAPPER_PADDING_X}px`
 });
 
 const Header = styled.header({
