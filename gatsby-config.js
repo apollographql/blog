@@ -70,14 +70,16 @@ module.exports = {
                 siteUrl
               }
             }
-            wordpressSiteMetadata {
-              title: name
-              description
+            wp {
+              generalSettings {
+                title
+                description
+              }
             }
           }
         `,
         setup: ({query, ...rest}) => {
-          const {title, description} = query.wordpressSiteMetadata;
+          const {title, description} = query.wp.generalSettings;
           return {
             title,
             description,
@@ -89,7 +91,7 @@ module.exports = {
           {
             serialize: ({query}) => {
               const {siteUrl} = query.site.siteMetadata;
-              return query.allWordpressPost.nodes.map(node => {
+              return query.allWpPost.nodes.map(node => {
                 const url = siteUrl + node.path;
                 return {
                   title: node.title,
@@ -103,13 +105,13 @@ module.exports = {
             },
             query: `
               {
-                allWordpressPost {
+                allWpPost {
                   nodes {
                     content
                     excerpt
                     title
                     date
-                    path
+                    path: uri
                   }
                 }
               }

@@ -148,14 +148,6 @@ function renderContent(content) {
               )}
             </code>
           );
-        // case 'img': {
-        //   // replace images from wordpress with their local counterparts
-        //   const localFile = findLocalFile(mediaNodes, domNode.attribs.src);
-        //   if (localFile && localFile.childImageSharp) {
-        //     return <img src={localFile.childImageSharp.original.src} />;
-        //   }
-        //   break;
-        // }
         // case 'figcaption': {
         //   const parentClass = domNode.parent.attribs.class;
         //   if (parentClass && parentClass.includes('alignfull')) {
