@@ -34,15 +34,6 @@ module.exports = {
             limit: isProduction ? undefined : 10
           }
         }
-        // plugins: [
-        //   {
-        //     resolve: 'gatsby-wordpress-experimental-inline-images',
-        //     options: {
-        //       protocol,
-        //       baseUrl
-        //     }
-        //   }
-        // ]
       }
     },
     'gatsby-plugin-sharp',
