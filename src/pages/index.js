@@ -103,7 +103,7 @@ Index.propTypes = {
 
 export const pageQuery = graphql`
   {
-    allWpPost(limit: 10) {
+    allWpPost(sort: {fields: date, order: DESC}, limit: 10) {
       nodes {
         id
         date
