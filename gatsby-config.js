@@ -1,11 +1,5 @@
 const {stripHtmlTags} = require('./src/utils');
 
-const isProduction = process.env.NODE_ENV === 'production';
-const protocol = isProduction ? 'https' : 'http';
-const baseUrl = isProduction
-  ? 'wp.apollographql.com'
-  : process.env.WORDPRESS_URL_DEV;
-
 module.exports = {
   pathPrefix: '/blog',
   siteMetadata: {
@@ -18,7 +12,9 @@ module.exports = {
     {
       resolve: 'gatsby-source-wordpress-experimental',
       options: {
-        url: `${protocol}://${baseUrl}/graphql`,
+        url:
+          process.env.WORDPRESS_URL_DEV ||
+          'https://wp.apollographql.com/graphql',
         debug: {
           graphql: {
             showQueryVarsOnError: true,
