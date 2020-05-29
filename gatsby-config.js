@@ -27,7 +27,7 @@ module.exports = {
             excludeFieldNames: null
           },
           Post: {
-            limit: process.env.CONTEXT === 'production' ? 200 : 10
+            limit: process.env.CONTEXT === 'production' ? undefined : 10
           }
         }
       }
