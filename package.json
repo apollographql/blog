@@ -1,27 +1,29 @@
 {
   "scripts": {
     "start": "gatsby develop",
-    "build": "gatsby build"
+    "build": "gatsby build --prefix-paths"
   },
   "eslintConfig": {
     "extends": "@trevorblades/eslint-config/react"
   },
   "dependencies": {
-    "@apollo/space-kit": "^2.24.0",
+    "@apollo/space-kit": "^5.0.0",
     "@emotion/core": "^10.0.27",
     "@emotion/styled": "^10.0.27",
     "@gatsby-contrib/gatsby-plugin-elasticlunr-search": "^2.3.0",
     "@svgr/webpack": "^5.1.0",
     "date-fns": "^2.9.0",
     "elasticlunr": "^0.9.5",
-    "gatsby": "^2.19.8",
+    "gatsby": "^2.22.12",
+    "gatsby-image": "^2.4.1",
     "gatsby-plugin-emotion": "^4.1.21",
     "gatsby-plugin-feed": "^2.5.1",
     "gatsby-plugin-google-analytics": "^2.1.35",
     "gatsby-plugin-react-helmet": "^3.1.21",
     "gatsby-plugin-sharp": "^2.4.5",
     "gatsby-plugin-svgr": "^2.0.2",
-    "gatsby-source-wordpress": "^3.1.60",
+    "gatsby-source-filesystem": "^2.3.1",
+    "gatsby-source-wordpress-experimental": "^0.7.7",
     "gatsby-transformer-sharp": "^2.3.14",
     "he": "^1.2.0",
     "html-react-parser": "^0.10.1",

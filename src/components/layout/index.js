@@ -7,7 +7,12 @@ import React, {Fragment} from 'react';
 import styled from '@emotion/styled';
 import styles from '../../styles';
 import {ApolloIcon} from '@apollo/space-kit/icons/ApolloIcon';
-import {BREAKPOINT_LG, BREAKPOINT_MD, SectionHeading} from '../ui';
+import {
+  BREAKPOINT_LG,
+  BREAKPOINT_MD,
+  SectionHeading,
+  WRAPPER_PADDING_X
+} from '../ui';
 import {ReactComponent as BlogIcon} from '../../assets/blog.svg';
 import {Global} from '@emotion/core';
 import {Link, graphql, useStaticQuery, withPrefix} from 'gatsby';
@@ -17,7 +22,7 @@ import {colors} from '@apollo/space-kit/colors';
 const Wrapper = styled.div({
   maxWidth: BREAKPOINT_LG,
   margin: '0 auto',
-  padding: '0 40px'
+  padding: `0 ${WRAPPER_PADDING_X}px`
 });
 
 const Header = styled.header({
@@ -118,33 +123,37 @@ export default function Layout(props) {
             siteUrl
           }
         }
-        wordpressSiteMetadata {
-          description
-          title: name
+        wp {
+          generalSettings {
+            description
+            title
+          }
         }
-        companyMenu: wordpressWpApiMenusMenusItems(wordpress_id: {eq: 2}) {
+        companyMenu: wpMenu(menuId: {eq: 2}) {
           ...MenuFragment
         }
-        communityMenu: wordpressWpApiMenusMenusItems(wordpress_id: {eq: 3}) {
+        communityMenu: wpMenu(menuId: {eq: 3}) {
           ...MenuFragment
         }
-        helpMenu: wordpressWpApiMenusMenusItems(wordpress_id: {eq: 4}) {
+        helpMenu: wpMenu(menuId: {eq: 4}) {
           ...MenuFragment
         }
-        recentPosts: allWordpressPost(limit: 3) {
+        recentPosts: allWpPost(limit: 3) {
           nodes {
+            id
             date
             title
             slug
             author {
+              # TODO: move to fragment in author component
               name
               slug
-              avatar_urls {
-                wordpress_96
+              avatar {
+                url
               }
-              acf {
-                avatar {
-                  localFile {
+              userMetadata {
+                avatarId {
+                  remoteFile {
                     childImageSharp {
                       original {
                         src
@@ -158,18 +167,20 @@ export default function Layout(props) {
         }
       }
 
-      fragment MenuFragment on wordpress__wp_api_menus_menus_items {
+      fragment MenuFragment on WpMenu {
         name
-        items {
-          object_id
-          url
-          title
+        menuItems {
+          nodes {
+            id
+            url
+            label
+          }
         }
       }
     `
   );
 
-  const {title, description} = data.wordpressSiteMetadata;
+  const {title, description} = data.wp.generalSettings;
   const defaultSocialImage = data.site.siteMetadata.siteUrl + '/social.jpg';
   return (
     <Fragment>

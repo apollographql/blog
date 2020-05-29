@@ -1,7 +1,5 @@
 const {stripHtmlTags} = require('./src/utils');
 
-const isProduction = process.env.NODE_ENV === 'production';
-
 module.exports = {
   pathPrefix: '/blog',
   siteMetadata: {
@@ -12,16 +10,30 @@ module.exports = {
     'gatsby-plugin-emotion',
     'gatsby-plugin-react-helmet',
     {
-      resolve: 'gatsby-source-wordpress',
+      resolve: 'gatsby-source-wordpress-experimental',
       options: {
-        protocol: isProduction ? 'https' : 'http',
-        baseUrl: isProduction
-          ? 'wp.apollographql.com'
-          : process.env.WORDPRESS_URL_DEV
+        url:
+          process.env.WORDPRESS_URL_DEV ||
+          'https://wp.apollographql.com/graphql',
+        debug: {
+          graphql: {
+            showQueryVarsOnError: true,
+            copyQueryOnError: true,
+            panicOnError: true
+          }
+        },
+        type: {
+          User: {
+            excludeFieldNames: null
+          },
+          Post: {
+            limit: process.env.CONTEXT === 'production' ? undefined : 10
+          }
+        }
       }
     },
-    'gatsby-plugin-sharp',
     'gatsby-transformer-sharp',
+    'gatsby-plugin-sharp',
     {
       resolve: 'gatsby-plugin-google-analytics',
       options: {
@@ -33,12 +45,13 @@ module.exports = {
       options: {
         fields: ['title', 'content'],
         resolvers: {
-          wordpress__POST: {
+          WpPost: {
             title: node => node.title,
             content: node => stripHtmlTags(node.content),
             slug: node => node.slug,
-            categories: (node, getNode) => node.categories___NODE.map(getNode),
-            author: (node, getNode) => getNode(node.author___NODE)
+            categories: (node, getNode) =>
+              node.categories.nodes.map(category => getNode(category.id)),
+            author: node => node.author
           }
         }
       }
@@ -53,14 +66,16 @@ module.exports = {
                 siteUrl
               }
             }
-            wordpressSiteMetadata {
-              title: name
-              description
+            wp {
+              generalSettings {
+                title
+                description
+              }
             }
           }
         `,
         setup: ({query, ...rest}) => {
-          const {title, description} = query.wordpressSiteMetadata;
+          const {title, description} = query.wp.generalSettings;
           return {
             title,
             description,
@@ -72,7 +87,7 @@ module.exports = {
           {
             serialize: ({query}) => {
               const {siteUrl} = query.site.siteMetadata;
-              return query.allWordpressPost.nodes.map(node => {
+              return query.allWpPost.nodes.map(node => {
                 const url = siteUrl + node.path;
                 return {
                   title: node.title,
@@ -86,13 +101,13 @@ module.exports = {
             },
             query: `
               {
-                allWordpressPost {
+                allWpPost {
                   nodes {
                     content
                     excerpt
                     title
                     date
-                    path
+                    path: uri
                   }
                 }
               }

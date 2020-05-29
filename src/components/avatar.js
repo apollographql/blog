@@ -23,13 +23,13 @@ const StyledImg = styled.img({
 });
 
 export default function Avatar(props) {
-  const {acf, avatar_urls} = props.author;
+  const {userMetadata, avatar} = props.author;
   return (
     <StyledImg
       src={
-        acf.avatar
-          ? acf.avatar.localFile.childImageSharp.original.src
-          : avatar_urls.wordpress_96
+        userMetadata.avatarId
+          ? userMetadata.avatarId.remoteFile.childImageSharp.original.src
+          : avatar.url
       }
       style={{
         ...size(avatarSizes[props.size]),

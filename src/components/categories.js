@@ -6,9 +6,9 @@ export default function Categories() {
   const data = useStaticQuery(
     graphql`
       {
-        allWordpressCategory(
+        allWpCategory(
           filter: {slug: {ne: "uncategorized"}}
-          sort: {order: ASC, fields: acf___menu_order}
+          sort: {order: ASC, fields: categoryMeta___menuOrder}
         ) {
           nodes {
             id
@@ -23,7 +23,7 @@ export default function Categories() {
     <SidebarSection>
       <SectionHeading>Categories</SectionHeading>
       <CategoryNav>
-        {data.allWordpressCategory.nodes.map(category => (
+        {data.allWpCategory.nodes.map(category => (
           <Category key={category.id} category={category} />
         ))}
       </CategoryNav>

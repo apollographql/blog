@@ -131,6 +131,8 @@ export const Categories = styled.div({
 export const BREAKPOINT_LG = 1220;
 export const BREAKPOINT_MD = 900;
 
+export const WRAPPER_PADDING_X = 40;
+
 const SIDEBAR_WIDTH = 312;
 const SIDEBAR_MARGIN = 128;
 

@@ -1,57 +1,20 @@
-exports.createResolvers = ({createResolvers}) => {
-  createResolvers({
-    wordpress__wp_usersAcf: {
-      avatar: {
-        type: 'wordpress__wp_media',
-        resolve: (source, args, context) =>
-          context.nodeModel.runQuery({
-            query: {
-              filter: {
-                wordpress_id: {
-                  eq: source.avatar_id
-                }
-              }
-            },
-            type: 'wordpress__wp_media',
-            firstOnly: true
-          })
-      }
-    },
-    wordpress__POSTAcf: {
-      cta: {
-        type: 'wordpress__wp_cta',
-        resolve: (source, args, context) =>
-          context.nodeModel.runQuery({
-            query: {
-              filter: {
-                wordpress_id: {
-                  eq: source.cta_id
-                }
-              }
-            },
-            type: 'wordpress__wp_cta',
-            firstOnly: true
-          })
-      }
-    }
-  });
-};
-
 const PAGE_SIZE = 10;
 
 exports.createPages = async ({actions, graphql}) => {
   const {data} = await graphql(`
     {
-      allWordpressPost {
+      allWpPost {
         nodes {
-          wordpress_id
+          databaseId
           slug
           categories {
-            id
+            nodes {
+              id
+            }
           }
         }
       }
-      allWordpressCategory(filter: {slug: {ne: "uncategorized"}}) {
+      allWpCategory(filter: {slug: {ne: "uncategorized"}}) {
         nodes {
           id
           slug
@@ -59,7 +22,7 @@ exports.createPages = async ({actions, graphql}) => {
           count
         }
       }
-      allWordpressWpUsers {
+      allWpUser {
         nodes {
           id
           slug
@@ -69,13 +32,13 @@ exports.createPages = async ({actions, graphql}) => {
   `);
 
   const postTemplate = require.resolve('./src/components/post-template');
-  data.allWordpressPost.nodes.forEach(post => {
+  data.allWpPost.nodes.forEach(post => {
     actions.createPage({
       path: '/' + post.slug,
       component: postTemplate,
       context: {
-        wordpress_id: post.wordpress_id,
-        categoriesIn: post.categories.map(category => category.id)
+        databaseId: post.databaseId,
+        categoriesIn: post.categories.nodes.map(category => category.id)
       }
     });
   });
@@ -83,7 +46,7 @@ exports.createPages = async ({actions, graphql}) => {
   const categoryTemplate = require.resolve(
     './src/components/category-template'
   );
-  data.allWordpressCategory.nodes.forEach((category, index, categories) => {
+  data.allWpCategory.nodes.forEach((category, index, categories) => {
     const pageCount = Math.ceil(category.count / PAGE_SIZE);
     for (let i = 0; i < pageCount; i++) {
       actions.createPage({
@@ -100,7 +63,7 @@ exports.createPages = async ({actions, graphql}) => {
   });
 
   const authorTemplate = require.resolve('./src/components/author-template');
-  data.allWordpressWpUsers.nodes.forEach(author => {
+  data.allWpUser.nodes.forEach(author => {
     actions.createPage({
       path: '/author/' + author.slug,
       component: authorTemplate,
@@ -110,7 +73,7 @@ exports.createPages = async ({actions, graphql}) => {
     });
   });
 
-  const pageCount = Math.ceil(data.allWordpressPost.nodes.length / PAGE_SIZE);
+  const pageCount = Math.ceil(data.allWpPost.nodes.length / PAGE_SIZE);
   const archiveTemplate = require.resolve('./src/components/archive-template');
   for (let i = 0; i < pageCount; i++) {
     actions.createPage({

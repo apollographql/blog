@@ -51,7 +51,7 @@ function LatestPosts(props) {
 export default function CategoryTemplate(props) {
   const newsletterFormProps = useNewsletterForm();
   const {id, slug, name, categories} = props.pageContext;
-  const {nodes, pageInfo} = props.data.allWordpressPost;
+  const {nodes, pageInfo} = props.data.allWpPost;
   const latestPosts = nodes.slice(0, 3);
   const morePosts = nodes.slice(3);
   const hasMorePosts = morePosts.length > 0;
@@ -105,8 +105,8 @@ CategoryTemplate.propTypes = {
 
 export const pageQuery = graphql`
   query CategoryQuery($id: String, $limit: Int, $skip: Int) {
-    allWordpressPost(
-      filter: {categories: {elemMatch: {id: {eq: $id}}}}
+    allWpPost(
+      filter: {categories: {nodes: {elemMatch: {id: {eq: $id}}}}}
       limit: $limit
       skip: $skip
     ) {
@@ -120,8 +120,8 @@ export const pageQuery = graphql`
         excerpt
         title
         slug
-        featured_media {
-          localFile {
+        featuredImage {
+          remoteFile {
             childImageSharp {
               original {
                 src
@@ -130,20 +130,22 @@ export const pageQuery = graphql`
           }
         }
         categories {
-          slug
-          id
-          name
+          nodes {
+            slug
+            id
+            name
+          }
         }
         author {
           name
           slug
-          avatar_urls {
-            wordpress_96
+          avatar {
+            url
           }
-          acf {
+          userMetadata {
             title
-            avatar {
-              localFile {
+            avatarId {
+              remoteFile {
                 childImageSharp {
                   original {
                     src

@@ -13,7 +13,7 @@ export default function Search(props) {
     setMounted(true);
   }, []);
 
-  const {siteSearchIndex, allWordpressWpMedia} = props.data;
+  const {siteSearchIndex, allWpUser} = props.data;
   const {q: query} = parse(props.location.search.slice(1));
 
   // TODO: if we don't like the performance of elasticlunr, we could try flexsearch
@@ -25,11 +25,7 @@ export default function Search(props) {
   return (
     <Layout defaultSearchValue={query}>
       {mounted ? (
-        <SearchContent
-          index={index}
-          query={query}
-          media={allWordpressWpMedia.nodes}
-        />
+        <SearchContent index={index} query={query} users={allWpUser.nodes} />
       ) : (
         <SectionHeading>Loading results...</SectionHeading>
       )}
@@ -47,13 +43,23 @@ export const pageQuery = graphql`
     siteSearchIndex {
       index
     }
-    allWordpressWpMedia {
+    allWpUser {
       nodes {
-        wordpress_id
-        localFile {
-          childImageSharp {
-            original {
-              src
+        id
+        name
+        slug
+        avatar {
+          url
+        }
+        userMetadata {
+          title
+          avatarId {
+            remoteFile {
+              childImageSharp {
+                original {
+                  src
+                }
+              }
             }
           }
         }

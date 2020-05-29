@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import parse, {domToReact, htmlToDOM} from 'html-react-parser';
 import styled from '@emotion/styled';
-import {FONT_FAMILY_MONO, largeTextStyles, linkStyles} from '../ui';
+import {
+  BREAKPOINT_LG,
+  FONT_FAMILY_MONO,
+  WRAPPER_PADDING_X,
+  largeTextStyles,
+  linkStyles
+} from '../ui';
 import {HEADING_COLOR} from '../../styles';
 import {colors} from '@apollo/space-kit/colors';
 
@@ -14,6 +20,9 @@ import 'prismjs/components/prism-json';
 import 'prismjs/components/prism-jsx';
 import 'prismjs/components/prism-tsx';
 import 'prismjs/components/prism-typescript';
+
+const DOUBLE_WRAPPER_PADDING_X = WRAPPER_PADDING_X * 2;
+const ALIGNFULL_WIDTH = 'var(--rw, 100vw)';
 
 const Wrapper = styled.div({
   color: HEADING_COLOR,
@@ -32,12 +41,10 @@ const Wrapper = styled.div({
   '.wp-block-image': {
     margin: '90px 0',
     '&.alignfull': {
-      img: {
-        width: '100%',
-        maxWidth: 'none',
-        position: 'absolute',
-        left: 0
-      }
+      width: ALIGNFULL_WIDTH,
+      marginLeft: `calc(min(${BREAKPOINT_LG -
+        DOUBLE_WRAPPER_PADDING_X}px - ${ALIGNFULL_WIDTH}, -${DOUBLE_WRAPPER_PADDING_X}px) / 2)`,
+      position: 'relative'
     },
     img: {
       maxWidth: '100%'
@@ -49,7 +56,11 @@ const Wrapper = styled.div({
       lineHeight: 1.5
     }
   },
-  [['pre[class*="language-"]', 'pre.wp-block-preformatted']]: {
+  [[
+    'pre[class*="language-"]',
+    'pre.wp-block-code',
+    'pre.wp-block-preformatted'
+  ]]: {
     margin: '60px 0',
     padding: '1em',
     borderRadius: 8,
@@ -112,14 +123,6 @@ const Wrapper = styled.div({
   }
 });
 
-function findLocalFile(mediaNodes, src) {
-  for (const {slug, localFile} of mediaNodes) {
-    if (src.toLowerCase().includes(slug)) {
-      return localFile;
-    }
-  }
-}
-
 function getDomNodeText(domNode) {
   let text = '';
 
@@ -144,7 +147,7 @@ function getDomNodeText(domNode) {
   return text;
 }
 
-function renderContent(content, mediaNodes) {
+function renderContent(content) {
   return parse(content, {
     replace(domNode) {
       switch (domNode.name) {
@@ -156,34 +159,12 @@ function renderContent(content, mediaNodes) {
               )}
             </code>
           );
-        case 'img': {
-          // replace images from wordpress with their local counterparts
-          const localFile = findLocalFile(mediaNodes, domNode.attribs.src);
-          if (localFile && localFile.childImageSharp) {
-            return <img src={localFile.childImageSharp.original.src} />;
-          }
-          break;
-        }
-        case 'figcaption': {
-          const parentClass = domNode.parent.attribs.class;
-          if (parentClass && parentClass.includes('alignfull')) {
-            const localFile = findLocalFile(
-              mediaNodes,
-              domNode.prev.attribs.src
-            );
-            if (localFile && localFile.childImageSharp) {
-              const {width, height} = localFile.childImageSharp.original;
-              const aspectRatio = width / height;
-              return (
-                <figcaption
-                  style={{
-                    paddingTop: `calc(var(--rw, 100vw) / ${aspectRatio})`
-                  }}
-                >
-                  {domToReact(domNode.children)}
-                </figcaption>
-              );
-            }
+        case 'div': {
+          if (
+            domNode.attribs.class?.includes('gatsby-image-wrapper') &&
+            domNode.parent.attribs.class?.includes('alignfull')
+          ) {
+            return <>{domToReact(domNode.children)}</>;
           }
           break;
         }
@@ -223,10 +204,9 @@ function renderContent(content, mediaNodes) {
 }
 
 export default function PostContent(props) {
-  return <Wrapper>{renderContent(props.content, props.mediaNodes)}</Wrapper>;
+  return <Wrapper>{renderContent(props.content)}</Wrapper>;
 }
 
 PostContent.propTypes = {
-  content: PropTypes.string.isRequired,
-  mediaNodes: PropTypes.array.isRequired
+  content: PropTypes.string.isRequired
 };

@@ -112,15 +112,15 @@ export default function PostTemplate(props) {
     author,
     excerpt,
     categories,
-    featured_media,
+    featuredImage: featuredMedia,
     content,
-    acf
-  } = props.data.wordpressPost;
-  const {twitter} = author.acf;
+    postCtaSettings
+  } = props.data.wpPost;
+  const {twitter} = author.userMetadata;
 
   const postTitle = decode(title);
   const description = stripHtmlTags(excerpt);
-  const featuredImage = featured_media?.localFile.childImageSharp.original.src;
+  const featuredImage = featuredMedia?.remoteFile.childImageSharp.original.src;
 
   const shareUrl = props.data.site.siteMetadata.siteUrl + path;
   const shareButtonProps = {
@@ -171,7 +171,7 @@ export default function PostTemplate(props) {
           )}
         </BylineWrapper>
         <Categories>
-          {categories.map(category => (
+          {categories.nodes.map(category => (
             <Category key={category.id} category={category} />
           ))}
         </Categories>
@@ -179,10 +179,7 @@ export default function PostTemplate(props) {
       <InnerWrapper>
         <Main>
           {featuredImage && <FeaturedImage src={featuredImage} />}
-          <PostContent
-            content={content}
-            mediaNodes={props.data.allWordpressWpMedia.nodes}
-          />
+          <PostContent content={content} />
           <Divider />
           <AuthorDetails author={author} />
           <NewsletterSignup>
@@ -249,7 +246,7 @@ export default function PostTemplate(props) {
               </SocialIcons>
             </SidebarSection>
           </PostSidebarWrapper>
-          <PostAction cta={acf.cta || props.data.defaultCta} />
+          <PostAction cta={postCtaSettings.ctaId || props.data.defaultCta} />
         </Sidebar>
       </InnerWrapper>
     </Layout>
@@ -261,32 +258,16 @@ PostTemplate.propTypes = {
 };
 
 export const pageQuery = graphql`
-  query PostQuery($wordpress_id: Int, $categoriesIn: [String]) {
+  query PostQuery($databaseId: Int, $categoriesIn: [String]) {
     site {
       siteMetadata {
         siteUrl
       }
     }
 
-    # get all media nodes for this post to replace images with local files
-    allWordpressWpMedia(filter: {post: {eq: $wordpress_id}}) {
-      nodes {
-        slug
-        localFile {
-          childImageSharp {
-            original {
-              src
-              width
-              height
-            }
-          }
-        }
-      }
-    }
-
     # everything we need to render a post
-    wordpressPost(wordpress_id: {eq: $wordpress_id}) {
-      path
+    wpPost(databaseId: {eq: $databaseId}) {
+      path: uri
       date
       title
       excerpt
@@ -295,14 +276,14 @@ export const pageQuery = graphql`
         name
         slug
         description
-        avatar_urls {
-          wordpress_96
+        avatar {
+          url
         }
-        acf {
+        userMetadata {
           twitter
           title
-          avatar {
-            localFile {
+          avatarId {
+            remoteFile {
               childImageSharp {
                 original {
                   src
@@ -313,12 +294,14 @@ export const pageQuery = graphql`
         }
       }
       categories {
-        id
-        slug
-        name
+        nodes {
+          id
+          slug
+          name
+        }
       }
-      featured_media {
-        localFile {
+      featuredImage {
+        remoteFile {
           url
           childImageSharp {
             id
@@ -330,38 +313,40 @@ export const pageQuery = graphql`
       }
 
       # retrieve post CTA
-      acf {
-        cta {
+      postCtaSettings {
+        ctaId {
           ...CtaFragment
         }
       }
     }
 
-    defaultCta: wordpressWpCta(acf: {default: {eq: true}}) {
+    defaultCta: wpCta(ctaSettings: {default: {eq: true}}) {
       ...CtaFragment
     }
 
     # query posts that share categories with the current post
-    similarPosts: allWordpressPost(
+    similarPosts: allWpPost(
       limit: 3
       filter: {
-        wordpress_id: {ne: $wordpress_id}
-        categories: {elemMatch: {id: {in: $categoriesIn}}}
+        databaseId: {ne: $databaseId}
+        categories: {nodes: {elemMatch: {id: {in: $categoriesIn}}}}
       }
     ) {
       nodes {
+        id
         date
         title
         slug
         author {
           name
           slug
-          avatar_urls {
-            wordpress_96
+          description
+          avatar {
+            url
           }
-          acf {
-            avatar {
-              localFile {
+          userMetadata {
+            avatarId {
+              remoteFile {
                 childImageSharp {
                   original {
                     src
@@ -375,12 +360,12 @@ export const pageQuery = graphql`
     }
   }
 
-  fragment CtaFragment on wordpress__wp_cta {
+  fragment CtaFragment on WpCta {
     title
     excerpt
-    acf {
-      cta_button_url
-      cta_button_text
+    ctaSettings {
+      ctaButtonUrl
+      ctaButtonText
     }
   }
 `;

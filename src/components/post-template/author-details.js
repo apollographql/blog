@@ -42,7 +42,7 @@ const AuthorBio = styled.div({
 });
 
 export default function AuthorDetails(props) {
-  const {name, slug, acf, description} = props.author;
+  const {name, slug, userMetadata, description} = props.author;
   return (
     <div>
       <AuthorHeader>
@@ -51,11 +51,11 @@ export default function AuthorDetails(props) {
           <h5>Written by</h5>
           <h3>{name}</h3>
         </AuthorByline>
-        {acf.twitter && (
+        {userMetadata.twitter && (
           <TwitterButton
             as={
               <a
-                href={`https://twitter.com/${acf.twitter}`}
+                href={`https://twitter.com/${userMetadata.twitter}`}
                 target="_blank"
                 rel="noopener noreferrer"
               />
@@ -66,7 +66,7 @@ export default function AuthorDetails(props) {
         )}
       </AuthorHeader>
       <AuthorBio>
-        <p>{decode(description)}</p>
+        {description && <p>{decode(description)}</p>}
         <p>
           <Link to={`/author/${slug}`}>
             Read more by {name} <IconProceed />
