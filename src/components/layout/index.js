@@ -140,6 +140,7 @@ export default function Layout(props) {
         }
         recentPosts: allWpPost(limit: 3) {
           nodes {
+            id
             date
             title
             slug
