@@ -27,7 +27,7 @@ module.exports = {
             excludeFieldNames: null
           },
           Post: {
-            limit: process.env.CONTEXT === 'production' ? undefined : 10
+            limit: process.env.NODE_ENV === 'production' ? undefined : 10
           }
         }
       }
@@ -46,12 +46,12 @@ module.exports = {
         fields: ['title', 'content'],
         resolvers: {
           WpPost: {
-            title: node => node.title,
-            content: node => stripHtmlTags(node.content),
-            slug: node => node.slug,
+            title: (node) => node.title,
+            content: (node) => stripHtmlTags(node.content),
+            slug: (node) => node.slug,
             categories: (node, getNode) =>
-              node.categories.nodes.map(category => getNode(category.id)),
-            author: node => node.author
+              node.categories.nodes.map((category) => getNode(category.id)),
+            author: (node) => node.author
           }
         }
       }
@@ -87,7 +87,7 @@ module.exports = {
           {
             serialize: ({query}) => {
               const {siteUrl} = query.site.siteMetadata;
-              return query.allWpPost.nodes.map(node => {
+              return query.allWpPost.nodes.map((node) => {
                 const url = siteUrl + node.path;
                 return {
                   title: node.title,
