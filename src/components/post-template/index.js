@@ -171,7 +171,7 @@ export default function PostTemplate(props) {
           )}
         </BylineWrapper>
         <Categories>
-          {categories.nodes.map(category => (
+          {categories.nodes.map((category) => (
             <Category key={category.id} category={category} />
           ))}
         </Categories>
@@ -179,7 +179,7 @@ export default function PostTemplate(props) {
       <InnerWrapper>
         <Main>
           {featuredImage && <FeaturedImage src={featuredImage} />}
-          <PostContent content={content} />
+          <PostContent content={content} shareUrl={shareUrl} />
           <Divider />
           <AuthorDetails author={author} />
           <NewsletterSignup>

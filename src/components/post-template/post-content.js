@@ -2,6 +2,7 @@ import Prism from 'prismjs';
 import PropTypes from 'prop-types';
 import React from 'react';
 import parse, {domToReact, htmlToDOM} from 'html-react-parser';
+import querystring from 'querystring';
 import styled from '@emotion/styled';
 import {
   BREAKPOINT_LG,
@@ -11,6 +12,7 @@ import {
   linkStyles
 } from '../ui';
 import {HEADING_COLOR} from '../../styles';
+import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
 import {colors} from '@apollo/space-kit/colors';
 
 // load prism languages after prism import
@@ -20,6 +22,7 @@ import 'prismjs/components/prism-json';
 import 'prismjs/components/prism-jsx';
 import 'prismjs/components/prism-tsx';
 import 'prismjs/components/prism-typescript';
+import {Button} from '@apollo/space-kit/Button';
 
 const DOUBLE_WRAPPER_PADDING_X = WRAPPER_PADDING_X * 2;
 const ALIGNFULL_WIDTH = 'var(--rw, 100vw)';
@@ -37,7 +40,7 @@ const Wrapper = styled.div({
     ...largeTextStyles,
     marginBottom: 31
   },
-  a: linkStyles,
+  'a:not(.button)': linkStyles,
   '.wp-block-image': {
     margin: '90px 0',
     '&.alignfull': {
@@ -159,10 +162,53 @@ function getDomNodeText(domNode) {
   return text;
 }
 
-function renderContent(content) {
+function reduceTextNodes(children) {
+  return children.reduce((acc, node) => {
+    if (node.type === 'text') {
+      return [...acc, node.data];
+    } else if (Array.isArray(node.children)) {
+      return [...acc, ...reduceTextNodes(node.children)];
+    }
+    return acc;
+  }, []);
+}
+
+function renderContent(content, url) {
   return parse(content, {
     replace(domNode) {
       switch (domNode.name) {
+        case 'blockquote': {
+          const query = querystring.stringify({
+            text: reduceTextNodes(domNode.children).join(''),
+            url
+          });
+          return (
+            <blockquote>
+              {domToReact(domNode.children)}
+              <Button
+                as={
+                  <a
+                    className="button"
+                    href={`https://twitter.com/intent/tweet?${query}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                }
+                icon={
+                  <IconTwitter
+                    style={{
+                      color: colors.silver.darker,
+                      height: 16,
+                      marginRight: 8
+                    }}
+                  />
+                }
+              >
+                Tweet
+              </Button>
+            </blockquote>
+          );
+        }
         case 'code':
           return (
             <code>
@@ -216,9 +262,10 @@ function renderContent(content) {
 }
 
 export default function PostContent(props) {
-  return <Wrapper>{renderContent(props.content)}</Wrapper>;
+  return <Wrapper>{renderContent(props.content, props.shareUrl)}</Wrapper>;
 }
 
 PostContent.propTypes = {
-  content: PropTypes.string.isRequired
+  content: PropTypes.string.isRequired,
+  shareUrl: PropTypes.string.isRequired
 };
