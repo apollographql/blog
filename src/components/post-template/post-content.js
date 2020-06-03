@@ -42,8 +42,9 @@ const Wrapper = styled.div({
     margin: '90px 0',
     '&.alignfull': {
       width: ALIGNFULL_WIDTH,
-      marginLeft: `calc(min(${BREAKPOINT_LG -
-        DOUBLE_WRAPPER_PADDING_X}px - ${ALIGNFULL_WIDTH}, -${DOUBLE_WRAPPER_PADDING_X}px) / 2)`,
+      marginLeft: `calc(min(${
+        BREAKPOINT_LG - DOUBLE_WRAPPER_PADDING_X
+      }px - ${ALIGNFULL_WIDTH}, -${DOUBLE_WRAPPER_PADDING_X}px) / 2)`,
       position: 'relative'
     },
     img: {
@@ -119,7 +120,18 @@ const Wrapper = styled.div({
   blockquote: {
     margin: '90px 0',
     paddingLeft: 60,
-    fontFamily: FONT_FAMILY_MONO
+    fontFamily: FONT_FAMILY_MONO,
+    position: 'relative',
+    '::before': {
+      content: "'“'",
+      color: colors.silver.base,
+      fontSize: 280,
+      lineHeight: 1,
+      position: 'absolute',
+      top: -90,
+      left: 0,
+      zIndex: -1
+    }
   }
 });
 
@@ -155,7 +167,7 @@ function renderContent(content) {
           return (
             <code>
               {domToReact(
-                domNode.children.flatMap(child => htmlToDOM(child.data))
+                domNode.children.flatMap((child) => htmlToDOM(child.data))
               )}
             </code>
           );
