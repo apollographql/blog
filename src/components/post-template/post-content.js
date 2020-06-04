@@ -2,7 +2,6 @@ import Prism from 'prismjs';
 import PropTypes from 'prop-types';
 import React from 'react';
 import parse, {domToReact, htmlToDOM} from 'html-react-parser';
-import querystring from 'querystring';
 import styled from '@emotion/styled';
 import {
   BREAKPOINT_LG,
@@ -13,6 +12,7 @@ import {
 } from '../ui';
 import {HEADING_COLOR} from '../../styles';
 import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
+import {TwitterShareButton} from 'react-share';
 import {colors} from '@apollo/space-kit/colors';
 
 // load prism languages after prism import
@@ -40,7 +40,7 @@ const Wrapper = styled.div({
     ...largeTextStyles,
     marginBottom: 31
   },
-  'a:not(.button)': linkStyles,
+  a: linkStyles,
   '.wp-block-image': {
     margin: '90px 0',
     '&.alignfull': {
@@ -173,25 +173,20 @@ function reduceTextNodes(children) {
   }, []);
 }
 
-function renderContent(content, url) {
+function renderContent(content, shareUrl) {
   return parse(content, {
     replace(domNode) {
       switch (domNode.name) {
-        case 'blockquote': {
-          const query = querystring.stringify({
-            text: reduceTextNodes(domNode.children).join(''),
-            url
-          });
+        case 'blockquote':
           return (
             <blockquote>
               {domToReact(domNode.children)}
               <Button
                 as={
-                  <a
-                    className="button"
-                    href={`https://twitter.com/intent/tweet?${query}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <TwitterShareButton
+                    resetButtonStyle={false}
+                    url={shareUrl}
+                    title={reduceTextNodes(domNode.children).join('')}
                   />
                 }
                 icon={
@@ -208,7 +203,7 @@ function renderContent(content, url) {
               </Button>
             </blockquote>
           );
-        }
+
         case 'code':
           return (
             <code>

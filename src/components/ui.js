@@ -193,6 +193,8 @@ export const SocialIcons = styled.div({
     border: 0,
     cursor: 'pointer',
     color: colors.silver.darker,
+    background: 'none',
+    overflow: 'hidden',
     svg: {
       ...size('100%'),
       fill: 'currentColor'

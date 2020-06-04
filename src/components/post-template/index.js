@@ -220,13 +220,13 @@ export default function PostTemplate(props) {
             <SidebarSection>
               <SectionHeading>Share article</SectionHeading>
               <SocialIcons>
-                <TwitterShareButton {...shareButtonProps}>
+                <TwitterShareButton title={postTitle} {...shareButtonProps}>
                   <IconTwitter />
                 </TwitterShareButton>
-                <FacebookShareButton {...shareButtonProps}>
+                <FacebookShareButton quote={postTitle} {...shareButtonProps}>
                   <IconFacebook />
                 </FacebookShareButton>
-                <LinkedinShareButton {...shareButtonProps}>
+                <LinkedinShareButton title={postTitle} {...shareButtonProps}>
                   <LinkedinIcon
                     bgStyle={{fill: 'transparent'}}
                     iconFillColor="currentColor"
