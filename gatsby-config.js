@@ -1,4 +1,5 @@
 const {stripHtmlTags} = require('./src/utils');
+const {decode} = require('he');
 
 module.exports = {
   pathPrefix: '/blog',
@@ -46,8 +47,9 @@ module.exports = {
         fields: ['title', 'content'],
         resolvers: {
           WpPost: {
-            title: (node) => node.title,
+            title: (node) => decode(node.title),
             content: (node) => stripHtmlTags(node.content),
+            excerpt: (node) => stripHtmlTags(node.excerpt),
             slug: (node) => node.slug,
             categories: (node, getNode) =>
               node.categories.nodes.map((category) => getNode(category.id)),

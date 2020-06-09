@@ -43,6 +43,10 @@ const HeaderInner = styled(Wrapper)({
   }
 });
 
+const LogoWrapper = styled.div({
+  display: 'flex'
+});
+
 const LogoLink = styled(Link)({
   display: 'flex',
   alignItems: 'flex-start',
@@ -204,10 +208,12 @@ export default function Layout(props) {
       <Global styles={styles} />
       <Header>
         <HeaderInner>
-          <LogoLink to="/">
-            <StyledApolloIcon />
-            <StyledBlogIcon />
-          </LogoLink>
+          <LogoWrapper>
+            <LogoLink to="/">
+              <StyledApolloIcon />
+              <StyledBlogIcon />
+            </LogoLink>
+          </LogoWrapper>
           <SearchForm action={withPrefix('/search')}>
             <SearchInput
               size="large"

@@ -5,7 +5,6 @@ import React from 'react';
 import styled from '@emotion/styled';
 import {DateText, HeadingLink} from './ui';
 import {colors} from '@apollo/space-kit/colors';
-import {decode} from 'he';
 
 const Wrapper = styled.div({
   display: 'flex',
@@ -32,19 +31,17 @@ const Wrapper = styled.div({
 });
 
 export default function SearchPost(props) {
-  const content = decode(props.post.content);
-  const termIndex = content.toLowerCase().indexOf(props.term.toLowerCase());
-  const excerpt = termIndex > -1 ? content.slice(termIndex) : content;
   return (
     <Wrapper key={props.post.id}>
       <DateText date={props.post.date} style={{marginBottom: 8}} />
       <h3>
-        <HeadingLink to={'/' + props.post.slug}>
-          {decode(props.post.title)}
-        </HeadingLink>
+        <HeadingLink to={'/' + props.post.slug}>{props.post.title}</HeadingLink>
       </h3>
       <p>
-        <Highlighter textToHighlight={excerpt} searchWords={[props.term]} />
+        <Highlighter
+          textToHighlight={props.post.excerpt}
+          searchWords={[props.term]}
+        />
       </p>
       <Byline size="sm" author={props.post.author} />
     </Wrapper>

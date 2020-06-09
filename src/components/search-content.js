@@ -25,7 +25,7 @@ export default function SearchContent(props) {
     () =>
       props.index
         .search(props.query)
-        .map(result => props.index.documentStore.getDoc(result.ref))
+        .map((result) => props.index.documentStore.getDoc(result.ref))
         .sort((a, b) => new Date(b.date) - new Date(a.date)),
     [props.index, props.query]
   );
@@ -34,7 +34,7 @@ export default function SearchContent(props) {
     () =>
       Object.entries(
         results
-          .flatMap(result => result.categories)
+          .flatMap((result) => result.categories)
           .reduce(
             (acc, {name}) => ({
               ...acc,
@@ -50,16 +50,16 @@ export default function SearchContent(props) {
   const filteredResults = useMemo(
     () =>
       results
-        .filter(result =>
+        .filter((result) =>
           selectedCategory
             ? result.categories.some(
-                category => category.name === selectedCategory
+                (category) => category.name === selectedCategory
               )
             : true
         )
-        .map(result => ({
+        .map((result) => ({
           ...result,
-          author: props.users.find(user => user.id === result.author.id)
+          author: props.users.find((user) => user.id === result.author.id)
         })),
     [props.users, results, selectedCategory]
   );
@@ -75,7 +75,7 @@ export default function SearchContent(props) {
       </SectionHeading>
       <InnerWrapper>
         <Main>
-          {filteredResults.map(result => (
+          {filteredResults.map((result) => (
             <SearchPost
               term={props.query}
               key={result.id}
@@ -93,7 +93,7 @@ export default function SearchContent(props) {
                   key={category}
                   className={category === selectedCategory && 'selected'}
                   onClick={() =>
-                    setSelectedCategory(prevCategory =>
+                    setSelectedCategory((prevCategory) =>
                       prevCategory === category ? null : category
                     )
                   }
