@@ -135,6 +135,12 @@ const Wrapper = styled.div({
       left: 0,
       zIndex: -1
     }
+  },
+  '.wp-block-embed-youtube': {
+    margin: 0,
+    iframe: {
+      width: '100%'
+    }
   }
 });
 
