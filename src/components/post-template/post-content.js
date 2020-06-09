@@ -5,6 +5,7 @@ import parse, {domToReact, htmlToDOM} from 'html-react-parser';
 import styled from '@emotion/styled';
 import {
   BREAKPOINT_LG,
+  BREAKPOINT_MD,
   FONT_FAMILY_MONO,
   WRAPPER_PADDING_X,
   largeTextStyles,
@@ -58,6 +59,9 @@ const Wrapper = styled.div({
       fontFamily: FONT_FAMILY_MONO,
       color: colors.grey.lighter,
       lineHeight: 1.5
+    },
+    [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
+      margin: '60px 0'
     }
   },
   [[
@@ -134,6 +138,10 @@ const Wrapper = styled.div({
       top: -90,
       left: 0,
       zIndex: -1
+    },
+    [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
+      margin: '60px 0',
+      paddingLeft: 40
     }
   },
   '.wp-block-embed-youtube': {
