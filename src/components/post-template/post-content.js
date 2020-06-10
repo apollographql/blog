@@ -139,10 +139,17 @@ const Wrapper = styled.div({
       left: 0,
       zIndex: -1
     },
+    cite: {
+      display: 'block',
+      marginBottom: '1em'
+    },
     [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
       margin: '60px 0',
       paddingLeft: 40
     }
+  },
+  '.wp-block-pullquote': {
+    margin: 0
   },
   '.wp-block-embed-youtube': {
     margin: 0,
@@ -195,26 +202,28 @@ function renderContent(content, shareUrl) {
           return (
             <blockquote>
               {domToReact(domNode.children)}
-              <Button
-                as={
-                  <TwitterShareButton
-                    resetButtonStyle={false}
-                    url={shareUrl}
-                    title={reduceTextNodes(domNode.children).join('')}
-                  />
-                }
-                icon={
-                  <IconTwitter
-                    style={{
-                      color: colors.silver.darker,
-                      height: 16,
-                      marginRight: 8
-                    }}
-                  />
-                }
-              >
-                Tweet
-              </Button>
+              {domNode.parent?.attribs.class === 'wp-block-pullquote' && (
+                <Button
+                  as={
+                    <TwitterShareButton
+                      resetButtonStyle={false}
+                      url={shareUrl}
+                      title={reduceTextNodes(domNode.children).join('')}
+                    />
+                  }
+                  icon={
+                    <IconTwitter
+                      style={{
+                        color: colors.silver.darker,
+                        height: 16,
+                        marginRight: 8
+                      }}
+                    />
+                  }
+                >
+                  Tweet
+                </Button>
+              )}
             </blockquote>
           );
 
