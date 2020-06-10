@@ -1,6 +1,6 @@
 import Prism from 'prismjs';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, {createContext, useContext} from 'react';
 import parse, {domToReact, htmlToDOM} from 'html-react-parser';
 import styled from '@emotion/styled';
 import {
@@ -156,6 +156,15 @@ const Wrapper = styled.div({
     iframe: {
       width: '100%'
     }
+  },
+  '.wp-block-group': {
+    details: {
+      ...largeTextStyles,
+      margin: '60px 0',
+      [['summary + *', '> :first-child:not(summary)']]: {
+        marginTop: 24
+      }
+    }
   }
 });
 
@@ -194,96 +203,99 @@ function reduceTextNodes(children) {
   }, []);
 }
 
-function renderContent(content, shareUrl) {
-  return parse(content, {
-    replace(domNode) {
-      switch (domNode.name) {
-        case 'blockquote':
-          return (
-            <blockquote>
-              {domToReact(domNode.children)}
-              {domNode.parent?.attribs.class === 'wp-block-pullquote' && (
-                <Button
-                  as={
-                    <TwitterShareButton
-                      resetButtonStyle={false}
-                      url={shareUrl}
-                      title={reduceTextNodes(domNode.children).join('')}
-                    />
-                  }
-                  icon={
-                    <IconTwitter
-                      style={{
-                        color: colors.silver.darker,
-                        height: 16,
-                        marginRight: 8
-                      }}
-                    />
-                  }
-                >
-                  Tweet
-                </Button>
-              )}
-            </blockquote>
-          );
+export const ShareButtonContext = createContext();
 
-        case 'code':
-          return (
-            <code>
-              {domToReact(
-                domNode.children.flatMap((child) => htmlToDOM(child.data))
-              )}
-            </code>
-          );
-        case 'div': {
-          if (
-            domNode.attribs.class?.includes('gatsby-image-wrapper') &&
-            domNode.parent.attribs.class?.includes('alignfull')
-          ) {
-            return <>{domToReact(domNode.children)}</>;
-          }
-          break;
-        }
-        case 'pre':
-          // use prism on blocks created with prismatic
-          if (domNode.attribs.class === 'wp-block-prismatic-blocks') {
-            const [child] = domNode.children;
-            if (child.name === 'code') {
-              const className = child.attribs.class;
-              if (className && className.startsWith('language-')) {
-                // reduce the codeblock into a single text node to
-                // account for incorrect rendering of JSX nodes
-                const text = getDomNodeText(child);
-                const language = className.slice(className.indexOf('-') + 1);
+function ShareButton(props) {
+  const shareUrl = useContext(ShareButtonContext);
+  return (
+    <TwitterShareButton resetButtonStyle={false} url={shareUrl} {...props} />
+  );
+}
 
-                // highlight the code
-                const grammar = Prism.languages[language];
-                if (grammar) {
-                  const html = Prism.highlight(text, grammar, language);
-
-                  // re-parse the highlighted HTML and put it back in
-                  // its place
-                  return (
-                    <pre className={className}>
-                      <code className={className}>{parse(html)}</code>
-                    </pre>
-                  );
-                }
+function replace(domNode) {
+  switch (domNode.name) {
+    case 'blockquote':
+      return (
+        <blockquote>
+          {domToReact(domNode.children)}
+          {domNode.parent?.attribs.class === 'wp-block-pullquote' && (
+            <Button
+              as={
+                <ShareButton
+                  title={reduceTextNodes(domNode.children).join('')}
+                />
               }
+              icon={
+                <IconTwitter
+                  style={{
+                    color: colors.silver.darker,
+                    height: 16,
+                    marginRight: 8
+                  }}
+                />
+              }
+            >
+              Tweet
+            </Button>
+          )}
+        </blockquote>
+      );
+
+    case 'code':
+      return (
+        <code>
+          {domToReact(
+            domNode.children.flatMap((child) => htmlToDOM(child.data))
+          )}
+        </code>
+      );
+    case 'div':
+      if (
+        domNode.attribs.class?.includes('gatsby-image-wrapper') &&
+        domNode.parent.attribs.class?.includes('alignfull')
+      ) {
+        return <>{domToReact(domNode.children)}</>;
+      } else if (domNode.attribs.class === 'wp-block-group__inner-container') {
+        return <details>{domToReact(domNode.children, {replace})}</details>;
+      }
+      break;
+    case 'pre':
+      // use prism on blocks created with prismatic
+      if (domNode.attribs.class === 'wp-block-prismatic-blocks') {
+        const [child] = domNode.children;
+        if (child.name === 'code') {
+          const className = child.attribs.class;
+          if (className && className.startsWith('language-')) {
+            // reduce the codeblock into a single text node to
+            // account for incorrect rendering of JSX nodes
+            const text = getDomNodeText(child);
+            const language = className.slice(className.indexOf('-') + 1);
+
+            // highlight the code
+            const grammar = Prism.languages[language];
+            if (grammar) {
+              const html = Prism.highlight(text, grammar, language);
+
+              // re-parse the highlighted HTML and put it back in
+              // its place
+              return (
+                <pre className={className}>
+                  <code className={className}>{parse(html)}</code>
+                </pre>
+              );
             }
           }
-          break;
-        default:
+        }
       }
-    }
-  });
+      break;
+    default:
+  }
 }
 
 export default function PostContent(props) {
-  return <Wrapper>{renderContent(props.content, props.shareUrl)}</Wrapper>;
+  return <Wrapper>{parse(props.content, {replace})}</Wrapper>;
 }
 
 PostContent.propTypes = {
-  content: PropTypes.string.isRequired,
-  shareUrl: PropTypes.string.isRequired
+  content: PropTypes.string.isRequired
 };

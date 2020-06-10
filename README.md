@@ -4,11 +4,32 @@
 
 This website is a static [Gatsby](https://gatsbyjs.org) website, created using data served from a Wordpress instance running on [WP Engine](https://wpengine.com/). It is built and deployed on Netlify, and leverages the [NetlifyPress](https://wordpress.org/plugins/deploy-netlifypress/) Wordpress plugin to trigger new deploys when content is created or updated.
 
+- [Custom components](#custom-components)
+  - [Quote share button](#quote-share-button)
+  - [Show/hide groups of elements](#showhide-groups-of-elements)
 - [Running Wordpress locally](#running-wordpress-locally)
 - [Local development](#local-development)
 - [Diagnosing site failures](#diagnosing-site-failures)
   - [Netlify](#netlify)
   - [WP Engine](#wp-engine)
+
+## Custom components
+
+In this blog, we use some Wordpress features in creative ways to deliver custom functionality in our posts.
+
+### Quote share button
+
+Wordpress _Quote_ and _Pullquote_ block types both get the same visual treatment, with one key difference: the "Tweet" button. To add a button prompting users to share the blockquote on Twitter, simply use the _Pullquote_ block type in Wordpress, rather than the default _Quote_ type.
+
+### Show/hide groups of elements
+
+We transform Wordpress _Group_ blocks into [HTML `<details>` elements](https://developer.mozilla.org/en/docs/Web/HTML/Element/details), allowing for progressive disclosure of complicated examples using native HTML.
+
+By default, `<details>` elements have a summary message that reads "Details", but authors can override this message by supplying their own `<summary>` element as the first child within a _Group_ block in Wordpress.
+
+```html
+<summary>Expand for more details</summary>
+```
 
 ## Running Wordpress locally
 

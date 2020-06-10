@@ -8,7 +8,7 @@ import NewsletterForm, {
   useNewsletterForm
 } from '../newsletter-form';
 import PostAction from './post-action';
-import PostContent from './post-content';
+import PostContent, {ShareButtonContext} from './post-content';
 import PropTypes from 'prop-types';
 import React, {Fragment} from 'react';
 import styled from '@emotion/styled';
@@ -179,7 +179,9 @@ export default function PostTemplate(props) {
       <InnerWrapper>
         <Main>
           {featuredImage && <FeaturedImage src={featuredImage} />}
-          <PostContent content={content} shareUrl={shareUrl} />
+          <ShareButtonContext.Provider value={shareUrl}>
+            <PostContent content={content} />
+          </ShareButtonContext.Provider>
           <Divider />
           <AuthorDetails author={author} />
           <NewsletterSignup>
