@@ -62,6 +62,12 @@ const Wrapper = styled.div({
     },
     [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
       margin: '60px 0'
+    },
+    '.alignright .gatsby-image-wrapper': {
+      float: 'right'
+    },
+    '.alignleft .gatsby-image-wrapper': {
+      float: 'left'
     }
   },
   [[
