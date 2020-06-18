@@ -11,6 +11,7 @@ import styled from '@emotion/styled';
 import {
   DateText,
   ExcerptText,
+  FONT_FAMILY_MONO,
   HeadingLink,
   InnerWrapper,
   Main,
@@ -19,9 +20,10 @@ import {
   Sidebar,
   TopFold
 } from '../components/ui';
+import {IconProceed} from '@apollo/space-kit/icons/IconProceed';
+import {Link, graphql} from 'gatsby';
 import {colors} from '@apollo/space-kit/colors';
 import {decode} from 'he';
-import {graphql} from 'gatsby';
 import {size} from 'polished';
 
 const FeaturedPost = styled.div({
@@ -31,18 +33,23 @@ const FeaturedPost = styled.div({
   marginBottom: 124
 });
 
-const StyledSectionHeading = styled(SectionHeading)({
-  display: 'flex',
-  alignItems: 'center',
-  svg: {
-    ...size(18),
-    marginRight: 12,
-    color: colors.indigo.base
-  }
-});
-
 const StyledRecentPosts = styled(RecentPosts)({
   marginBottom: 90
+});
+
+const ViewAllLink = styled(Link)({
+  display: 'inline-flex',
+  alignItems: 'center',
+  fontFamily: FONT_FAMILY_MONO,
+  color: colors.indigo.base,
+  textDecoration: 'none',
+  ':hover': {
+    textDecoration: 'underline'
+  },
+  svg: {
+    ...size('1em'),
+    marginLeft: 12
+  }
 });
 
 export default function Index(props) {
@@ -76,13 +83,16 @@ export default function Index(props) {
             </PostLink>
             <Byline author={featuredPost.author} />
           </FeaturedPost>
-          <StyledSectionHeading>What&apos;s new</StyledSectionHeading>
+          <SectionHeading>What&apos;s new</SectionHeading>
           <StyledRecentPosts posts={recentPosts} />
-          <StyledSectionHeading>
-            <HeadingLink to="/archive/1">Archive</HeadingLink>
-          </StyledSectionHeading>
+          <SectionHeading style={{marginBottom: 8}}>Archive</SectionHeading>
+          <div style={{marginBottom: 48}}>
+            <ViewAllLink to="/archive/1">
+              View all posts <IconProceed />
+            </ViewAllLink>
+          </div>
           <div>
-            {archivePosts.map(post => (
+            {archivePosts.map((post) => (
               <ArchivePost key={post.id} post={post} />
             ))}
           </div>
