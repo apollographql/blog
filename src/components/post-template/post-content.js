@@ -49,7 +49,10 @@ const Wrapper = styled.div({
       marginLeft: `calc(min(${
         BREAKPOINT_LG - DOUBLE_WRAPPER_PADDING_X
       }px - ${ALIGNFULL_WIDTH}, -${DOUBLE_WRAPPER_PADDING_X}px) / 2)`,
-      position: 'relative'
+      position: 'relative',
+      img: {
+        width: '100%'
+      }
     },
     img: {
       maxWidth: '100%'
@@ -63,10 +66,10 @@ const Wrapper = styled.div({
     [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
       margin: '60px 0'
     },
-    '.alignright .gatsby-image-wrapper': {
+    '.alignright': {
       float: 'right'
     },
-    '.alignleft .gatsby-image-wrapper': {
+    '.alignleft': {
       float: 'left'
     }
   },
