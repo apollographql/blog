@@ -304,7 +304,6 @@ export const pageQuery = graphql`
       }
       featuredImage {
         remoteFile {
-          url
           childImageSharp {
             id
             original {
