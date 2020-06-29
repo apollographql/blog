@@ -23,6 +23,9 @@ module.exports = {
             panicOnError: true
           }
         },
+        html: {
+          useGatsbyImage: false
+        },
         type: {
           User: {
             excludeFieldNames: null
