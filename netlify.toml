@@ -1,5 +1,0 @@
-[build]
-  command = "GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build --log-pages --prefix-paths"
-  publish = "public"
-[[plugins]]
-  package = "netlify-plugin-gatsby-cache"
