@@ -23,7 +23,7 @@ export default function ArchivePost(props) {
           {decode(props.post.title)}
         </HeadingLink>
       </h4>
-      <Byline size="xs" author={props.post.author} />
+      <Byline size="xs" author={props.post.author.node} />
     </Wrapper>
   );
 }

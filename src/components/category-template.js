@@ -64,7 +64,7 @@ export default function CategoryTemplate(props) {
         <meta name="twitter:title" content={name} />
       </Helmet>
       <StyledCategories>
-        {categories.map(category => (
+        {categories.map((category) => (
           <Fragment key={category.id}>
             {category.id === id ? (
               <SelectedCategory>{category.name}</SelectedCategory>
@@ -80,7 +80,7 @@ export default function CategoryTemplate(props) {
           {hasMorePosts || !isFirstPage ? (
             <Fragment>
               <SectionHeading>Read more</SectionHeading>
-              {(isFirstPage ? morePosts : nodes).map(post => (
+              {(isFirstPage ? morePosts : nodes).map((post) => (
                 <ArchivePost key={post.id} post={post} />
               ))}
             </Fragment>
@@ -121,10 +121,12 @@ export const pageQuery = graphql`
         title
         slug
         featuredImage {
-          remoteFile {
-            childImageSharp {
-              original {
-                src
+          node {
+            remoteFile {
+              childImageSharp {
+                original {
+                  src
+                }
               }
             }
           }
@@ -137,18 +139,20 @@ export const pageQuery = graphql`
           }
         }
         author {
-          name
-          slug
-          avatar {
-            url
-          }
-          userMetadata {
-            title
-            avatarId {
-              remoteFile {
-                childImageSharp {
-                  original {
-                    src
+          node {
+            name
+            slug
+            avatar {
+              url
+            }
+            userMetadata {
+              title
+              avatarId {
+                remoteFile {
+                  childImageSharp {
+                    original {
+                      src
+                    }
                   }
                 }
               }

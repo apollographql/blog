@@ -116,11 +116,12 @@ export default function PostTemplate(props) {
     content,
     postCtaSettings
   } = props.data.wpPost;
-  const {twitter} = author.userMetadata;
+  const {twitter} = author.node.userMetadata;
 
   const postTitle = decode(title);
   const description = stripHtmlTags(excerpt);
-  const featuredImage = featuredMedia?.remoteFile.childImageSharp.original.src;
+  const featuredImage =
+    featuredMedia?.node.remoteFile.childImageSharp.original.src;
 
   const shareUrl = props.data.site.siteMetadata.siteUrl + path;
   const shareButtonProps = {
@@ -151,7 +152,7 @@ export default function PostTemplate(props) {
         <DateText style={{marginBottom: 12}} date={date} />
         <h1>{postTitle}</h1>
         <BylineWrapper>
-          <Byline author={author} />
+          <Byline author={author.node} />
           {twitter && (
             <TwitterHandleWrapper>
               <TwitterHandle
@@ -183,7 +184,7 @@ export default function PostTemplate(props) {
             <PostContent content={content} />
           </ShareButtonContext.Provider>
           <Divider />
-          <AuthorDetails author={author} />
+          <AuthorDetails author={author.node} />
           <NewsletterSignup>
             <h3>Stay in our orbit!</h3>
             {newsletterFormProps.success ? (
@@ -275,24 +276,8 @@ export const pageQuery = graphql`
       excerpt
       content
       author {
-        name
-        slug
-        description
-        avatar {
-          url
-        }
-        userMetadata {
-          twitter
-          title
-          avatarId {
-            remoteFile {
-              childImageSharp {
-                original {
-                  src
-                }
-              }
-            }
-          }
+        node {
+          ...UserFragment
         }
       }
       categories {
@@ -303,11 +288,13 @@ export const pageQuery = graphql`
         }
       }
       featuredImage {
-        remoteFile {
-          childImageSharp {
-            id
-            original {
-              src
+        node {
+          remoteFile {
+            childImageSharp {
+              id
+              original {
+                src
+              }
             }
           }
         }
@@ -339,21 +326,27 @@ export const pageQuery = graphql`
         title
         slug
         author {
-          name
-          slug
-          description
-          avatar {
-            url
+          node {
+            ...UserFragment
           }
-          userMetadata {
-            avatarId {
-              remoteFile {
-                childImageSharp {
-                  original {
-                    src
-                  }
-                }
-              }
+        }
+      }
+    }
+  }
+
+  fragment UserFragment on WpUser {
+    name
+    slug
+    description
+    avatar {
+      url
+    }
+    userMetadata {
+      avatarId {
+        remoteFile {
+          childImageSharp {
+            original {
+              src
             }
           }
         }

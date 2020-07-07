@@ -133,13 +133,13 @@ export default function Layout(props) {
             title
           }
         }
-        companyMenu: wpMenu(menuId: {eq: 2}) {
+        companyMenu: wpMenu(databaseId: {eq: 2}) {
           ...MenuFragment
         }
-        communityMenu: wpMenu(menuId: {eq: 3}) {
+        communityMenu: wpMenu(databaseId: {eq: 3}) {
           ...MenuFragment
         }
-        helpMenu: wpMenu(menuId: {eq: 4}) {
+        helpMenu: wpMenu(databaseId: {eq: 4}) {
           ...MenuFragment
         }
         recentPosts: allWpPost(limit: 3) {
@@ -149,18 +149,19 @@ export default function Layout(props) {
             title
             slug
             author {
-              # TODO: move to fragment in author component
-              name
-              slug
-              avatar {
-                url
-              }
-              userMetadata {
-                avatarId {
-                  remoteFile {
-                    childImageSharp {
-                      original {
-                        src
+              node {
+                name
+                slug
+                avatar {
+                  url
+                }
+                userMetadata {
+                  avatarId {
+                    remoteFile {
+                      childImageSharp {
+                        original {
+                          src
+                        }
                       }
                     }
                   }

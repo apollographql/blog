@@ -63,13 +63,16 @@ function PostImagePlaceholder() {
 export default function RecentPosts({posts, ...props}) {
   return (
     <Wrapper {...props}>
-      {posts.map(post => (
+      {posts.map((post) => (
         <div key={post.id}>
           <PostLink to={'/' + post.slug}>
             {post.featuredImage ? (
               <PostImage
                 style={{height: POST_IMAGE_HEIGHT}}
-                src={post.featuredImage.remoteFile.childImageSharp.original.src}
+                src={
+                  post.featuredImage?.node.remoteFile.childImageSharp.original
+                    .src
+                }
               />
             ) : (
               <PostImagePlaceholder />
@@ -85,7 +88,7 @@ export default function RecentPosts({posts, ...props}) {
             />
           </PostLink>
           <PostCategories>
-            {post.categories.nodes.map(category => (
+            {post.categories.nodes.map((category) => (
               <Category isSmall key={category.id} category={category} />
             ))}
           </PostCategories>

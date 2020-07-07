@@ -20,7 +20,7 @@ export default function AuthorTemplate(props) {
       <SectionHeading>Posts by {name}</SectionHeading>
       <InnerWrapper>
         <Main>
-          {props.data.allWpPost.nodes.map(post => (
+          {props.data.allWpPost.nodes.map((post) => (
             <ArchivePost key={post.id} post={post} />
           ))}
         </Main>
@@ -41,7 +41,7 @@ export const pageQuery = graphql`
     wpUser(id: {eq: $id}) {
       name
     }
-    allWpPost(filter: {author: {id: {eq: $id}}}) {
+    allWpPost(filter: {author: {node: {id: {eq: $id}}}}) {
       nodes {
         id
         date
@@ -49,10 +49,12 @@ export const pageQuery = graphql`
         title
         slug
         featuredImage {
-          remoteFile {
-            childImageSharp {
-              original {
-                src
+          node {
+            remoteFile {
+              childImageSharp {
+                original {
+                  src
+                }
               }
             }
           }
@@ -65,18 +67,20 @@ export const pageQuery = graphql`
           }
         }
         author {
-          name
-          slug
-          avatar {
-            url
-          }
-          userMetadata {
-            title
-            avatarId {
-              remoteFile {
-                childImageSharp {
-                  original {
-                    src
+          node {
+            name
+            slug
+            avatar {
+              url
+            }
+            userMetadata {
+              title
+              avatarId {
+                remoteFile {
+                  childImageSharp {
+                    original {
+                      src
+                    }
                   }
                 }
               }

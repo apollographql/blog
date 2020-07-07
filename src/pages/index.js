@@ -74,14 +74,14 @@ export default function Index(props) {
               {featuredPost.featuredImage && (
                 <PostImage
                   src={
-                    featuredPost.featuredImage.remoteFile.childImageSharp
+                    featuredPost.featuredImage.node.remoteFile.childImageSharp
                       .original.src
                   }
                 />
               )}
               <ExcerptText excerpt={featuredPost.excerpt} />
             </PostLink>
-            <Byline author={featuredPost.author} />
+            <Byline author={featuredPost.author.node} />
           </FeaturedPost>
           <SectionHeading>What&apos;s new</SectionHeading>
           <StyledRecentPosts posts={recentPosts} />
@@ -121,10 +121,12 @@ export const pageQuery = graphql`
         title
         slug
         featuredImage {
-          remoteFile {
-            childImageSharp {
-              original {
-                src
+          node {
+            remoteFile {
+              childImageSharp {
+                original {
+                  src
+                }
               }
             }
           }
@@ -137,18 +139,20 @@ export const pageQuery = graphql`
           }
         }
         author {
-          name
-          slug
-          avatar {
-            url
-          }
-          userMetadata {
-            title
-            avatarId {
-              remoteFile {
-                childImageSharp {
-                  original {
-                    src
+          node {
+            name
+            slug
+            avatar {
+              url
+            }
+            userMetadata {
+              title
+              avatarId {
+                remoteFile {
+                  childImageSharp {
+                    original {
+                      src
+                    }
                   }
                 }
               }

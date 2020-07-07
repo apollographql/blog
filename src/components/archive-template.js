@@ -38,7 +38,7 @@ export default function Archive(props) {
       <StyledSectionHeading>{ARCHIVE_TITLE}</StyledSectionHeading>
       <InnerWrapper>
         <Main>
-          {nodes.map(post => (
+          {nodes.map((post) => (
             <ArchivePost key={post.id} post={post} />
           ))}
         </Main>
@@ -71,10 +71,12 @@ export const pageQuery = graphql`
         title
         slug
         featuredImage {
-          remoteFile {
-            childImageSharp {
-              original {
-                src
+          node {
+            remoteFile {
+              childImageSharp {
+                original {
+                  src
+                }
               }
             }
           }
@@ -87,18 +89,20 @@ export const pageQuery = graphql`
           }
         }
         author {
-          name
-          slug
-          avatar {
-            url
-          }
-          userMetadata {
-            title
-            avatarId {
-              remoteFile {
-                childImageSharp {
-                  original {
-                    src
+          node {
+            name
+            slug
+            avatar {
+              url
+            }
+            userMetadata {
+              title
+              avatarId {
+                remoteFile {
+                  childImageSharp {
+                    original {
+                      src
+                    }
                   }
                 }
               }
