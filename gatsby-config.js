@@ -56,7 +56,7 @@ module.exports = {
             slug: (node) => node.slug,
             categories: (node, getNode) =>
               node.categories.nodes.map((category) => getNode(category.id)),
-            author: (node) => node.author
+            author: (node) => node.author.node
           }
         }
       }

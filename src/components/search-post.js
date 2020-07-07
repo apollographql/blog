@@ -43,7 +43,7 @@ export default function SearchPost(props) {
           searchWords={[props.term]}
         />
       </p>
-      <Byline size="sm" author={props.post.author.node} />
+      <Byline size="sm" author={props.post.author} />
     </Wrapper>
   );
 }
