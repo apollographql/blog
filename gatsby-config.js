@@ -31,7 +31,7 @@ module.exports = {
             excludeFieldNames: null
           },
           Post: {
-            limit: process.env.NODE_ENV === 'production' ? undefined : 100
+            limit: process.env.NODE_ENV === 'production' ? undefined : 20
           }
         }
       }

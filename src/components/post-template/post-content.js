@@ -11,6 +11,7 @@ import {
   largeTextStyles,
   linkStyles
 } from '../ui';
+import {Button} from '@apollo/space-kit/Button';
 import {HEADING_COLOR} from '../../styles';
 import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
 import {TwitterShareButton} from 'react-share';
@@ -23,7 +24,6 @@ import 'prismjs/components/prism-json';
 import 'prismjs/components/prism-jsx';
 import 'prismjs/components/prism-tsx';
 import 'prismjs/components/prism-typescript';
-import {Button} from '@apollo/space-kit/Button';
 
 const DOUBLE_WRAPPER_PADDING_X = WRAPPER_PADDING_X * 2;
 const ALIGNFULL_WIDTH = 'var(--rw, 100vw)';
@@ -261,31 +261,41 @@ function replace(domNode) {
       break;
     case 'pre':
       // use prism on blocks created with prismatic
-      if (domNode.attribs.class === 'wp-block-prismatic-blocks') {
-        const [child] = domNode.children;
-        if (child.name === 'code') {
-          const className = child.attribs.class;
-          if (className && className.startsWith('language-')) {
-            // reduce the codeblock into a single text node to
-            // account for incorrect rendering of JSX nodes
-            const text = getDomNodeText(child);
-            const language = className.slice(className.indexOf('-') + 1);
+      switch (domNode.attribs.class) {
+        case 'wp-block-preformatted':
+          return (
+            <pre className="wp-block-preformatted">
+              {getDomNodeText(domNode)}
+            </pre>
+          );
+        case 'wp-block-prismatic-blocks': {
+          const [child] = domNode.children;
+          if (child.name === 'code') {
+            const className = child.attribs.class;
+            if (className && className.startsWith('language-')) {
+              // reduce the codeblock into a single text node to
+              // account for incorrect rendering of JSX nodes
+              const text = getDomNodeText(child);
+              const language = className.slice(className.indexOf('-') + 1);
 
-            // highlight the code
-            const grammar = Prism.languages[language];
-            if (grammar) {
-              const html = Prism.highlight(text, grammar, language);
+              // highlight the code
+              const grammar = Prism.languages[language];
+              if (grammar) {
+                const html = Prism.highlight(text, grammar, language);
 
-              // re-parse the highlighted HTML and put it back in
-              // its place
-              return (
-                <pre className={className}>
-                  <code className={className}>{parse(html)}</code>
-                </pre>
-              );
+                // re-parse the highlighted HTML and put it back in
+                // its place
+                return (
+                  <pre className={className}>
+                    <code className={className}>{parse(html)}</code>
+                  </pre>
+                );
+              }
             }
           }
+          break;
         }
+        default:
       }
       break;
     default:
@@ -293,7 +303,9 @@ function replace(domNode) {
 }
 
 export default function PostContent(props) {
-  return <Wrapper>{parse(props.content, {replace})}</Wrapper>;
+  return (
+    <Wrapper>{parse(props.content.replace(/<br>/g, '\n'), {replace})}</Wrapper>
+  );
 }
 
 PostContent.propTypes = {
