@@ -1,7 +1,7 @@
 import Prism from 'prismjs';
 import PropTypes from 'prop-types';
 import React, {createContext, useContext} from 'react';
-import parse, {domToReact, htmlToDOM} from 'html-react-parser';
+import parse, {domToReact} from 'html-react-parser';
 import styled from '@emotion/styled';
 import {
   BREAKPOINT_LG,
@@ -248,15 +248,6 @@ function replace(domNode) {
             </Button>
           )}
         </blockquote>
-      );
-
-    case 'code':
-      return (
-        <code>
-          {domToReact(
-            domNode.children.flatMap((child) => htmlToDOM(child.data))
-          )}
-        </code>
       );
     case 'div':
       if (
