@@ -76,6 +76,7 @@ const Wrapper = styled.div({
   [[
     'pre[class*="language-"]',
     'pre.wp-block-code',
+    'pre.wp-block-prismatic-blocks',
     'pre.wp-block-preformatted'
   ]]: {
     margin: '60px 0',
