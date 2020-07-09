@@ -47,7 +47,7 @@ export const pageQuery = graphql`
         date
         excerpt
         title
-        slug
+        uri
         featuredImage {
           node {
             remoteFile {

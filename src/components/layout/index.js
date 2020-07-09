@@ -147,7 +147,7 @@ export default function Layout(props) {
             id
             date
             title
-            slug
+            uri
             author {
               node {
                 name

@@ -62,7 +62,7 @@ export default function Index(props) {
       <TopFold>
         <DateText style={{marginBottom: 12}} date={featuredPost.date} />
         <h2>
-          <HeadingLink to={'/' + featuredPost.slug}>
+          <HeadingLink to={featuredPost.uri}>
             {decode(featuredPost.title)}
           </HeadingLink>
         </h2>
@@ -70,7 +70,7 @@ export default function Index(props) {
       <InnerWrapper>
         <Main>
           <FeaturedPost>
-            <PostLink to={'/' + featuredPost.slug}>
+            <PostLink to={featuredPost.uri}>
               {featuredPost.featuredImage && (
                 <PostImage
                   src={
@@ -119,7 +119,7 @@ export const pageQuery = graphql`
         date
         excerpt
         title
-        slug
+        uri
         featuredImage {
           node {
             remoteFile {

@@ -19,7 +19,7 @@ export default function ArchivePost(props) {
     <Wrapper key={props.post.id}>
       <DateText date={props.post.date} />
       <h4>
-        <HeadingLink to={'/' + props.post.slug}>
+        <HeadingLink to={props.post.uri}>
           {decode(props.post.title)}
         </HeadingLink>
       </h4>

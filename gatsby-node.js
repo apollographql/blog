@@ -5,8 +5,8 @@ exports.createPages = async ({actions, graphql}) => {
     {
       allWpPost {
         nodes {
+          uri
           databaseId
-          slug
           categories {
             nodes {
               id
@@ -32,13 +32,13 @@ exports.createPages = async ({actions, graphql}) => {
   `);
 
   const postTemplate = require.resolve('./src/components/post-template');
-  data.allWpPost.nodes.forEach(post => {
+  data.allWpPost.nodes.forEach((post) => {
     actions.createPage({
-      path: '/' + post.slug,
+      path: post.uri,
       component: postTemplate,
       context: {
         databaseId: post.databaseId,
-        categoriesIn: post.categories.nodes.map(category => category.id)
+        categoriesIn: post.categories.nodes.map((category) => category.id)
       }
     });
   });
@@ -63,7 +63,7 @@ exports.createPages = async ({actions, graphql}) => {
   });
 
   const authorTemplate = require.resolve('./src/components/author-template');
-  data.allWpUser.nodes.forEach(author => {
+  data.allWpUser.nodes.forEach((author) => {
     actions.createPage({
       path: '/author/' + author.slug,
       component: authorTemplate,
