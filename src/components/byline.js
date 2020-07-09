@@ -25,6 +25,10 @@ const Subheading = styled.h6({
 });
 
 export default function Byline(props) {
+  if (!props.author) {
+    return null;
+  }
+  
   const {name, slug, userMetadata} = props.author;
   return (
     <StyledLink to={`/author/${slug}`}>
@@ -48,7 +52,7 @@ export default function Byline(props) {
 }
 
 Byline.propTypes = {
-  author: PropTypes.object.isRequired,
+  author: PropTypes.object,
   size: PropTypes.oneOf(['xs', 'sm', 'md'])
 };
 

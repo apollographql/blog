@@ -42,6 +42,10 @@ const AuthorBio = styled.div({
 });
 
 export default function AuthorDetails(props) {
+  if (!props.author) {
+    return null;
+  }
+
   const {name, slug, userMetadata, description} = props.author;
   return (
     <div>
@@ -78,5 +82,5 @@ export default function AuthorDetails(props) {
 }
 
 AuthorDetails.propTypes = {
-  author: PropTypes.object.isRequired
+  author: PropTypes.object
 };
