@@ -261,7 +261,7 @@ PostTemplate.propTypes = {
 };
 
 export const pageQuery = graphql`
-  query PostQuery($databaseId: Int, $categoriesIn: [String]) {
+  query PostQuery($id: String, $categoriesIn: [String]) {
     site {
       siteMetadata {
         siteUrl
@@ -269,7 +269,7 @@ export const pageQuery = graphql`
     }
 
     # everything we need to render a post
-    wpPost(databaseId: {eq: $databaseId}) {
+    wpPost(id: {eq: $id}) {
       path: uri
       date
       title
@@ -316,7 +316,7 @@ export const pageQuery = graphql`
     similarPosts: allWpPost(
       limit: 3
       filter: {
-        databaseId: {ne: $databaseId}
+        id: {ne: $id}
         categories: {nodes: {elemMatch: {id: {in: $categoriesIn}}}}
       }
     ) {

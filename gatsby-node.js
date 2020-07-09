@@ -6,7 +6,7 @@ exports.createPages = async ({actions, graphql}) => {
       allWpPost {
         nodes {
           uri
-          databaseId
+          id
           categories {
             nodes {
               id
@@ -37,7 +37,7 @@ exports.createPages = async ({actions, graphql}) => {
       path: post.uri,
       component: postTemplate,
       context: {
-        databaseId: post.databaseId,
+        id: post.id,
         categoriesIn: post.categories.nodes.map((category) => category.id)
       }
     });
