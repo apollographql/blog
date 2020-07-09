@@ -116,7 +116,7 @@ export default function PostTemplate(props) {
     content,
     postCtaSettings
   } = props.data.wpPost;
-  const {twitter} = author.node.userMetadata;
+  const {twitter} = author?.node?.userMetadata ?? {};
 
   const postTitle = decode(title);
   const description = stripHtmlTags(excerpt);

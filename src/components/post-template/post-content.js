@@ -304,11 +304,15 @@ function replace(domNode) {
 }
 
 export default function PostContent(props) {
+  if (!props.content) {
+    return null;
+  }
+
   return (
     <Wrapper>{parse(props.content.replace(/<br>/g, '\n'), {replace})}</Wrapper>
   );
 }
 
 PostContent.propTypes = {
-  content: PropTypes.string.isRequired
+  content: PropTypes.string
 };
