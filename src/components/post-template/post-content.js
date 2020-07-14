@@ -74,7 +74,6 @@ const Wrapper = styled.div({
     }
   },
   [[
-    'pre[class*="language-"]',
     'pre.wp-block-code',
     'pre.wp-block-prismatic-blocks',
     'pre.wp-block-preformatted'
@@ -178,30 +177,6 @@ const Wrapper = styled.div({
   }
 });
 
-function getDomNodeText(domNode) {
-  let text = '';
-
-  function addText(children) {
-    for (const child of children) {
-      switch (child.type) {
-        case 'text':
-          text += child.data;
-          break;
-        case 'tag':
-          text += '<' + child.name + '>';
-          addText(child.children);
-          text += '</' + child.name + '>';
-          break;
-        default:
-      }
-    }
-  }
-
-  addText(domNode.children);
-
-  return text;
-}
-
 function reduceTextNodes(children) {
   return children.reduce((acc, node) => {
     if (node.type === 'text') {
@@ -260,45 +235,6 @@ function replace(domNode) {
         return <details>{domToReact(domNode.children, {replace})}</details>;
       }
       break;
-    case 'pre':
-      // use prism on blocks created with prismatic
-      switch (domNode.attribs.class) {
-        case 'wp-block-preformatted':
-          return (
-            <pre className="wp-block-preformatted">
-              {getDomNodeText(domNode)}
-            </pre>
-          );
-        case 'wp-block-prismatic-blocks': {
-          const [child] = domNode.children;
-          if (child.name === 'code') {
-            const className = child.attribs.class;
-            if (className && className.startsWith('language-')) {
-              // reduce the codeblock into a single text node to
-              // account for incorrect rendering of JSX nodes
-              const text = getDomNodeText(child);
-              const language = className.slice(className.indexOf('-') + 1);
-
-              // highlight the code
-              const grammar = Prism.languages[language];
-              if (grammar) {
-                const html = Prism.highlight(text, grammar, language);
-
-                // re-parse the highlighted HTML and put it back in
-                // its place
-                return (
-                  <pre className={className}>
-                    <code className={className}>{parse(html)}</code>
-                  </pre>
-                );
-              }
-            }
-          }
-          break;
-        }
-        default:
-      }
-      break;
     default:
   }
 }
@@ -308,9 +244,20 @@ export default function PostContent(props) {
     return null;
   }
 
-  return (
-    <Wrapper>{parse(props.content.replace(/<br>/g, '\n'), {replace})}</Wrapper>
+  const content = props.content.replace(
+    /<code class="language-([a-z]+)">([\s\S]*?)<\/code>/g,
+    (match, language, text) => {
+      const grammar = Prism.languages[language];
+      if (!grammar) {
+        return match;
+      }
+
+      const html = Prism.highlight(text, grammar, language);
+      return `<code class="language-${language}">${html}</code>`;
+    }
   );
+
+  return <Wrapper>{parse(content, {replace})}</Wrapper>;
 }
 
 PostContent.propTypes = {
