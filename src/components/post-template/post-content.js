@@ -16,6 +16,7 @@ import {HEADING_COLOR} from '../../styles';
 import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
 import {TwitterShareButton} from 'react-share';
 import {colors} from '@apollo/space-kit/colors';
+import {encode} from 'he';
 
 // load prism languages after prism import
 import 'prismjs/components/prism-bash';
@@ -244,18 +245,24 @@ export default function PostContent(props) {
     return null;
   }
 
-  const content = props.content.replace(
-    /<code class="language-([a-z]+)">([\s\S]*?)<\/code>/g,
-    (match, language, text) => {
-      const grammar = Prism.languages[language];
-      if (!grammar) {
-        return match;
-      }
+  const content = props.content
+    .replace(
+      /<pre class="wp-block-preformatted">([\s\S]*?)<\/pre>/g,
+      (match, text) =>
+        `<pre class="wp-block-preformatted">${encode(text)}</pre>`
+    )
+    .replace(
+      /<code class="language-([a-z]+)">([\s\S]*?)<\/code>/g,
+      (match, language, text) => {
+        const grammar = Prism.languages[language];
+        if (!grammar) {
+          return match;
+        }
 
-      const html = Prism.highlight(text, grammar, language);
-      return `<code class="language-${language}">${html}</code>`;
-    }
-  );
+        const html = Prism.highlight(text, grammar, language);
+        return `<code class="language-${language}">${html}</code>`;
+      }
+    );
 
   return <Wrapper>{parse(content, {replace})}</Wrapper>;
 }
