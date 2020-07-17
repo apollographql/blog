@@ -252,11 +252,11 @@ export default function PostContent(props) {
         `<pre class="wp-block-preformatted">${encode(text)}</pre>`
     )
     .replace(
-      /<code class="language-([a-z]+)">([\s\S]*?)<\/code>/g,
+      /<code class="language-([a-z]*)">([\s\S]*?)<\/code>/g,
       (match, language, text) => {
         const grammar = Prism.languages[language];
         if (!grammar) {
-          return match;
+          return `<code>${encode(text)}</code>`;
         }
 
         const html = Prism.highlight(text, grammar, language);
