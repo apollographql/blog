@@ -246,6 +246,7 @@ export default function PostContent(props) {
   }
 
   const content = props.content
+    .replace(/<br>/g, '\n')
     .replace(
       /<pre class="wp-block-preformatted">([\s\S]*?)<\/pre>/g,
       (match, text) =>
