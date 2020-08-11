@@ -138,6 +138,7 @@ const Wrapper = styled.div({
     margin: '90px 0',
     paddingLeft: 60,
     fontFamily: FONT_FAMILY_MONO,
+    color: colors.grey.base,
     position: 'relative',
     '::before': {
       content: "'“'",
