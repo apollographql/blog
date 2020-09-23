@@ -258,12 +258,16 @@ export default function PostContent(props) {
       (match, language, text) => {
         const grammar = Prism.languages[language];
         if (!grammar) {
-          return `<code>${encode(text)}</code>`;
+          return `<code>${text}</code>`;
         }
 
         const html = Prism.highlight(text, grammar, language);
         return `<code class="language-${language}">${html}</code>`;
       }
+    )
+    .replace(
+      /<code>([\s\S]*?)<\/code>/g,
+      (match, text) => `<code>${encode(text)}</code>`
     );
 
   return <Wrapper>{parse(content, {replace})}</Wrapper>;

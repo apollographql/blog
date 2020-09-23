@@ -1,5 +1,6 @@
 const {stripHtmlTags} = require('./src/utils');
 const {decode} = require('he');
+require('dotenv').config();
 
 module.exports = {
   pathPrefix: '/blog',
@@ -27,6 +28,27 @@ module.exports = {
           useGatsbyImage: false
         },
         type: {
+          CareersSlider2: {
+            exclude: true
+          },
+          CareersHeroSlider: {
+            exclude: true
+          },
+          CareersSlider3: {
+            exclude: true
+          },
+          Collection: {
+            exclude: true
+          },
+          FeedItem: {
+            exclude: true
+          },
+          FeedItemType: {
+            exclude: true
+          },
+          TeamMember: {
+            exclude: true
+          },
           User: {
             excludeFieldNames: null
           },
