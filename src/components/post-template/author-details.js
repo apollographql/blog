@@ -75,7 +75,7 @@ export default function AuthorDetails(props) {
             dangerouslySetInnerHTML={{
               __html: decode(description).replace(
                 /(https?:\/\/([\w.]+))/g,
-                '<a href="$1">$2</a>'
+                '<a href="$1" target="_blank" rel="noopener noreferrer">$2</a>'
               )
             }}
           />
