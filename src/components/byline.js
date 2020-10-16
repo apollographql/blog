@@ -28,7 +28,7 @@ export default function Byline(props) {
   if (!props.author) {
     return null;
   }
-  
+
   const {name, slug, userMetadata} = props.author;
   return (
     <StyledLink to={`/author/${slug}`}>

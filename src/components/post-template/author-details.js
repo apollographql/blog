@@ -70,7 +70,16 @@ export default function AuthorDetails(props) {
         )}
       </AuthorHeader>
       <AuthorBio>
-        {description && <p>{decode(description)}</p>}
+        {description && (
+          <p
+            dangerouslySetInnerHTML={{
+              __html: decode(description).replace(
+                /(https?:\/\/([\w.]+))/g,
+                '<a href="$1">$2</a>'
+              )
+            }}
+          />
+        )}
         <p>
           <Link to={`/author/${slug}`}>
             Read more by {name} <IconProceed />
