@@ -24,7 +24,8 @@ import {
   SidebarSection,
   SocialIcons,
   TopFold,
-  largeTextStyles
+  largeTextStyles,
+  linkStyles
 } from '../ui';
 import {
   FacebookShareButton,
@@ -84,6 +85,21 @@ const NewsletterSignup = styled.div({
   }
 });
 
+const PostFeedback = styled.div({
+  marginTop: '2rem',
+  backgroundColor: colors.silver.light,
+  padding: 32,
+  borderRadius: 8,
+  p: {
+    ...largeTextStyles,
+    marginTop: 14,
+    ':not(:last-child)': {
+      marginBottom: 32
+    }
+  },
+  span: linkStyles
+})
+
 const PostSidebarWrapper = styled.div({
   flexGrow: 0.5
 });
@@ -101,6 +117,8 @@ const EmailInput = styled(TextField)({
     fontSize: 18
   }
 });
+
+const openFeedbackForm = () => freddyWidget.show();
 
 export default function PostTemplate(props) {
   const newsletterFormProps = useNewsletterForm();
@@ -134,7 +152,18 @@ export default function PostTemplate(props) {
       recentPosts={props.data.similarPosts.nodes}
       recentPostsTitle="Similar posts"
     >
-      <Helmet>
+      <Helmet 
+        // Feedback freddy script
+        script={[{ 
+          type: 'text/javascript', 
+          innerHTML: `
+            var ffWidgetId = '4220d7fc-6634-43f6-8261-fe5d270ede6a';
+            var ffWidgetScript  = document.createElement("script");
+            ffWidgetScript.type = "text/javascript";
+            ffWidgetScript.src = 'https://freddyfeedback.com/widget/freddyfeedback.js';
+            document.head.appendChild(ffWidgetScript);
+          `
+        }]}>
         <title>{postTitle}</title>
         <meta property="og:title" content={postTitle} />
         <meta property="og:description" content={description} />
@@ -147,6 +176,7 @@ export default function PostTemplate(props) {
             content={'https://www.apollographql.com' + featuredImage}
           />
         )}
+        
       </Helmet>
       <TopFold style={{paddingBottom: 90}}>
         <DateText style={{marginBottom: 12}} date={date} />
@@ -216,6 +246,10 @@ export default function PostTemplate(props) {
               </Fragment>
             )}
           </NewsletterSignup>
+          <PostFeedback>
+            <h3>Make this article better!</h3>
+            <p>Was this post helpful? Have suggestions? Consider <span onClick={openFeedbackForm}>leaving feedback</span> so we can improve it for future readers ✨.</p>
+          </PostFeedback>
         </Main>
         <Sidebar>
           <PostSidebarWrapper>
