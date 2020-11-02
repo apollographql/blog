@@ -24,7 +24,8 @@ import {
   SidebarSection,
   SocialIcons,
   TopFold,
-  largeTextStyles
+  largeTextStyles,
+  linkStyles
 } from '../ui';
 import {
   FacebookShareButton,
@@ -72,9 +73,8 @@ const TwitterHandle = styled.a({
 
 const NewsletterSignup = styled.div({
   marginTop: 120,
-  backgroundColor: colors.silver.light,
-  padding: 32,
   borderRadius: 8,
+  overflow: 'hidden',
   p: {
     ...largeTextStyles,
     marginTop: 14,
@@ -82,6 +82,19 @@ const NewsletterSignup = styled.div({
       marginBottom: 32
     }
   }
+});
+
+const NewsletterSignupInner = styled.div({
+  padding: 32,
+  backgroundColor: colors.silver.light,
+  ':last-child': {backgroundColor: colors.silver.base}
+});
+
+const PostFeedback = styled.button(linkStyles, {
+  border: 'none',
+  background: 'none',
+  cursor: 'pointer',
+  padding: 0
 });
 
 const PostSidebarWrapper = styled.div({
@@ -186,35 +199,53 @@ export default function PostTemplate(props) {
           <Divider />
           <AuthorDetails author={author.node} />
           <NewsletterSignup>
-            <h3>Stay in our orbit!</h3>
-            {newsletterFormProps.success ? (
-              <p>
-                Mission accomplished! You&apos;ve signed up for the Apollo
-                newsletter.
-              </p>
-            ) : (
-              <Fragment>
+            <NewsletterSignupInner>
+              <h3>Stay in our orbit!</h3>
+              {newsletterFormProps.success ? (
                 <p>
-                  Become an Apollo insider and get first access to new features,
-                  best practices, and community events. Oh, and no junk mail.
-                  Ever.
+                  Mission accomplished! You&apos;ve signed up for the Apollo
+                  newsletter.
                 </p>
-                <InlineNewsletterForm
-                  onSubmit={newsletterFormProps.handleSubmit}
+              ) : (
+                <Fragment>
+                  <p>
+                    Become an Apollo insider and get first access to new
+                    features, best practices, and community events. Oh, and no
+                    junk mail. Ever.
+                  </p>
+                  <InlineNewsletterForm
+                    onSubmit={newsletterFormProps.handleSubmit}
+                  >
+                    <EmailInput
+                      name="email"
+                      type="email"
+                      size="large"
+                      required
+                      placeholder="Enter your email"
+                    />
+                    <LargeButton type="submit" color={colors.indigo.dark}>
+                      Subscribe
+                    </LargeButton>
+                  </InlineNewsletterForm>
+                </Fragment>
+              )}
+            </NewsletterSignupInner>
+            <NewsletterSignupInner>
+              <h3>Make this article better!</h3>
+              <p>
+                Was this post helpful? Have suggestions? Consider{' '}
+                <PostFeedback
+                  onClick={() => {
+                    if (window.freddyWidget) {
+                      window.freddyWidget.show();
+                    }
+                  }}
                 >
-                  <EmailInput
-                    name="email"
-                    type="email"
-                    size="large"
-                    required
-                    placeholder="Enter your email"
-                  />
-                  <LargeButton type="submit" color={colors.indigo.dark}>
-                    Subscribe
-                  </LargeButton>
-                </InlineNewsletterForm>
-              </Fragment>
-            )}
+                  leaving feedback
+                </PostFeedback>{' '}
+                so we can improve it for future readers ✨.
+              </p>
+            </NewsletterSignupInner>
           </NewsletterSignup>
         </Main>
         <Sidebar>
