@@ -342,6 +342,7 @@ export const pageQuery = graphql`
       url
     }
     userMetadata {
+      title
       twitter
       avatarId {
         remoteFile {
