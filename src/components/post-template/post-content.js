@@ -42,6 +42,9 @@ const Wrapper = styled.div({
     ...largeTextStyles,
     marginBottom: 31
   },
+  'li li:first-child': {
+    marginTop: 31
+  },
   a: linkStyles,
   '.wp-block-image': {
     margin: '90px 0',
