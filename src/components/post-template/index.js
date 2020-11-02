@@ -73,9 +73,8 @@ const TwitterHandle = styled.a({
 
 const NewsletterSignup = styled.div({
   marginTop: 120,
-  backgroundColor: colors.silver.light,
-  padding: 32,
   borderRadius: 8,
+  overflow: 'hidden',
   p: {
     ...largeTextStyles,
     marginTop: 14,
@@ -85,20 +84,18 @@ const NewsletterSignup = styled.div({
   }
 });
 
-const PostFeedback = styled.div({
-  marginTop: '2rem',
-  backgroundColor: colors.silver.light,
+const NewsletterSignupInner = styled.div({
   padding: 32,
-  borderRadius: 8,
-  p: {
-    ...largeTextStyles,
-    marginTop: 14,
-    ':not(:last-child)': {
-      marginBottom: 32
-    }
-  },
-  span: linkStyles
-})
+  backgroundColor: colors.silver.light,
+  ':last-child': {backgroundColor: colors.silver.base}
+});
+
+const PostFeedback = styled.button(linkStyles, {
+  border: 'none',
+  background: 'none',
+  cursor: 'pointer',
+  padding: 0
+});
 
 const PostSidebarWrapper = styled.div({
   flexGrow: 0.5
@@ -117,8 +114,6 @@ const EmailInput = styled(TextField)({
     fontSize: 18
   }
 });
-
-const openFeedbackForm = () => freddyWidget.show();
 
 export default function PostTemplate(props) {
   const newsletterFormProps = useNewsletterForm();
@@ -152,18 +147,7 @@ export default function PostTemplate(props) {
       recentPosts={props.data.similarPosts.nodes}
       recentPostsTitle="Similar posts"
     >
-      <Helmet 
-        // Feedback freddy script
-        script={[{ 
-          type: 'text/javascript', 
-          innerHTML: `
-            var ffWidgetId = '4220d7fc-6634-43f6-8261-fe5d270ede6a';
-            var ffWidgetScript  = document.createElement("script");
-            ffWidgetScript.type = "text/javascript";
-            ffWidgetScript.src = 'https://freddyfeedback.com/widget/freddyfeedback.js';
-            document.head.appendChild(ffWidgetScript);
-          `
-        }]}>
+      <Helmet>
         <title>{postTitle}</title>
         <meta property="og:title" content={postTitle} />
         <meta property="og:description" content={description} />
@@ -176,7 +160,6 @@ export default function PostTemplate(props) {
             content={'https://www.apollographql.com' + featuredImage}
           />
         )}
-        
       </Helmet>
       <TopFold style={{paddingBottom: 90}}>
         <DateText style={{marginBottom: 12}} date={date} />
@@ -216,40 +199,54 @@ export default function PostTemplate(props) {
           <Divider />
           <AuthorDetails author={author.node} />
           <NewsletterSignup>
-            <h3>Stay in our orbit!</h3>
-            {newsletterFormProps.success ? (
-              <p>
-                Mission accomplished! You&apos;ve signed up for the Apollo
-                newsletter.
-              </p>
-            ) : (
-              <Fragment>
+            <NewsletterSignupInner>
+              <h3>Stay in our orbit!</h3>
+              {newsletterFormProps.success ? (
                 <p>
-                  Become an Apollo insider and get first access to new features,
-                  best practices, and community events. Oh, and no junk mail.
-                  Ever.
+                  Mission accomplished! You&apos;ve signed up for the Apollo
+                  newsletter.
                 </p>
-                <InlineNewsletterForm
-                  onSubmit={newsletterFormProps.handleSubmit}
+              ) : (
+                <Fragment>
+                  <p>
+                    Become an Apollo insider and get first access to new
+                    features, best practices, and community events. Oh, and no
+                    junk mail. Ever.
+                  </p>
+                  <InlineNewsletterForm
+                    onSubmit={newsletterFormProps.handleSubmit}
+                  >
+                    <EmailInput
+                      name="email"
+                      type="email"
+                      size="large"
+                      required
+                      placeholder="Enter your email"
+                    />
+                    <LargeButton type="submit" color={colors.indigo.dark}>
+                      Subscribe
+                    </LargeButton>
+                  </InlineNewsletterForm>
+                </Fragment>
+              )}
+            </NewsletterSignupInner>
+            <NewsletterSignupInner>
+              <h3>Make this article better!</h3>
+              <p>
+                Was this post helpful? Have suggestions? Consider{' '}
+                <PostFeedback
+                  onClick={() => {
+                    if (window.freddyWidget) {
+                      window.freddyWidget.show();
+                    }
+                  }}
                 >
-                  <EmailInput
-                    name="email"
-                    type="email"
-                    size="large"
-                    required
-                    placeholder="Enter your email"
-                  />
-                  <LargeButton type="submit" color={colors.indigo.dark}>
-                    Subscribe
-                  </LargeButton>
-                </InlineNewsletterForm>
-              </Fragment>
-            )}
+                  leaving feedback
+                </PostFeedback>{' '}
+                so we can improve it for future readers ✨.
+              </p>
+            </NewsletterSignupInner>
           </NewsletterSignup>
-          <PostFeedback>
-            <h3>Make this article better!</h3>
-            <p>Was this post helpful? Have suggestions? Consider <span onClick={openFeedbackForm}>leaving feedback</span> so we can improve it for future readers ✨.</p>
-          </PostFeedback>
         </Main>
         <Sidebar>
           <PostSidebarWrapper>
