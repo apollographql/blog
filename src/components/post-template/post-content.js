@@ -59,7 +59,8 @@ const Wrapper = styled.div({
       }
     },
     img: {
-      maxWidth: '100%'
+      maxWidth: '100%',
+      height: 'auto'
     },
     figcaption: {
       marginTop: 12,
