@@ -16,7 +16,6 @@ import {HEADING_COLOR} from '../../styles';
 import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
 import {TwitterShareButton} from 'react-share';
 import {colors} from '@apollo/space-kit/colors';
-import {encode} from 'he';
 
 // load prism languages after prism import
 import 'prismjs/components/prism-bash';
@@ -254,8 +253,7 @@ export default function PostContent(props) {
     .replace(/<br>/g, '\n')
     .replace(
       /<pre class="wp-block-preformatted">([\s\S]*?)<\/pre>/g,
-      (match, text) =>
-        `<pre class="wp-block-preformatted">${encode(text)}</pre>`
+      (match, text) => `<pre class="wp-block-preformatted">${text}</pre>`
     )
     .replace(
       /<code class="language-([a-z]*)">([\s\S]*?)<\/code>/g,
@@ -271,7 +269,7 @@ export default function PostContent(props) {
     )
     .replace(
       /<code>([\s\S]*?)<\/code>/g,
-      (match, text) => `<code>${encode(text)}</code>`
+      (match, text) => `<code>${text}</code>`
     );
 
   return <Wrapper>{parse(content, {replace})}</Wrapper>;
