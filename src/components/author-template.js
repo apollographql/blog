@@ -50,7 +50,7 @@ export const pageQuery = graphql`
         uri
         featuredImage {
           node {
-            remoteFile {
+            localFile {
               childImageSharp {
                 original {
                   src
@@ -76,7 +76,7 @@ export const pageQuery = graphql`
             userMetadata {
               title
               avatarId {
-                remoteFile {
+                localFile {
                   childImageSharp {
                     original {
                       src

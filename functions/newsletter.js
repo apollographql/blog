@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const {MAILCHIMP_API_KEY, MAILCHIMP_LIST_ID} = process.env;
 const mailchimp = new Mailchimp(MAILCHIMP_API_KEY);
 
-exports.handler = async event => {
+exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,

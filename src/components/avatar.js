@@ -28,7 +28,7 @@ export default function Avatar(props) {
     <StyledImg
       src={
         userMetadata.avatarId
-          ? userMetadata.avatarId.remoteFile.childImageSharp.original.src
+          ? userMetadata.avatarId.localFile.childImageSharp.original.src
           : avatar.url
       }
       style={{

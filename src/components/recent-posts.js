@@ -70,7 +70,7 @@ export default function RecentPosts({posts, ...props}) {
               <PostImage
                 style={{height: POST_IMAGE_HEIGHT}}
                 src={
-                  post.featuredImage?.node.remoteFile.childImageSharp.original
+                  post.featuredImage?.node.localFile.childImageSharp.original
                     .src
                 }
               />

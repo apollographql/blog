@@ -54,7 +54,7 @@ export const pageQuery = graphql`
         userMetadata {
           title
           avatarId {
-            remoteFile {
+            localFile {
               childImageSharp {
                 original {
                   src

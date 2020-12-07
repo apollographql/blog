@@ -157,7 +157,7 @@ export default function Layout(props) {
                 }
                 userMetadata {
                   avatarId {
-                    remoteFile {
+                    localFile {
                       childImageSharp {
                         original {
                           src

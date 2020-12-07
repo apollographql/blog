@@ -134,7 +134,7 @@ export default function PostTemplate(props) {
   const postTitle = decode(title);
   const description = stripHtmlTags(excerpt);
   const featuredImage =
-    featuredMedia?.node.remoteFile.childImageSharp.original.src;
+    featuredMedia?.node.localFile.childImageSharp.original.src;
 
   const shareUrl = props.data.site.siteMetadata.siteUrl + path;
   const shareButtonProps = {
@@ -320,7 +320,7 @@ export const pageQuery = graphql`
       }
       featuredImage {
         node {
-          remoteFile {
+          localFile {
             childImageSharp {
               id
               original {
@@ -376,7 +376,7 @@ export const pageQuery = graphql`
       title
       twitter
       avatarId {
-        remoteFile {
+        localFile {
           childImageSharp {
             original {
               src

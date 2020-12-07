@@ -74,7 +74,7 @@ export default function Index(props) {
               {featuredPost.featuredImage && (
                 <PostImage
                   src={
-                    featuredPost.featuredImage.node.remoteFile.childImageSharp
+                    featuredPost.featuredImage.node.localFile.childImageSharp
                       .original.src
                   }
                 />
@@ -122,7 +122,7 @@ export const pageQuery = graphql`
         uri
         featuredImage {
           node {
-            remoteFile {
+            localFile {
               childImageSharp {
                 original {
                   src
@@ -148,7 +148,7 @@ export const pageQuery = graphql`
             userMetadata {
               title
               avatarId {
-                remoteFile {
+                localFile {
                   childImageSharp {
                     original {
                       src
