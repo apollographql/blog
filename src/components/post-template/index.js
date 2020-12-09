@@ -42,6 +42,12 @@ import {decode} from 'he';
 import {graphql} from 'gatsby';
 import {stripHtmlTags} from '../../utils';
 
+const PostTitle = styled.h1`
+  @media (max-width: 400px) {
+    font-size: 38px;
+  }
+`
+
 const BylineWrapper = styled.div({
   display: 'flex',
   margin: '32px 0'
@@ -163,7 +169,7 @@ export default function PostTemplate(props) {
       </Helmet>
       <TopFold style={{paddingBottom: 90}}>
         <DateText style={{marginBottom: 12}} date={date} />
-        <h1>{postTitle}</h1>
+        <PostTitle>{postTitle}</PostTitle>
         <BylineWrapper>
           <Byline author={author.node} />
           {twitter && (
