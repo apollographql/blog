@@ -3,7 +3,9 @@ const {decode} = require('he');
 require('dotenv').config();
 
 module.exports = {
-  pathPrefix: '/blog',
+  // only set a path prefix if building for production
+  // https://github.com/gatsbyjs/gatsby/blob/fe04b8e05eef712a433fe739f6f0943cbdf2305c/packages/gatsby/src/utils/get-public-path.ts#L15
+  pathPrefix: process.env.CONTEXT === 'production' && '/blog',
   siteMetadata: {
     siteUrl: 'https://www.apollographql.com/blog'
   },
