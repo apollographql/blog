@@ -6,9 +6,7 @@ import {colors} from '@apollo/space-kit/colors';
 
 const StyledButton = styled(Button)({
   width: '100%',
-  color: colors.indigo.dark,
-  backgroundColor: colors.indigo.lightest,
-  height: 40
+  boxShadow: 'none'
 });
 
 export default function Odyssey() {
@@ -23,16 +21,15 @@ export default function Odyssey() {
       <StyledButton
         color={colors.indigo.lightest}
         style={{
-          color: colors.indigo.dark,
-          width: '100%',
-          boxShadow: 'none'
+          height: 40,
+          color: colors.indigo.dark
         }}
         as={<a />}
         href="https://odyssey.apollographql.com/?utm_source=blog&utm_medium=sidebar&utm_campaign=blog_sidebar"
         target="_blank"
         rel-="noopener noreferrer"
       >
-        Begin your Odyssey Now!
+        Begin your Odyssey now!
       </StyledButton>
     </SidebarSection>
   );
