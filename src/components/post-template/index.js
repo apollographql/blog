@@ -7,6 +7,7 @@ import NewsletterForm, {
   newsletterInputStyles,
   useNewsletterForm
 } from '../newsletter-form';
+import Odyssey from '../odyssey';
 import PostAction from './post-action';
 import PostContent, {ShareButtonContext} from './post-content';
 import PropTypes from 'prop-types';
@@ -250,6 +251,7 @@ export default function PostTemplate(props) {
         </Main>
         <Sidebar>
           <PostSidebarWrapper>
+            <Odyssey />
             <NewsletterForm {...newsletterFormProps} />
             <SidebarSection>
               <SectionHeading>Share article</SectionHeading>

@@ -68,7 +68,7 @@ export default function NewsletterForm(props) {
           </h5>
           <form onSubmit={props.handleSubmit}>
             <StyledInput
-              required
+              inputAs={<input required />}
               size="large"
               name="email"
               type="email"
