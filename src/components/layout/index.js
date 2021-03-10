@@ -26,7 +26,7 @@ const Wrapper = styled.div({
 });
 
 const Header = styled.header({
-  marginBottom: 66,
+  marginBottom: 33,
   backgroundColor: 'white',
   position: 'sticky',
   top: 0,
