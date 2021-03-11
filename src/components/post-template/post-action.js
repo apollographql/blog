@@ -7,7 +7,7 @@ import {colors} from '@apollo/space-kit/colors';
 import {decode} from 'he';
 import {size} from 'polished';
 import {stripHtmlTags} from '../../utils';
-import {trackCustomEvent} from 'gatsby-plugin-google-analytics';
+import {trackCustomEvent} from '../../utils';
 
 const Wrapper = styled.div({
   display: 'flex',
