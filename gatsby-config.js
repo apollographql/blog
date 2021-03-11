@@ -63,9 +63,12 @@ module.exports = {
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     {
-      resolve: 'gatsby-plugin-google-analytics',
+      resolve: 'gatsby-plugin-google-gtag',
       options: {
-        trackingId: 'UA-74643563-11'
+        trackingIds: [
+          'UA-74643563-11',
+          'G-0BGG5V2W2K' // Unified GA4 tracking for tracking all web properties on the apollographql.com domain
+        ]
       }
     },
     {
