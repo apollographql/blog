@@ -6,8 +6,7 @@ import {IconClose} from '@apollo/space-kit/icons/IconClose';
 import {colors} from '@apollo/space-kit/colors';
 import {decode} from 'he';
 import {size} from 'polished';
-import {stripHtmlTags} from '../../utils';
-import {trackCustomEvent} from '../../utils';
+import {stripHtmlTags, trackCustomEvent} from '../../utils';
 
 const Wrapper = styled.div({
   display: 'flex',
