@@ -2,6 +2,7 @@ import React from 'react';
 import {Button} from '@apollo/space-kit/Button';
 import {SectionHeading, SidebarSection} from './ui';
 import {colors} from '@apollo/space-kit/colors';
+import {trackCustomEvent} from '../utils';
 
 export default function Odyssey() {
   return (
@@ -21,9 +22,16 @@ export default function Odyssey() {
           boxShadow: 'none'
         }}
         as={<a />}
-        href="https://odyssey.apollographql.com/?utm_source=blog&utm_medium=sidebar&utm_campaign=blog_sidebar"
+        href="https://odyssey.apollographql.com/"
         target="_blank"
-        rel-="noopener noreferrer"
+        rel="noopener noreferrer"
+        onClick={() => {
+          trackCustomEvent({
+            category: 'Blog sidebar',
+            action: 'Click Odyssey CTA',
+            label: 'Blog'
+          });
+        }}
       >
         Begin your Odyssey now!
       </Button>
