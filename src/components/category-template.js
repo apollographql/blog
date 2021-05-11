@@ -1,4 +1,5 @@
 import ArchivePost from './archive-post';
+import Categories from './categories';
 import FollowUs from './follow-us';
 import Helmet from 'react-helmet';
 import Layout from './layout';
@@ -9,7 +10,7 @@ import React, {Fragment} from 'react';
 import RecentPosts from './recent-posts';
 import styled from '@emotion/styled';
 import {
-  Categories,
+  Categories as CategoriesBase,
   Category,
   InnerWrapper,
   Main,
@@ -20,7 +21,7 @@ import {
 } from './ui';
 import {graphql} from 'gatsby';
 
-const StyledCategories = styled(Categories)({
+const StyledCategories = styled(CategoriesBase)({
   flexWrap: 'wrap',
   marginBottom: 46,
   '> *': {
@@ -50,9 +51,9 @@ function LatestPosts(props) {
 
 export default function CategoryTemplate(props) {
   const newsletterFormProps = useNewsletterForm();
-  const {id, categories} = props.pageContext;
-  const {path, name} = props.data.wpCategory;
+  const {path, name, wpChildren, wpParent} = props.data.wpCategory;
   const {nodes, pageInfo} = props.data.allWpPost;
+  const {nodes: topics} = wpParent ? wpParent.node.wpChildren : wpChildren;
   const latestPosts = nodes.slice(0, 3);
   const morePosts = nodes.slice(3);
   const hasMorePosts = morePosts.length > 0;
@@ -64,17 +65,19 @@ export default function CategoryTemplate(props) {
         <meta property="og:title" content={name} />
         <meta name="twitter:title" content={name} />
       </Helmet>
-      <StyledCategories>
-        {categories.map((category) => (
-          <Fragment key={category.id}>
-            {category.id === id ? (
-              <SelectedCategory>{category.name}</SelectedCategory>
-            ) : (
-              <Category category={category} />
-            )}
-          </Fragment>
-        ))}
-      </StyledCategories>
+      {topics.length > 0 && (
+        <StyledCategories>
+          {topics.map((topic) => (
+            <Fragment key={topic.id}>
+              {topic.id === props.pageContext.id ? (
+                <SelectedCategory>{topic.name}</SelectedCategory>
+              ) : (
+                <Category category={topic} />
+              )}
+            </Fragment>
+          ))}
+        </StyledCategories>
+      )}
       {hasMorePosts && isFirstPage && <LatestPosts posts={latestPosts} />}
       <InnerWrapper>
         <Main>
@@ -91,6 +94,7 @@ export default function CategoryTemplate(props) {
         </Main>
         <Sidebar>
           <NewsletterForm {...newsletterFormProps} />
+          <Categories />
           <FollowUs />
         </Sidebar>
       </InnerWrapper>
@@ -105,13 +109,31 @@ CategoryTemplate.propTypes = {
 };
 
 export const pageQuery = graphql`
-  query CategoryQuery($id: String, $limit: Int, $skip: Int) {
+  query CategoryQuery($id: String, $ids: [String], $limit: Int, $skip: Int) {
     wpCategory(id: {eq: $id}) {
       path
       name
+      wpChildren {
+        nodes {
+          id
+          name
+          path
+        }
+      }
+      wpParent {
+        node {
+          wpChildren {
+            nodes {
+              id
+              name
+              path
+            }
+          }
+        }
+      }
     }
     allWpPost(
-      filter: {categories: {nodes: {elemMatch: {id: {eq: $id}}}}}
+      filter: {categories: {nodes: {elemMatch: {id: {in: $ids}}}}}
       limit: $limit
       skip: $skip
     ) {

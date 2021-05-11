@@ -31,9 +31,9 @@ exports.createResolvers = ({createResolvers, getNode}) => {
         type: 'String',
         resolve(node) {
           const prefix = node.wpParent
-            ? slugify(node.name).toLowerCase() +
+            ? getNode(node.wpParent.node.id).slug +
               '/' +
-              getNode(node.wpParent.node.id).slug
+              slugify(node.name).toLowerCase()
             : node.slug;
           return `/${prefix}/`;
         }
@@ -67,6 +67,12 @@ exports.createPages = async ({actions, graphql}) => {
           name
           path
           count
+          wpChildren {
+            nodes {
+              id
+              count
+            }
+          }
         }
       }
       allWpUser {
@@ -97,15 +103,21 @@ exports.createPages = async ({actions, graphql}) => {
   const categoryTemplate = require.resolve(
     './src/components/category-template'
   );
-  data.allWpCategory.nodes.forEach((category, index, categories) => {
-    const pageCount = Math.ceil(category.count / PAGE_SIZE);
+  data.allWpCategory.nodes.forEach((category) => {
+    const childrenCount = category.wpChildren.nodes.reduce(
+      (acc, topic) => acc + topic.count,
+      0
+    );
+    const pageCount = Math.ceil((category.count + childrenCount) / PAGE_SIZE);
     for (let i = 0; i < pageCount; i++) {
       actions.createPage({
         path: category.path + (i + 1),
         component: categoryTemplate,
         context: {
           id: category.id,
-          categories,
+          ids: category.wpChildren.nodes
+            .map((topic) => topic.id)
+            .concat([category.id]),
           limit: PAGE_SIZE,
           skip: PAGE_SIZE * i
         }

@@ -7,13 +7,13 @@ export default function Categories() {
     graphql`
       {
         allWpCategory(
-          filter: {slug: {ne: "uncategorized"}}
+          filter: {slug: {ne: "uncategorized"}, parentId: {eq: null}}
           sort: {order: ASC, fields: categoryMeta___menuOrder}
         ) {
           nodes {
             id
-            slug
             name
+            path
           }
         }
       }
@@ -23,7 +23,7 @@ export default function Categories() {
     <SidebarSection>
       <SectionHeading>Categories</SectionHeading>
       <CategoryNav>
-        {data.allWpCategory.nodes.map(category => (
+        {data.allWpCategory.nodes.map((category) => (
           <Category key={category.id} category={category} />
         ))}
       </CategoryNav>
