@@ -48,6 +48,7 @@ exports.createPages = async ({actions, graphql}) => {
       allWpPost {
         nodes {
           id
+          uri
           path
           categories {
             nodes {
@@ -65,6 +66,7 @@ exports.createPages = async ({actions, graphql}) => {
         nodes {
           id
           name
+          uri
           path
           count
           wpChildren {
@@ -86,6 +88,13 @@ exports.createPages = async ({actions, graphql}) => {
 
   const postTemplate = require.resolve('./src/components/post-template');
   data.allWpPost.nodes.forEach((post) => {
+    // redirect bare slug to categorized one
+    actions.createRedirect({
+      fromPath: post.uri,
+      toPath: post.path
+    });
+
+    // create the page
     actions.createPage({
       path: post.path,
       component: postTemplate,
@@ -104,6 +113,16 @@ exports.createPages = async ({actions, graphql}) => {
     './src/components/category-template'
   );
   data.allWpCategory.nodes.forEach((category) => {
+    actions.createRedirect({
+      fromPath: category.uri + '/*',
+      toPath: category.path
+    });
+
+    actions.createRedirect({
+      fromPath: category.path,
+      toPath: category.path + 1
+    });
+
     const childrenCount = category.wpChildren.nodes.reduce(
       (acc, topic) => acc + topic.count,
       0

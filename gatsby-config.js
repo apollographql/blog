@@ -11,6 +11,7 @@ module.exports = {
   },
   plugins: [
     'gatsby-plugin-svgr',
+    'gatsby-plugin-netlify',
     'gatsby-plugin-emotion',
     'gatsby-plugin-react-helmet',
     {
