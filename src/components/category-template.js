@@ -50,7 +50,8 @@ function LatestPosts(props) {
 
 export default function CategoryTemplate(props) {
   const newsletterFormProps = useNewsletterForm();
-  const {id, slug, name, categories} = props.pageContext;
+  const {id, categories} = props.pageContext;
+  const {path, name} = props.data.wpCategory;
   const {nodes, pageInfo} = props.data.allWpPost;
   const latestPosts = nodes.slice(0, 3);
   const morePosts = nodes.slice(3);
@@ -93,7 +94,7 @@ export default function CategoryTemplate(props) {
           <FollowUs />
         </Sidebar>
       </InnerWrapper>
-      <Pagination basePath={`/category/${slug}/`} pageInfo={pageInfo} />
+      <Pagination basePath={path} pageInfo={pageInfo} />
     </Layout>
   );
 }
@@ -105,6 +106,10 @@ CategoryTemplate.propTypes = {
 
 export const pageQuery = graphql`
   query CategoryQuery($id: String, $limit: Int, $skip: Int) {
+    wpCategory(id: {eq: $id}) {
+      path
+      name
+    }
     allWpPost(
       filter: {categories: {nodes: {elemMatch: {id: {eq: $id}}}}}
       limit: $limit
@@ -119,7 +124,7 @@ export const pageQuery = graphql`
         date
         excerpt
         title
-        uri
+        path
         featuredImage {
           node {
             localFile {
@@ -133,9 +138,9 @@ export const pageQuery = graphql`
         }
         categories {
           nodes {
-            slug
             id
             name
+            path
           }
         }
         author {

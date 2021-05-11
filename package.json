@@ -37,7 +37,8 @@
     "react-helmet": "^5.2.1",
     "react-highlight-words": "^0.16.0",
     "react-share": "^4.0.1",
-    "root-units": "^2.3.0"
+    "root-units": "^2.3.0",
+    "slugify": "^1.5.2"
   },
   "devDependencies": {
     "@trevorblades/eslint-config": "^7.0.2",

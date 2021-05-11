@@ -35,7 +35,7 @@ export default function SearchPost(props) {
     <Wrapper key={props.post.id}>
       <DateText date={props.post.date} style={{marginBottom: 8}} />
       <h3>
-        <HeadingLink to={props.post.uri}>{props.post.title}</HeadingLink>
+        <HeadingLink to={props.post.path}>{props.post.title}</HeadingLink>
       </h3>
       <p>
         <Highlighter

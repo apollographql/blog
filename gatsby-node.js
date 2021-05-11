@@ -1,15 +1,62 @@
+const slugify = require('slugify');
+
 const PAGE_SIZE = 10;
+
+exports.createResolvers = ({createResolvers, getNode}) => {
+  createResolvers({
+    WpPost: {
+      path: {
+        type: 'String',
+        resolve(node) {
+          let prefix = '';
+          if (node.categories.nodes.length) {
+            const categories = node.categories.nodes.map((category) =>
+              getNode(category.id)
+            );
+            const topic = categories.find((category) => category.wpParent);
+            if (topic) {
+              const category = getNode(topic.wpParent.node.id);
+              const topicSlug = slugify(topic.name).toLowerCase();
+              prefix = `/${category.slug}/${topicSlug}`;
+            } else {
+              prefix = '/' + categories[0].slug;
+            }
+          }
+          return prefix + node.uri;
+        }
+      }
+    },
+    WpCategory: {
+      path: {
+        type: 'String',
+        resolve(node) {
+          const prefix = node.wpParent
+            ? slugify(node.name).toLowerCase() +
+              '/' +
+              getNode(node.wpParent.node.id).slug
+            : node.slug;
+          return `/${prefix}/`;
+        }
+      }
+    }
+  });
+};
 
 exports.createPages = async ({actions, graphql}) => {
   const {data} = await graphql(`
     {
       allWpPost {
         nodes {
-          uri
           id
+          path
           categories {
             nodes {
               id
+              wpParent {
+                node {
+                  id
+                }
+              }
             }
           }
         }
@@ -17,8 +64,8 @@ exports.createPages = async ({actions, graphql}) => {
       allWpCategory(filter: {slug: {ne: "uncategorized"}}) {
         nodes {
           id
-          slug
           name
+          path
           count
         }
       }
@@ -34,11 +81,15 @@ exports.createPages = async ({actions, graphql}) => {
   const postTemplate = require.resolve('./src/components/post-template');
   data.allWpPost.nodes.forEach((post) => {
     actions.createPage({
-      path: post.uri,
+      path: post.path,
       component: postTemplate,
       context: {
         id: post.id,
-        categoriesIn: post.categories.nodes.map((category) => category.id)
+        categoriesIn: post.categories.nodes.flatMap((category) =>
+          category.wpParent
+            ? [category.id, category.wpParent.node.id]
+            : [category.id]
+        )
       }
     });
   });
@@ -50,10 +101,10 @@ exports.createPages = async ({actions, graphql}) => {
     const pageCount = Math.ceil(category.count / PAGE_SIZE);
     for (let i = 0; i < pageCount; i++) {
       actions.createPage({
-        path: `/category/${category.slug}/${i + 1}`,
+        path: category.path + (i + 1),
         component: categoryTemplate,
         context: {
-          ...category,
+          id: category.id,
           categories,
           limit: PAGE_SIZE,
           skip: PAGE_SIZE * i

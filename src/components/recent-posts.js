@@ -65,7 +65,7 @@ export default function RecentPosts({posts, ...props}) {
     <Wrapper {...props}>
       {posts.map((post) => (
         <div key={post.id}>
-          <PostLink to={post.uri}>
+          <PostLink to={post.path}>
             {post.featuredImage ? (
               <PostImage
                 style={{height: POST_IMAGE_HEIGHT}}
