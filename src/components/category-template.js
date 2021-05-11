@@ -40,24 +40,24 @@ const StyledRecentPosts = styled(RecentPosts)({
   }
 });
 
-function LatestPosts(props) {
-  return (
-    <Fragment>
-      <SectionHeading>Latest</SectionHeading>
-      <StyledRecentPosts {...props} />
-    </Fragment>
-  );
-}
-
 export default function CategoryTemplate(props) {
   const newsletterFormProps = useNewsletterForm();
   const {path, name, wpChildren, wpParent} = props.data.wpCategory;
   const {nodes, pageInfo} = props.data.allWpPost;
   const {nodes: topics} = wpParent ? wpParent.node.wpChildren : wpChildren;
-  const latestPosts = nodes.slice(0, 3);
   const morePosts = nodes.slice(3);
   const hasMorePosts = morePosts.length > 0;
   const isFirstPage = pageInfo.currentPage === 1;
+
+  const latestPosts = (
+    <Fragment>
+      <SectionHeading>
+        Latest {wpParent?.node.name} {name} posts
+      </SectionHeading>
+      <StyledRecentPosts posts={nodes.slice(0, 3)} />
+    </Fragment>
+  );
+
   return (
     <Layout>
       <Helmet>
@@ -78,7 +78,7 @@ export default function CategoryTemplate(props) {
           ))}
         </StyledCategories>
       )}
-      {hasMorePosts && isFirstPage && <LatestPosts posts={latestPosts} />}
+      {hasMorePosts && isFirstPage && latestPosts}
       <InnerWrapper>
         <Main>
           {hasMorePosts || !isFirstPage ? (
@@ -89,7 +89,7 @@ export default function CategoryTemplate(props) {
               ))}
             </Fragment>
           ) : (
-            <LatestPosts posts={latestPosts} />
+            latestPosts
           )}
         </Main>
         <Sidebar>
@@ -122,6 +122,7 @@ export const pageQuery = graphql`
       }
       wpParent {
         node {
+          name
           wpChildren {
             nodes {
               id
