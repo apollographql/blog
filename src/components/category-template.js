@@ -6,7 +6,7 @@ import Layout from './layout';
 import NewsletterForm, {useNewsletterForm} from './newsletter-form';
 import Pagination from './pagination';
 import PropTypes from 'prop-types';
-import React, {Fragment} from 'react';
+import React from 'react';
 import RecentPosts from './recent-posts';
 import styled from '@emotion/styled';
 import {
@@ -49,13 +49,30 @@ export default function CategoryTemplate(props) {
   const hasMorePosts = morePosts.length > 0;
   const isFirstPage = pageInfo.currentPage === 1;
 
+  const topicSelector = topics.length > 0 && (
+    <StyledCategories>
+      {topics.map((topic) =>
+        topic.id === props.pageContext.id ? (
+          <SelectedCategory key={topic.id}>{topic.name}</SelectedCategory>
+        ) : (
+          <Category key={topic.id} category={topic} />
+        )
+      )}
+    </StyledCategories>
+  );
+
+  function getHeadingStyle(condition) {
+    return {marginBottom: condition && 24};
+  }
+
   const latestPosts = (
-    <Fragment>
-      <SectionHeading>
+    <>
+      <SectionHeading style={getHeadingStyle(isFirstPage && topicSelector)}>
         Latest {wpParent?.node.name} {name} posts
       </SectionHeading>
+      {isFirstPage && topicSelector}
       <StyledRecentPosts posts={nodes.slice(0, 3)} />
-    </Fragment>
+    </>
   );
 
   return (
@@ -65,29 +82,21 @@ export default function CategoryTemplate(props) {
         <meta property="og:title" content={name} />
         <meta name="twitter:title" content={name} />
       </Helmet>
-      {topics.length > 0 && (
-        <StyledCategories>
-          {topics.map((topic) => (
-            <Fragment key={topic.id}>
-              {topic.id === props.pageContext.id ? (
-                <SelectedCategory>{topic.name}</SelectedCategory>
-              ) : (
-                <Category category={topic} />
-              )}
-            </Fragment>
-          ))}
-        </StyledCategories>
-      )}
       {hasMorePosts && isFirstPage && latestPosts}
       <InnerWrapper>
         <Main>
           {hasMorePosts || !isFirstPage ? (
-            <Fragment>
-              <SectionHeading>Read more</SectionHeading>
+            <>
+              <SectionHeading
+                style={getHeadingStyle(!isFirstPage && topicSelector)}
+              >
+                Read more
+              </SectionHeading>
+              {!isFirstPage && topicSelector}
               {(isFirstPage ? morePosts : nodes).map((post) => (
                 <ArchivePost key={post.id} post={post} />
               ))}
-            </Fragment>
+            </>
           ) : (
             latestPosts
           )}

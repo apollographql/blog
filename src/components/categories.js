@@ -14,6 +14,7 @@ export default function Categories() {
             id
             name
             path
+            totalCount
           }
         }
       }
@@ -23,9 +24,11 @@ export default function Categories() {
     <SidebarSection>
       <SectionHeading>Categories</SectionHeading>
       <CategoryNav>
-        {data.allWpCategory.nodes.map((category) => (
-          <Category key={category.id} category={category} />
-        ))}
+        {data.allWpCategory.nodes
+          .filter((category) => category.totalCount)
+          .map((category) => (
+            <Category key={category.id} category={category} />
+          ))}
       </CategoryNav>
     </SidebarSection>
   );

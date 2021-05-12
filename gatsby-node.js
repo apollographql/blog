@@ -37,6 +37,15 @@ exports.createResolvers = ({createResolvers, getNode}) => {
             : node.slug;
           return `/${prefix}/`;
         }
+      },
+      totalCount: {
+        type: 'Int',
+        resolve(node) {
+          return node.wpChildren.nodes.reduce(
+            (acc, node) => acc + getNode(node.id).count,
+            node.count
+          );
+        }
       }
     }
   });
@@ -68,11 +77,10 @@ exports.createPages = async ({actions, graphql}) => {
           name
           uri
           path
-          count
+          totalCount
           wpChildren {
             nodes {
               id
-              count
             }
           }
         }
@@ -123,11 +131,7 @@ exports.createPages = async ({actions, graphql}) => {
       toPath: category.path + 1
     });
 
-    const childrenCount = category.wpChildren.nodes.reduce(
-      (acc, topic) => acc + topic.count,
-      0
-    );
-    const pageCount = Math.ceil((category.count + childrenCount) / PAGE_SIZE);
+    const pageCount = Math.ceil(category.totalCount / PAGE_SIZE);
     for (let i = 0; i < pageCount; i++) {
       actions.createPage({
         path: category.path + (i + 1),
