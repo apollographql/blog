@@ -51,13 +51,15 @@ export default function CategoryTemplate(props) {
 
   const topicSelector = topics.length > 0 && (
     <StyledCategories>
-      {topics.map((topic) =>
-        topic.id === props.pageContext.id ? (
-          <SelectedCategory key={topic.id}>{topic.name}</SelectedCategory>
-        ) : (
-          <Category key={topic.id} category={topic} />
-        )
-      )}
+      {topics
+        .filter((topic) => topic.count)
+        .map((topic) =>
+          topic.id === props.pageContext.id ? (
+            <SelectedCategory key={topic.id}>{topic.name}</SelectedCategory>
+          ) : (
+            <Category key={topic.id} category={topic} />
+          )
+        )}
     </StyledCategories>
   );
 
@@ -127,6 +129,7 @@ export const pageQuery = graphql`
           id
           name
           path
+          count
         }
       }
       wpParent {
@@ -137,6 +140,7 @@ export const pageQuery = graphql`
               id
               name
               path
+              count
             }
           }
         }
