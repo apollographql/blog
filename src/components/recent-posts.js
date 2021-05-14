@@ -47,8 +47,10 @@ export const PostLink = styled(Link)({
 
 const PostCategories = styled.div({
   display: 'flex',
-  '> :not(:last-child)': {
-    marginRight: 12
+  flexWrap: 'wrap',
+  margin: -4,
+  '> *': {
+    margin: 4
   }
 });
 
