@@ -81,19 +81,19 @@ export default function RecentPosts({posts, ...props}) {
             )}
             <DateText date={post.date} />
             <h4>{decode(post.title)}</h4>
+            <PostCategories>
+              {post.categories.nodes.map((category) => (
+                <Category isSmall key={category.id} category={category} />
+              ))}
+            </PostCategories>
             <ExcerptText
               excerpt={post.excerpt}
               style={{
                 fontSize: 13,
-                marginBottom: 16
+                marginTop: 16
               }}
             />
           </PostLink>
-          <PostCategories>
-            {post.categories.nodes.map((category) => (
-              <Category isSmall key={category.id} category={category} />
-            ))}
-          </PostCategories>
         </div>
       ))}
     </Wrapper>
