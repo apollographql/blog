@@ -1,15 +1,16 @@
 import ArchivePost from './archive-post';
+import Categories from './categories';
 import FollowUs from './follow-us';
 import Helmet from 'react-helmet';
 import Layout from './layout';
 import NewsletterForm, {useNewsletterForm} from './newsletter-form';
 import Pagination from './pagination';
 import PropTypes from 'prop-types';
-import React, {Fragment} from 'react';
+import React from 'react';
 import RecentPosts from './recent-posts';
 import styled from '@emotion/styled';
 import {
-  Categories,
+  Categories as CategoriesBase,
   Category,
   InnerWrapper,
   Main,
@@ -20,7 +21,7 @@ import {
 } from './ui';
 import {graphql} from 'gatsby';
 
-const StyledCategories = styled(Categories)({
+const StyledCategories = styled(CategoriesBase)({
   flexWrap: 'wrap',
   marginBottom: 46,
   '> *': {
@@ -39,23 +40,43 @@ const StyledRecentPosts = styled(RecentPosts)({
   }
 });
 
-function LatestPosts(props) {
-  return (
-    <Fragment>
-      <SectionHeading>Latest</SectionHeading>
-      <StyledRecentPosts {...props} />
-    </Fragment>
-  );
-}
-
 export default function CategoryTemplate(props) {
   const newsletterFormProps = useNewsletterForm();
-  const {id, slug, name, categories} = props.pageContext;
+  const {path, name, wpChildren, wpParent} = props.data.wpCategory;
   const {nodes, pageInfo} = props.data.allWpPost;
-  const latestPosts = nodes.slice(0, 3);
+  const {nodes: topics} = wpParent ? wpParent.node.wpChildren : wpChildren;
   const morePosts = nodes.slice(3);
   const hasMorePosts = morePosts.length > 0;
   const isFirstPage = pageInfo.currentPage === 1;
+
+  const topicSelector = topics.length > 0 && (
+    <StyledCategories>
+      {topics
+        .filter((topic) => topic.count)
+        .map((topic) =>
+          topic.id === props.pageContext.id ? (
+            <SelectedCategory key={topic.id}>{topic.name}</SelectedCategory>
+          ) : (
+            <Category key={topic.id} category={topic} />
+          )
+        )}
+    </StyledCategories>
+  );
+
+  function getHeadingStyle(condition) {
+    return {marginBottom: condition && 24};
+  }
+
+  const latestPosts = (
+    <>
+      <SectionHeading style={getHeadingStyle(isFirstPage && topicSelector)}>
+        Latest {wpParent?.node.name} {name} posts
+      </SectionHeading>
+      {isFirstPage && topicSelector}
+      <StyledRecentPosts posts={nodes.slice(0, 3)} />
+    </>
+  );
+
   return (
     <Layout>
       <Helmet>
@@ -63,37 +84,32 @@ export default function CategoryTemplate(props) {
         <meta property="og:title" content={name} />
         <meta name="twitter:title" content={name} />
       </Helmet>
-      <StyledCategories>
-        {categories.map((category) => (
-          <Fragment key={category.id}>
-            {category.id === id ? (
-              <SelectedCategory>{category.name}</SelectedCategory>
-            ) : (
-              <Category category={category} />
-            )}
-          </Fragment>
-        ))}
-      </StyledCategories>
-      {hasMorePosts && isFirstPage && <LatestPosts posts={latestPosts} />}
+      {hasMorePosts && isFirstPage && latestPosts}
       <InnerWrapper>
         <Main>
           {hasMorePosts || !isFirstPage ? (
-            <Fragment>
-              <SectionHeading>Read more</SectionHeading>
+            <>
+              <SectionHeading
+                style={getHeadingStyle(!isFirstPage && topicSelector)}
+              >
+                Read more
+              </SectionHeading>
+              {!isFirstPage && topicSelector}
               {(isFirstPage ? morePosts : nodes).map((post) => (
                 <ArchivePost key={post.id} post={post} />
               ))}
-            </Fragment>
+            </>
           ) : (
-            <LatestPosts posts={latestPosts} />
+            latestPosts
           )}
         </Main>
         <Sidebar>
           <NewsletterForm {...newsletterFormProps} />
+          <Categories />
           <FollowUs />
         </Sidebar>
       </InnerWrapper>
-      <Pagination basePath={`/category/${slug}/`} pageInfo={pageInfo} />
+      <Pagination basePath={path} pageInfo={pageInfo} />
     </Layout>
   );
 }
@@ -104,9 +120,34 @@ CategoryTemplate.propTypes = {
 };
 
 export const pageQuery = graphql`
-  query CategoryQuery($id: String, $limit: Int, $skip: Int) {
+  query CategoryQuery($id: String, $ids: [String], $limit: Int, $skip: Int) {
+    wpCategory(id: {eq: $id}) {
+      path
+      name
+      wpChildren {
+        nodes {
+          id
+          name
+          path
+          count
+        }
+      }
+      wpParent {
+        node {
+          name
+          wpChildren {
+            nodes {
+              id
+              name
+              path
+              count
+            }
+          }
+        }
+      }
+    }
     allWpPost(
-      filter: {categories: {nodes: {elemMatch: {id: {eq: $id}}}}}
+      filter: {categories: {nodes: {elemMatch: {id: {in: $ids}}}}}
       limit: $limit
       skip: $skip
     ) {
@@ -119,7 +160,7 @@ export const pageQuery = graphql`
         date
         excerpt
         title
-        uri
+        path
         featuredImage {
           node {
             localFile {
@@ -133,9 +174,9 @@ export const pageQuery = graphql`
         }
         categories {
           nodes {
-            slug
             id
             name
+            path
           }
         }
         author {

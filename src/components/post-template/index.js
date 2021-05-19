@@ -47,7 +47,7 @@ const PostTitle = styled.h1`
   @media (max-width: 400px) {
     font-size: 38px;
   }
-`
+`;
 
 const BylineWrapper = styled.div({
   display: 'flex',
@@ -309,7 +309,7 @@ export const pageQuery = graphql`
 
     # everything we need to render a post
     wpPost(id: {eq: $id}) {
-      path: uri
+      path
       date
       title
       excerpt
@@ -322,8 +322,8 @@ export const pageQuery = graphql`
       categories {
         nodes {
           id
-          slug
           name
+          path
         }
       }
       featuredImage {

@@ -11,6 +11,7 @@ module.exports = {
   },
   plugins: [
     'gatsby-plugin-svgr',
+    'gatsby-plugin-netlify',
     'gatsby-plugin-emotion',
     'gatsby-plugin-react-helmet',
     {
@@ -55,7 +56,7 @@ module.exports = {
             excludeFieldNames: null
           },
           Post: {
-            // limit: process.env.NODE_ENV === 'production' ? undefined : 20
+            limit: process.env.NODE_ENV === 'production' ? undefined : 20
           }
         }
       }

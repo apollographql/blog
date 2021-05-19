@@ -60,6 +60,7 @@ ExcerptText.propTypes = {
 };
 
 export const categoryStyles = {
+  whiteSpace: 'nowrap',
   padding: '6px 12px',
   border: `1px solid ${colors.indigo.lighter}`,
   borderRadius: 4,
@@ -109,7 +110,7 @@ export function Category({isSmall, category, ...props}) {
   return React.createElement(
     isSmall ? CategoryInnerSmall : CategoryInner,
     {
-      to: `/category/${category.slug}/1`,
+      to: category.path + 1,
       ...props
     },
     category.name

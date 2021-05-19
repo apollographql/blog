@@ -47,8 +47,10 @@ export const PostLink = styled(Link)({
 
 const PostCategories = styled.div({
   display: 'flex',
-  '> :not(:last-child)': {
-    marginRight: 12
+  flexWrap: 'wrap',
+  margin: -4,
+  '> *': {
+    margin: 4
   }
 });
 
@@ -65,7 +67,7 @@ export default function RecentPosts({posts, ...props}) {
     <Wrapper {...props}>
       {posts.map((post) => (
         <div key={post.id}>
-          <PostLink to={post.uri}>
+          <PostLink to={post.path}>
             {post.featuredImage ? (
               <PostImage
                 style={{height: POST_IMAGE_HEIGHT}}
@@ -79,19 +81,19 @@ export default function RecentPosts({posts, ...props}) {
             )}
             <DateText date={post.date} />
             <h4>{decode(post.title)}</h4>
+            <PostCategories>
+              {post.categories.nodes.map((category) => (
+                <Category isSmall key={category.id} category={category} />
+              ))}
+            </PostCategories>
             <ExcerptText
               excerpt={post.excerpt}
               style={{
                 fontSize: 13,
-                marginBottom: 16
+                marginTop: 16
               }}
             />
           </PostLink>
-          <PostCategories>
-            {post.categories.nodes.map((category) => (
-              <Category isSmall key={category.id} category={category} />
-            ))}
-          </PostCategories>
         </div>
       ))}
     </Wrapper>

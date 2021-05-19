@@ -47,7 +47,7 @@ export const pageQuery = graphql`
         date
         excerpt
         title
-        uri
+        path
         featuredImage {
           node {
             localFile {
@@ -61,9 +61,9 @@ export const pageQuery = graphql`
         }
         categories {
           nodes {
-            slug
             id
             name
+            path
           }
         }
         author {
