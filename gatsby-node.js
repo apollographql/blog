@@ -122,7 +122,7 @@ exports.createPages = async ({actions, graphql}) => {
   );
   data.allWpCategory.nodes.forEach((category) => {
     actions.createRedirect({
-      fromPath: category.uri + '/*',
+      fromPath: category.uri + '*',
       toPath: category.path
     });
 
