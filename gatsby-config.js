@@ -1,6 +1,5 @@
 const {stripHtmlTags} = require('./src/utils');
 const {decode} = require('he');
-require('dotenv').config();
 
 module.exports = {
   // only set a path prefix if building for production
@@ -17,9 +16,7 @@ module.exports = {
     {
       resolve: 'gatsby-source-wordpress-experimental',
       options: {
-        url:
-          process.env.WORDPRESS_URL_DEV ||
-          'https://wp.apollographql.com/graphql',
+        url: process.env.WORDPRESS_URL,
         debug: {
           graphql: {
             showQueryVarsOnError: true,

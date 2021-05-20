@@ -1,0 +1,7 @@
+[build]
+  command = "gatsby build && cd public && mkdir blog | mv * blog && mv blog/_redirects ./_redirects"
+  publish = "public"
+[build.environment]
+  WORDPRESS_URL = "https://wp.apollographql.com/graphql"
+[context.production.environment]
+  PREFIX_PATHS = "true"
