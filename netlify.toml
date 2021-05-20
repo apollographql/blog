@@ -1,5 +1,5 @@
 [build]
-  command = "gatsby build && cd public && mkdir blog | mv * blog && mv blog/_redirects ./_redirects"
+  command = "gatsby build --prefix-paths && mkdir blog && mv public/* blog && mv blog public/ && mv public/blog/_redirects public/_redirects"
   publish = "public"
 [build.environment]
   MAILCHIMP_LIST_ID = "c59c3cf70b"
