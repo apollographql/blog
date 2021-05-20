@@ -1,7 +1,8 @@
 {
   "scripts": {
     "start": "gatsby develop",
-    "build": "gatsby build"
+    "build": "gatsby build",
+    "postbuild": "(cd public && mkdir blog | mv * blog && mv blog/_redirects ./_redirects)"
   },
   "eslintConfig": {
     "extends": "@trevorblades/eslint-config/react"
