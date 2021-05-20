@@ -2,6 +2,7 @@
   command = "gatsby build && cd public && mkdir blog | mv * blog && mv blog/_redirects ./_redirects"
   publish = "public"
 [build.environment]
+  MAILCHIMP_LIST_ID = "c59c3cf70b"
   WORDPRESS_URL = "https://wp.apollographql.com/graphql"
 [context.production.environment]
   PREFIX_PATHS = "true"
