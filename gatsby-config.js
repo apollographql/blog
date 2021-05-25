@@ -1,4 +1,4 @@
-const {stripHtmlTags} = require('./src/utils');
+const {stripHtmlTags, createPostPath} = require('./src/utils');
 const {decode} = require('he');
 
 module.exports = {
@@ -78,7 +78,7 @@ module.exports = {
             title: (node) => decode(node.title),
             content: (node) => stripHtmlTags(node.content),
             excerpt: (node) => stripHtmlTags(node.excerpt),
-            uri: (node) => node.uri,
+            path: createPostPath,
             categories: (node, getNode) =>
               node.categories.nodes.map((category) => getNode(category.id)),
             author: (node) => node.author.node

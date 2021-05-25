@@ -363,7 +363,7 @@ export const pageQuery = graphql`
         id
         date
         title
-        uri
+        path
         author {
           node {
             ...UserFragment

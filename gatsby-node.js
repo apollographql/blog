@@ -1,4 +1,5 @@
 const slugify = require('slugify');
+const {createPostPath} = require('./src/utils');
 
 const PAGE_SIZE = 10;
 
@@ -7,23 +8,7 @@ exports.createResolvers = ({createResolvers, getNode}) => {
     WpPost: {
       path: {
         type: 'String',
-        resolve(node) {
-          let prefix = '';
-          if (node.categories.nodes.length) {
-            const categories = node.categories.nodes.map((category) =>
-              getNode(category.id)
-            );
-            const topic = categories.find((category) => category.wpParent);
-            if (topic) {
-              const category = getNode(topic.wpParent.node.id);
-              const topicSlug = slugify(topic.name).toLowerCase();
-              prefix = `/${category.slug}/${topicSlug}`;
-            } else {
-              prefix = '/' + categories[0].slug;
-            }
-          }
-          return prefix + node.uri;
-        }
+        resolve: (node) => createPostPath(node, getNode)
       }
     },
     WpCategory: {
