@@ -13,6 +13,7 @@ export const onRenderBody = ({setHeadComponents}) => {
           document.head.appendChild(ffWidgetScript);
         `
       }}
-    />
+    />,
+    <script key="utm" src="https://www.apollographql.com/utm-grabber.js" />
   ]);
 };
