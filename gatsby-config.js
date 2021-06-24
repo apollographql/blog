@@ -1,10 +1,13 @@
 const {stripHtmlTags, createPostPath} = require('./src/utils');
 const {decode} = require('he');
+const {queries, parse, algoliaSettings} = require('apollo-algolia-transform');
+
+const PATH_PREFIX = '/blog';
 
 module.exports = {
   // only set a path prefix if building for production
   // https://github.com/gatsbyjs/gatsby/blob/fe04b8e05eef712a433fe739f6f0943cbdf2305c/packages/gatsby/src/utils/get-public-path.ts#L15
-  pathPrefix: '/blog',
+  pathPrefix: PATH_PREFIX,
   siteMetadata: {
     siteUrl: 'https://www.apollographql.com/blog'
   },
@@ -151,6 +154,25 @@ module.exports = {
       resolve: 'gatsby-plugin-google-tagmanager',
       options: {
         id: 'GTM-K95LDHB'
+      }
+    },
+    {
+      resolve: 'gatsby-plugin-algolia',
+      options: {
+        appId: process.env.GATSBY_ALGOLIA_APP_ID,
+        apiKey: process.env.ALGOLIA_ADMIN_KEY,
+        queries: [
+          {
+            query: queries.docs,
+            transformer: ({data}) =>
+              parse({
+                data,
+                baseUrl: 'https://www.apollographql.com' + PATH_PREFIX
+              }),
+            indexName: process.env.ALGOLIA_INDEX_NAME,
+            settings: algoliaSettings.default
+          }
+        ]
       }
     }
   ]
