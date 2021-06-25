@@ -34,27 +34,21 @@ const Header = styled.header({
 });
 
 const HeaderInner = styled(Wrapper)({
-  display: 'grid',
-  height: 72,
-  gridTemplateColumns: '0.75fr 1fr 0.75fr',
+  display: 'flex',
   alignItems: 'center',
-  [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
-    display: 'flex'
-  }
+  height: 72
 });
 
 const LogoWrapper = styled.div({
-  display: 'flex'
+  display: 'flex',
+  marginRight: 24
 });
 
 const LogoLink = styled(Link)({
   display: 'flex',
   alignItems: 'flex-start',
   fontSize: 24,
-  color: colors.black.lighter,
-  [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
-    marginRight: 48
-  }
+  color: colors.black.lighter
 });
 
 const StyledApolloIcon = styled(ApolloIcon)({
@@ -68,7 +62,9 @@ const StyledBlogIcon = styled(BlogIcon)({
 });
 
 const SearchForm = styled.form({
-  flexGrow: 1
+  flexGrow: 1,
+  maxWidth: 400,
+  marginRight: 24
 });
 
 const SearchInput = styled(TextField)({
@@ -118,6 +114,35 @@ const RecentPosts = styled.div({
   }
 });
 
+const HeaderNav = styled.ul({
+  display: 'flex',
+  paddingLeft: 0,
+  marginLeft: 'auto',
+  listStyle: 'none',
+  '> li:not(:last-child)': {
+    marginRight: 16
+  }
+});
+
+const CategoryMenu = styled.li({
+  position: 'relative',
+  ul: {
+    padding: 12,
+    listStyle: 'none',
+    position: 'absolute',
+    top: '100%',
+    right: 0,
+    border: `1px solid ${colors.grey.light}`,
+    backgroundColor: 'white',
+    'li:not(:last-child)': {
+      marginBottom: 8
+    }
+  },
+  ':not(:hover) ul': {
+    display: 'none'
+  }
+});
+
 export default function Layout(props) {
   const data = useStaticQuery(
     graphql`
@@ -141,6 +166,18 @@ export default function Layout(props) {
         }
         helpMenu: wpMenu(databaseId: {eq: 4}) {
           ...MenuFragment
+        }
+        allWpCategory {
+          nodes {
+            id
+            name
+            path
+            wpChildren {
+              nodes {
+                id
+              }
+            }
+          }
         }
         recentPosts: allWpPost(limit: 3) {
           nodes {
@@ -187,6 +224,7 @@ export default function Layout(props) {
 
   const {title, description} = data.wp.generalSettings;
   const defaultSocialImage = data.site.siteMetadata.siteUrl + '/social.jpg';
+
   return (
     <Fragment>
       <Helmet defaultTitle={title} titleTemplate={`%s - ${title}`}>
@@ -224,6 +262,22 @@ export default function Layout(props) {
               defaultValue={props.defaultSearchValue}
             />
           </SearchForm>
+          <HeaderNav>
+            <li>
+              <CategoryMenu>
+                Categories
+                <ul>
+                  {data.allWpCategory.nodes
+                    .filter((category) => category.wpChildren.nodes.length)
+                    .map((category) => (
+                      <li key={category.id}>
+                        <Link to={category.path + 1}>{category.name}</Link>
+                      </li>
+                    ))}
+                </ul>
+              </CategoryMenu>
+            </li>
+          </HeaderNav>
         </HeaderInner>
       </Header>
       <Wrapper>{props.children}</Wrapper>
