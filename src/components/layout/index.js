@@ -14,11 +14,15 @@ import {
   WRAPPER_PADDING_X
 } from '../ui';
 import {ReactComponent as BlogIcon} from '../../assets/blog.svg';
+import {Button} from '@apollo/space-kit/Button';
 import {Global} from '@emotion/core';
+import {IconMenu} from '@apollo/space-kit/icons/IconMenu';
 import {Link, graphql, useStaticQuery, withPrefix} from 'gatsby';
+import {List} from '@apollo/space-kit/List';
+import {ListItem} from '@apollo/space-kit/ListItem';
+import {Popover} from '@apollo/space-kit/Popover';
 import {TextField} from '@apollo/space-kit/TextField';
 import {colors} from '@apollo/space-kit/colors';
-import {triangle} from 'polished';
 
 const Wrapper = styled.div({
   maxWidth: BREAKPOINT_LG,
@@ -72,8 +76,8 @@ const SearchInput = styled(TextField)({
   input: {
     fontSize: 16
   },
-  'label div div': {
-    left: 16
+  'label > div': {
+    marginTop: 0
   }
 });
 
@@ -117,59 +121,32 @@ const RecentPosts = styled.div({
 
 const HeaderNav = styled.ul({
   display: 'flex',
+  alignItems: 'center',
   paddingLeft: 0,
   marginLeft: 'auto',
   listStyle: 'none',
   '> li:not(:last-child)': {
     marginRight: 16
   },
-  a: {
-    color: 'inherit',
-    textDecoration: 'none',
-    ':hover': {
-      color: colors.indigo.base
-    }
-  }
-});
-
-const CategoryDropdown = styled.div({
-  paddingTop: 2,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  position: 'absolute',
-  top: '100%',
-  left: '50%',
-  transform: 'translateX(-50%)',
-  ul: {
-    padding: '12px 16px',
-    listStyle: 'none',
-    borderRadius: 4,
-    backgroundColor: colors.black.lighter,
-    color: colors.silver.base,
-    whiteSpace: 'nowrap',
-    'li:not(:last-child)': {
-      marginBottom: 12
-    },
-    'a:hover': {
-      color: colors.indigo.light
-    }
-  }
-});
-
-const CategoryTriangle = styled.div(
-  triangle({
-    pointingDirection: 'top',
-    height: '6px',
-    width: '12px',
-    foregroundColor: colors.black.lighter
-  })
-);
-
-const CategoryMenu = styled.li({
-  position: 'relative',
-  [`:not(:hover) ${CategoryDropdown}`]: {
+  [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
     display: 'none'
+  }
+});
+
+const MobileNav = styled.div({
+  display: 'none',
+  position: 'relative',
+  marginLeft: 'auto',
+  [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
+    display: 'block'
+  }
+});
+
+const NavLink = styled(Link)({
+  color: 'inherit',
+  textDecoration: 'none',
+  ':hover': {
+    color: colors.indigo.base
   }
 });
 
@@ -179,6 +156,14 @@ function getTopicCount(category) {
   return category.wpChildren.nodes.reduce(
     (acc, node) => (node.totalCount ? acc + node.totalCount : acc),
     0
+  );
+}
+
+function renderCategory(category) {
+  return (
+    <ListItem key={category.id} as={<NavLink to={category.path + 1} />}>
+      {category.name}
+    </ListItem>
   );
 }
 
@@ -314,25 +299,33 @@ export default function Layout(props) {
           <HeaderNav>
             {navCategories.slice(0, CATEGORIES_IN_NAV).map((category) => (
               <li key={category.id}>
-                <Link to={category.path + 1}>{category.name}</Link>
+                <NavLink to={category.path + 1}>{category.name}</NavLink>
               </li>
             ))}
             <li>
-              <CategoryMenu>
-                More...
-                <CategoryDropdown>
-                  <CategoryTriangle />
-                  <ul>
-                    {navCategories.slice(CATEGORIES_IN_NAV).map((category) => (
-                      <li key={category.id}>
-                        <Link to={category.path + 1}>{category.name}</Link>
-                      </li>
-                    ))}
-                  </ul>
-                </CategoryDropdown>
-              </CategoryMenu>
+              <Popover
+                content={
+                  <List>
+                    {navCategories.slice(CATEGORIES_IN_NAV).map(renderCategory)}
+                  </List>
+                }
+                trigger={
+                  <Button
+                    feel="flat"
+                    style={{minWidth: 'auto', lineHeight: 'inherit'}}
+                  >
+                    More...
+                  </Button>
+                }
+              />
             </li>
           </HeaderNav>
+          <MobileNav>
+            <Popover
+              trigger={<Button icon={<IconMenu />} feel="flat" />}
+              content={<List>{navCategories.map(renderCategory)}</List>}
+            />
+          </MobileNav>
         </HeaderInner>
       </Header>
       <Wrapper>{props.children}</Wrapper>
