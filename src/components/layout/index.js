@@ -18,6 +18,7 @@ import {Global} from '@emotion/core';
 import {Link, graphql, useStaticQuery, withPrefix} from 'gatsby';
 import {TextField} from '@apollo/space-kit/TextField';
 import {colors} from '@apollo/space-kit/colors';
+import {triangle} from 'polished';
 
 const Wrapper = styled.div({
   maxWidth: BREAKPOINT_LG,
@@ -121,27 +122,65 @@ const HeaderNav = styled.ul({
   listStyle: 'none',
   '> li:not(:last-child)': {
     marginRight: 16
+  },
+  a: {
+    color: 'inherit',
+    textDecoration: 'none',
+    ':hover': {
+      color: colors.indigo.base
+    }
   }
 });
 
+const CategoryDropdown = styled.div({
+  paddingTop: 2,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  position: 'absolute',
+  top: '100%',
+  left: '50%',
+  transform: 'translateX(-50%)',
+  ul: {
+    padding: '12px 16px',
+    listStyle: 'none',
+    borderRadius: 4,
+    backgroundColor: colors.black.lighter,
+    color: colors.silver.base,
+    whiteSpace: 'nowrap',
+    'li:not(:last-child)': {
+      marginBottom: 12
+    },
+    'a:hover': {
+      color: colors.indigo.light
+    }
+  }
+});
+
+const CategoryTriangle = styled.div(
+  triangle({
+    pointingDirection: 'top',
+    height: '6px',
+    width: '12px',
+    foregroundColor: colors.black.lighter
+  })
+);
+
 const CategoryMenu = styled.li({
   position: 'relative',
-  ul: {
-    padding: 12,
-    listStyle: 'none',
-    position: 'absolute',
-    top: '100%',
-    right: 0,
-    border: `1px solid ${colors.grey.light}`,
-    backgroundColor: 'white',
-    'li:not(:last-child)': {
-      marginBottom: 8
-    }
-  },
-  ':not(:hover) ul': {
+  [`:not(:hover) ${CategoryDropdown}`]: {
     display: 'none'
   }
 });
+
+const CATEGORIES_IN_NAV = 3;
+
+function getTopicCount(category) {
+  return category.wpChildren.nodes.reduce(
+    (acc, node) => (node.totalCount ? acc + node.totalCount : acc),
+    0
+  );
+}
 
 export default function Layout(props) {
   const data = useStaticQuery(
@@ -167,6 +206,7 @@ export default function Layout(props) {
         helpMenu: wpMenu(databaseId: {eq: 4}) {
           ...MenuFragment
         }
+        # categories for nav
         allWpCategory {
           nodes {
             id
@@ -175,6 +215,7 @@ export default function Layout(props) {
             wpChildren {
               nodes {
                 id
+                totalCount
               }
             }
           }
@@ -225,6 +266,14 @@ export default function Layout(props) {
   const {title, description} = data.wp.generalSettings;
   const defaultSocialImage = data.site.siteMetadata.siteUrl + '/social.jpg';
 
+  const navCategories = data.allWpCategory.nodes
+    .filter((category) => category.wpChildren.nodes.length)
+    .sort((a, b) => {
+      const aCount = getTopicCount(a);
+      const bCount = getTopicCount(b);
+      return bCount - aCount;
+    });
+
   return (
     <Fragment>
       <Helmet defaultTitle={title} titleTemplate={`%s - ${title}`}>
@@ -263,18 +312,24 @@ export default function Layout(props) {
             />
           </SearchForm>
           <HeaderNav>
+            {navCategories.slice(0, CATEGORIES_IN_NAV).map((category) => (
+              <li key={category.id}>
+                <Link to={category.path + 1}>{category.name}</Link>
+              </li>
+            ))}
             <li>
               <CategoryMenu>
-                Categories
-                <ul>
-                  {data.allWpCategory.nodes
-                    .filter((category) => category.wpChildren.nodes.length)
-                    .map((category) => (
+                More...
+                <CategoryDropdown>
+                  <CategoryTriangle />
+                  <ul>
+                    {navCategories.slice(CATEGORIES_IN_NAV).map((category) => (
                       <li key={category.id}>
                         <Link to={category.path + 1}>{category.name}</Link>
                       </li>
                     ))}
-                </ul>
+                  </ul>
+                </CategoryDropdown>
               </CategoryMenu>
             </li>
           </HeaderNav>
