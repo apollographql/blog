@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from '@emotion/styled';
+import {ApolloLogo} from '@apollo/space-kit/icons/ApolloLogo';
 import {
   Category,
   DateText,
@@ -9,7 +10,6 @@ import {
   postImageStyles
 } from './ui';
 import {Link} from 'gatsby';
-import {ReactComponent as Logo} from '@apollo/space-kit/logos/mark.svg';
 import {colors} from '@apollo/space-kit/colors';
 import {decode} from 'he';
 
@@ -57,7 +57,7 @@ const PostCategories = styled.div({
 function PostImagePlaceholder() {
   return (
     <PostImagePlaceholderWrapper>
-      <Logo fill="currentColor" height={72} />
+      <ApolloLogo style={{height: 72}} />
     </PostImagePlaceholderWrapper>
   );
 }
