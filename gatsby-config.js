@@ -163,7 +163,7 @@ module.exports = {
         apiKey: process.env.ALGOLIA_ADMIN_KEY,
         queries: [
           {
-            query: queries.docs,
+            query: queries.blog,
             transformer: ({data}) =>
               parse({
                 data,
