@@ -170,7 +170,7 @@ module.exports = {
                 baseUrl: 'https://www.apollographql.com' + PATH_PREFIX
               }),
             indexName: process.env.ALGOLIA_INDEX_NAME,
-            settings: algoliaSettings.default
+            settings: algoliaSettings.blog
           }
         ]
       }
