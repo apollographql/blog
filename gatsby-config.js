@@ -167,7 +167,7 @@ module.exports = {
                 data,
                 baseUrl: data.site.siteMetadata.siteUrl
               }),
-            indexName: '/blog',
+            indexName: 'blog',
             // only index when building for production on Netlify
             skipIndexing: process.env.CONTEXT !== 'production',
             settings: algoliaSettings.blog
