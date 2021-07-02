@@ -12,7 +12,7 @@
     "@emotion/styled": "^10.0.27",
     "@gatsby-contrib/gatsby-plugin-elasticlunr-search": "^2.3.0",
     "@svgr/webpack": "^5.1.0",
-    "apollo-algolia-transform": "^1.0.3",
+    "apollo-algolia-transform": "^1.0.4",
     "date-fns": "^2.9.0",
     "elasticlunr": "^0.9.5",
     "gatsby": "^2.28.1",

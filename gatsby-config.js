@@ -165,7 +165,8 @@ module.exports = {
             transformer: ({data}) =>
               parse({
                 data,
-                baseUrl: data.site.siteMetadata.siteUrl
+                baseUrl: data.site.siteMetadata.siteUrl,
+                viewId: '154056458'
               }),
             indexName: 'blog',
             // only index when building for production on Netlify
