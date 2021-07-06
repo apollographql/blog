@@ -1,7 +1,8 @@
 {
   "scripts": {
     "start": "gatsby develop",
-    "build": "gatsby build"
+    "build": "gatsby build",
+    "test": "jest"
   },
   "eslintConfig": {
     "extends": "@trevorblades/eslint-config/react"
@@ -45,6 +46,9 @@
   },
   "devDependencies": {
     "@trevorblades/eslint-config": "^7.0.2",
-    "eslint": "^6.8.0"
+    "babel-jest": "^27.0.6",
+    "babel-preset-gatsby": "^1.9.0",
+    "eslint": "^6.8.0",
+    "jest": "^27.0.6"
   }
 }
