@@ -166,9 +166,7 @@ exports.parse = async function ({data: {pagesWP = [], site}, viewId = ''}) {
       allGAData = await metricsFetcher.fetchAll();
     }
 
-    // const allGAData = metricsFetcher && (await metricsFetcher.fetchAll());
     const allPages = parsePages(pagesWP, siteUrl, allGAData);
-
     console.log(`Saving ${allPages.length} records to Algolia`);
 
     return allPages;
