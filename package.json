@@ -5,7 +5,18 @@
     "test": "jest"
   },
   "eslintConfig": {
-    "extends": "@trevorblades/eslint-config/react"
+    "extends": "@trevorblades/eslint-config/react",
+    "overrides": [
+      {
+        "files": [
+          "**/__tests__/*.js",
+          "**.test.js"
+        ],
+        "env": {
+          "jest": true
+        }
+      }
+    ]
   },
   "dependencies": {
     "@apollo/space-kit": "^5.0.0",
