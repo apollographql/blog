@@ -9,7 +9,7 @@ const METRICS = {
   entranceRate: 'ga:entranceRate'
 };
 
-function pageToAlgoliaRecord({node}, baseUrl, allGAData = {}) {
+function pageToAlgoliaRecord({node}, baseUrl, allGAData) {
   const {content, ...rest} = node;
   let currentRec = {text: ''};
   const recsToSave = [];
@@ -155,12 +155,18 @@ function parsePages(pages, baseUrl, allGAData) {
   );
 }
 
-exports.parse = async function ({data: {pagesWP = [], site}, viewId}) {
+exports.parse = async function ({data: {pagesWP = [], site}, viewId = ''}) {
   try {
     const siteUrl =
       site?.siteMetadata?.siteUrl || 'https://www.apollographql.com/blog/';
-    const metricsFetcher = viewId && new MetricsFetcher({viewId});
-    const allGAData = metricsFetcher && (await metricsFetcher.fetchAll());
+
+    let allGAData = {};
+    if (process.env.NODE_ENV !== 'test') {
+      const metricsFetcher = new MetricsFetcher({viewId});
+      allGAData = await metricsFetcher.fetchAll();
+    }
+
+    // const allGAData = metricsFetcher && (await metricsFetcher.fetchAll());
     const allPages = parsePages(pagesWP, siteUrl, allGAData);
 
     console.log(`Saving ${allPages.length} records to Algolia`);
