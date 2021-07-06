@@ -152,22 +152,24 @@ function parsePages(pages, baseUrl, allGAData) {
   );
 }
 
-exports.parse = async function ({data: {pagesWP = [], site}, viewId = ''}) {
+exports.parse = async function ({
+  data: {pagesWP = []},
+  baseUrl = 'https://www.apollographql.com/blog/',
+  viewId = ''
+}) {
   try {
-    const siteUrl =
-      site?.siteMetadata?.siteUrl || 'https://www.apollographql.com/blog/';
-
     let allGAData = {};
     if (process.env.NODE_ENV !== 'test') {
       const metricsFetcher = new MetricsFetcher({viewId});
       allGAData = await metricsFetcher.fetchAll();
     }
 
-    const allPages = parsePages(pagesWP, siteUrl, allGAData);
+    const allPages = parsePages(pagesWP, baseUrl, allGAData);
     console.log(`Saving ${allPages.length} records to Algolia`);
 
     return allPages;
   } catch (err) {
+    console.log('There was an error saving the records to Algolia');
     console.error(err);
   }
 };
