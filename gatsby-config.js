@@ -1,6 +1,7 @@
 const {stripHtmlTags, createPostPath} = require('./src/utils');
 const {decode} = require('he');
-const {parse, queries, algoliaSettings} = require('apollo-algolia-transform');
+const {algoliaSettings} = require('apollo-algolia-transform');
+const {parse} = require('./src/algolia/algolia-transform');
 
 module.exports = {
   // only set a path prefix if building for production
@@ -161,7 +162,42 @@ module.exports = {
         apiKey: process.env.ALGOLIA_ADMIN_KEY,
         queries: [
           {
-            query: queries.blog,
+            query: `{
+              site {
+                siteMetadata {
+                  siteUrl
+                }
+              }
+              pagesWP: allWpPost {
+                edges {
+                  node {
+                    title
+                    content
+                    slug
+                    categories {
+                      nodes {
+                        name
+                      }
+                    }
+                    id
+                    link
+                    excerpt
+                    date
+                    modified
+                    featuredImage {
+                      node {
+                        sourceUrl
+                      }
+                    }        
+                    author {
+                      node {
+                        name
+                      }
+                    }
+                  }
+                }
+              }
+            }`,
             transformer: ({data}) =>
               parse({
                 data,
