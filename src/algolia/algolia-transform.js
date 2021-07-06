@@ -109,10 +109,6 @@ function pageToAlgoliaRecord({node}, baseUrl, allGAData) {
 
   function getRecsAndReset(node, recs) {
     const {id, frontmatter, fields, categories, excerpt, ...rest} = node;
-
-    const categs =
-      categories?.nodes?.map((node) => node.name) || categories || [];
-
     const url = `${baseUrl}${node?.link || ''}`;
 
     const allRecs = recs.map((rec, index) => {
@@ -120,7 +116,8 @@ function pageToAlgoliaRecord({node}, baseUrl, allGAData) {
         objectID: `${id}_${index}`,
         index,
         type: 'blog',
-        categories: categs,
+        categories:
+          categories?.nodes?.map((node) => node.name) || categories || [],
         url,
         excerpt: h2p(excerpt).slice(0, 100),
         pageviews: allGAData?.[url]?.[METRICS.uniquePageViews],
