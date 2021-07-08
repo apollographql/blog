@@ -119,7 +119,7 @@ function pageToAlgoliaRecord({node}, baseUrl, allGAData) {
         categories:
           categories?.nodes?.map((node) => node.name) || categories || [],
         url,
-        excerpt: h2p(excerpt).slice(0, 100),
+        excerpt: h2p(excerpt).slice(0, 100) + '...',
         pageviews: allGAData?.[url]?.[METRICS.uniquePageViews],
         ...frontmatter,
         ...fields,
