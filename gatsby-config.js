@@ -1,7 +1,7 @@
 const {stripHtmlTags, createPostPath} = require('./src/utils');
 const {decode} = require('he');
 const {algoliaSettings} = require('apollo-algolia-transform');
-const {parse} = require('./src/algolia/algolia-transform');
+const {transformer} = require('./src/algolia/algolia-transform');
 
 module.exports = {
   // only set a path prefix if building for production
@@ -168,42 +168,35 @@ module.exports = {
                   siteUrl
                 }
               }
-              pagesWP: allWpPost {
-                edges {
-                  node {
-                    title
-                    content
-                    slug
-                    categories {
-                      nodes {
-                        name
-                      }
+              allWpPost {
+                nodes {
+                  id
+                  title
+                  content
+                  slug
+                  path
+                  categories {
+                    nodes {
+                      name
                     }
-                    id
-                    link
-                    excerpt
-                    date
-                    modified
-                    featuredImage {
-                      node {
-                        sourceUrl
-                      }
-                    }        
-                    author {
-                      node {
-                        name
-                      }
+                  }
+                  excerpt
+                  date
+                  modified
+                  featuredImage {
+                    node {
+                      sourceUrl
+                    }
+                  }
+                  author {
+                    node {
+                      name
                     }
                   }
                 }
               }
             }`,
-            transformer: ({data}) =>
-              parse({
-                data,
-                baseUrl: data.site.siteMetadata.siteUrl,
-                viewId: '154056458'
-              }),
+            transformer,
             indexName: 'blog',
             // only index when building for production on Netlify
             skipIndexing: process.env.CONTEXT !== 'production',
