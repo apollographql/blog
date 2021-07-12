@@ -1,7 +1,7 @@
-const h2p = require('html2plaintext');
 const cheerio = require('cheerio');
 const path = require('path');
 const {MetricsFetcher, METRICS} = require('apollo-algolia-transform');
+const {stripHtmlTags} = require('../utils');
 
 async function transformer({data}) {
   try {
@@ -13,9 +13,7 @@ async function transformer({data}) {
 
     const {site, allWpPost} = data;
     const {siteUrl} = site.siteMetadata;
-    return allWpPost.nodes.map((post) => {
-      const url = path.join(siteUrl, post.path);
-
+    return allWpPost.nodes.map((post, index) => {
       const $ = cheerio.load(post.content);
       const headings = $(':header')
         .get()
@@ -34,13 +32,18 @@ async function transformer({data}) {
           };
         }, {});
 
+      const url = path.join(siteUrl, post.path);
       return {
         type: 'blog',
         categories: post.categories.nodes.map((category) => category.name),
         objectID: post.id,
         title: post.title,
+        slug: post.slug,
         url,
-        excerpt: h2p(post.excerpt).slice(0, 100) + '...',
+        index,
+        date: post.date,
+        text: stripHtmlTags(post.content),
+        excerpt: stripHtmlTags(post.excerpt),
         headings,
         pageviews: allGAData[url]?.[METRICS.uniquePageViews]
       };

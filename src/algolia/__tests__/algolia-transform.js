@@ -1,30 +1,21 @@
 const pagesWP = require('./mock-wp');
-const {parse} = require('../algolia-transform.js');
-const baseUrl = 'https://www.apollographql.com/blog';
+const {transformer} = require('../algolia-transform.js');
 
 test('parse WP', async () => {
-  const wpRecs = await parse({
-    data: {
-      pagesWP: pagesWP.data.pagesWP
-    },
-    baseUrl
-  });
+  const {0: firstPost, length} = await transformer(pagesWP);
 
-  const firstPost = wpRecs[0];
-
-  expect(wpRecs.length).toBe(15);
-  expect(firstPost.url.startsWith(baseUrl)).toBe(true);
+  expect(length).toBe(20);
   expect(firstPost).toEqual(
     expect.objectContaining({
       objectID: expect.any(String),
       index: expect.any(Number),
       url: expect.any(String),
+      slug: expect.any(String),
       categories: expect.any(Array),
       date: expect.any(String),
       title: expect.any(String),
       excerpt: expect.any(String),
-      text: expect.any(String),
-      link: expect.any(String)
+      text: expect.any(String)
     })
   );
 });
