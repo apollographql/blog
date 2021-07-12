@@ -22,7 +22,7 @@ async function transformer({data}) {
           const heading = $(el);
           const payload = [
             {
-              text: heading.text(),
+              title: heading.text(),
               url: '#' + heading.find('a').attr('id')
             }
           ];
