@@ -173,23 +173,12 @@ module.exports = {
                   id
                   title
                   content
+                  excerpt
                   slug
                   path
+                  date
                   categories {
                     nodes {
-                      name
-                    }
-                  }
-                  excerpt
-                  date
-                  modified
-                  featuredImage {
-                    node {
-                      sourceUrl
-                    }
-                  }
-                  author {
-                    node {
                       name
                     }
                   }
