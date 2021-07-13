@@ -1,5 +1,4 @@
-const {stripHtmlTags, createPostPath} = require('./src/utils');
-const {decode} = require('he');
+const {stripHtmlTags} = require('./src/utils');
 const {algoliaSettings} = require('apollo-algolia-transform');
 const {transformer} = require('./algolia');
 
@@ -66,23 +65,6 @@ module.exports = {
       resolve: 'gatsby-plugin-google-gtag',
       options: {
         trackingIds: ['UA-74643563-11', 'G-0BGG5V2W2K']
-      }
-    },
-    {
-      resolve: '@gatsby-contrib/gatsby-plugin-elasticlunr-search',
-      options: {
-        fields: ['title', 'content'],
-        resolvers: {
-          WpPost: {
-            title: node => decode(node.title),
-            content: node => stripHtmlTags(node.content),
-            excerpt: node => stripHtmlTags(node.excerpt),
-            path: createPostPath,
-            categories: (node, getNode) =>
-              node.categories.nodes.map(category => getNode(category.id)),
-            author: node => node.author.node
-          }
-        }
       }
     },
     {
