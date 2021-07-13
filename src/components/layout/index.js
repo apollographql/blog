@@ -209,6 +209,7 @@ export default function Layout(props) {
           <Autocomplete
             appId={process.env.GATSBY_ALGOLIA_APP_ID}
             apiKey={process.env.GATSBY_ALGOLIA_API_SEARCH_KEY}
+            currentSource="blog"
           />
         </HeaderInner>
       </Header>
