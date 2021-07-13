@@ -16,6 +16,7 @@ import styled from '@emotion/styled';
 import {
   Categories,
   Category,
+  DATE_FORMAT,
   DateText,
   InnerWrapper,
   LargeButton,
@@ -25,6 +26,7 @@ import {
   SidebarSection,
   SocialIcons,
   TopFold,
+  dateTextStyles,
   largeTextStyles,
   linkStyles
 } from '../ui';
@@ -40,6 +42,7 @@ import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
 import {TextField} from '@apollo/space-kit/TextField';
 import {colors} from '@apollo/space-kit/colors';
 import {decode} from 'he';
+import {format} from 'date-fns';
 import {graphql} from 'gatsby';
 import {stripHtmlTags} from '../../utils';
 
@@ -76,6 +79,10 @@ const TwitterHandle = styled.a({
   ':hover': {
     color: colors.indigo.base
   }
+});
+
+const LastUpdated = styled.div(dateTextStyles, {
+  marginBottom: 32
 });
 
 const NewsletterSignup = styled.div({
@@ -128,6 +135,7 @@ export default function PostTemplate(props) {
   const {
     path,
     date,
+    modified,
     title,
     author,
     excerpt,
@@ -200,6 +208,11 @@ export default function PostTemplate(props) {
       <InnerWrapper>
         <Main>
           {featuredImage && <FeaturedImage src={featuredImage} />}
+          {modified !== date && (
+            <LastUpdated>
+              Last updated {format(new Date(modified), DATE_FORMAT)}
+            </LastUpdated>
+          )}
           <ShareButtonContext.Provider value={shareUrl}>
             <PostContent content={content} />
           </ShareButtonContext.Provider>
@@ -310,7 +323,8 @@ export const pageQuery = graphql`
     # everything we need to render a post
     wpPost(id: {eq: $id}) {
       path
-      date
+      date(formatString: "l")
+      modified(formatString: "l")
       title
       excerpt
       content

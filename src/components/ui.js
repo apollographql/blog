@@ -22,10 +22,12 @@ const DateTextInner = styled.h6({
   marginBottom: 4
 });
 
+export const DATE_FORMAT = 'MMMM d, yyyy';
+
 export function DateText({date, ...props}) {
   return (
     <DateTextInner {...props}>
-      {format(new Date(date), 'MMMM d, yyyy')}
+      {format(new Date(date), DATE_FORMAT)}
     </DateTextInner>
   );
 }
