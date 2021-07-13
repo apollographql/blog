@@ -1,5 +1,7 @@
 import '@apollo/space-kit/reset.css';
+import 'apollo-algolia-autocomplete/styles.css';
 import ArchivePost from '../archive-post';
+import Autocomplete from 'apollo-algolia-autocomplete';
 import FooterNav from './footer-nav';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
@@ -218,7 +220,7 @@ export default function Layout(props) {
               <StyledBlogIcon />
             </LogoLink>
           </LogoWrapper>
-          <SearchForm action={withPrefix('/search')}>
+          {/* <SearchForm action={withPrefix('/search')}>
             <SearchInput
               size="large"
               placeholder="Search Apollo Blog"
@@ -226,7 +228,11 @@ export default function Layout(props) {
               name="q"
               defaultValue={props.defaultSearchValue}
             />
-          </SearchForm>
+          </SearchForm> */}
+          <Autocomplete
+            appId={process.env.GATSBY_ALGOLIA_APP_ID}
+            apiKey={process.env.GATSBY_ALGOLIA_API_SEARCH_KEY}
+          />
         </HeaderInner>
       </Header>
       <Wrapper>{props.children}</Wrapper>
