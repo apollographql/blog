@@ -1,5 +1,5 @@
 const pagesWP = require('./mock-wp');
-const {transformer} = require('../algolia-transform.js');
+const {transformer} = require('..');
 
 test('parse WP', async () => {
   const {0: firstPost, length} = await transformer(pagesWP);
