@@ -15,7 +15,8 @@ test('parse WP', async () => {
       date: expect.any(String),
       title: expect.any(String),
       excerpt: expect.any(String),
-      text: expect.any(String)
+      text: expect.any(String),
+      headings: expect.any(Object)
     })
   );
 });
