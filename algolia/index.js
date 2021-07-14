@@ -2,6 +2,7 @@ const cheerio = require('cheerio');
 const path = require('path');
 const {MetricsFetcher, METRICS} = require('apollo-algolia-transform');
 const {stripHtmlTags} = require('../src/utils');
+const {truncate} = require('lodash');
 
 async function transformer({data}) {
   try {
@@ -33,6 +34,11 @@ async function transformer({data}) {
         }, {});
 
       const url = path.join(siteUrl, post.path);
+      const excerpt = truncate(stripHtmlTags(post.excerpt), {
+        length: 100,
+        separator: ' '
+      });
+
       return {
         type: 'blog',
         categories: post.categories.nodes.map((category) => category.name),
@@ -43,7 +49,7 @@ async function transformer({data}) {
         index,
         date: post.date,
         text: stripHtmlTags(post.content),
-        excerpt: stripHtmlTags(post.excerpt),
+        excerpt,
         headings,
         pageviews: allGAData[url]?.[METRICS.uniquePageViews]
       };
