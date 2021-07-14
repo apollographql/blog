@@ -1,7 +1,7 @@
 const cheerio = require('cheerio');
 const path = require('path');
 const {MetricsFetcher, METRICS} = require('apollo-algolia-transform');
-const {stripHtmlTags} = require('../utils');
+const {stripHtmlTags} = require('../src/utils');
 
 async function transformer({data}) {
   try {

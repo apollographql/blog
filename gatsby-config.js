@@ -1,7 +1,7 @@
 const {stripHtmlTags, createPostPath} = require('./src/utils');
 const {decode} = require('he');
 const {algoliaSettings} = require('apollo-algolia-transform');
-const {transformer} = require('./src/algolia/algolia-transform');
+const {transformer} = require('./algolia');
 
 module.exports = {
   // only set a path prefix if building for production
