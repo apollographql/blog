@@ -160,6 +160,8 @@ module.exports = {
       options: {
         appId: process.env.GATSBY_ALGOLIA_APP_ID,
         apiKey: process.env.ALGOLIA_ADMIN_KEY,
+        // only index when building for production on Netlify
+        skipIndexing: process.env.CONTEXT !== 'production',
         queries: [
           {
             query: `{
@@ -187,8 +189,6 @@ module.exports = {
             }`,
             transformer,
             indexName: 'blog',
-            // only index when building for production on Netlify
-            skipIndexing: process.env.CONTEXT !== 'production',
             settings: algoliaSettings.blog
           }
         ]
