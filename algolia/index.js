@@ -6,7 +6,7 @@ const {
   createRecords
 } = require('apollo-algolia-transform');
 
-function getWpHeading($, child) {
+function getWpHeading(child, $) {
   const el = $(child);
   if (el.is(':header')) {
     return {
@@ -26,14 +26,14 @@ async function transformer({data}) {
 
   const {site, allWpPost} = data;
   const {siteUrl} = site.siteMetadata;
-  return allWpPost.nodes.flatMap((post) => {
+  const records = allWpPost.nodes.flatMap((post) => {
     const url = path.join(siteUrl, post.path);
     const $ = cheerio.load(`<div id="root">${post.content}</div>`);
 
     return createRecords({
       children: $('#root > *').get(),
       // pass the cheerio instance to the WP heading function
-      getHeading: getWpHeading.bind(this, $),
+      getHeading: (child) => getWpHeading(child, $),
       getText: (child) => $(child).text(),
       url,
       id: post.id,
@@ -47,6 +47,10 @@ async function transformer({data}) {
       }
     });
   });
+
+  console.log('Created %s Algolia records', records.length);
+
+  return records;
 }
 
 module.exports = {transformer};
