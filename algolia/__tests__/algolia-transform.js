@@ -1,11 +1,13 @@
-const pagesWP = require('./mock-wp');
+const data = require('./mock-data');
 const {transformer} = require('..');
 
 test('parse WP', async () => {
-  const {0: firstPost, length} = await transformer(pagesWP);
+  const {1: secondRecord, length} = await transformer(data);
+  expect(length).toBe(207);
 
-  expect(length).toBe(20);
-  expect(firstPost).toEqual(
+  // test the second record because we'd expect it to have a section title since
+  // it will be the first record that is descended from a heading
+  expect(secondRecord).toEqual(
     expect.objectContaining({
       objectID: expect.any(String),
       index: expect.any(Number),
@@ -14,9 +16,10 @@ test('parse WP', async () => {
       categories: expect.any(Array),
       date: expect.any(String),
       title: expect.any(String),
+      sectionTitle: expect.any(String),
       excerpt: expect.any(String),
       text: expect.any(String),
-      headings: expect.any(Object)
+      ancestors: expect.any(Array)
     })
   );
 });
