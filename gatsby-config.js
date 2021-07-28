@@ -158,10 +158,12 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-algolia',
       options: {
-        appId: process.env.GATSBY_ALGOLIA_APP_ID,
-        apiKey: process.env.ALGOLIA_ADMIN_KEY,
+        appId: process.env.ALGOLIA_APP_ID,
+        apiKey: process.env.ALGOLIA_WRITE_KEY,
         // only index when building for production on Netlify
-        skipIndexing: process.env.CONTEXT !== 'production',
+        skipIndexing:
+          process.env.CONTEXT !== 'production' &&
+          process.env.SKIP_INDEXING !== 'false',
         queries: [
           {
             query: `{
