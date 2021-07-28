@@ -189,7 +189,10 @@ module.exports = {
             }`,
             transformer,
             indexName: 'blog',
-            settings: algoliaSettings.blog
+            settings: {
+              ...algoliaSettings,
+              customRanking: ['desc(date)', ...algoliaSettings.customRanking]
+            }
           }
         ]
       }
