@@ -27,7 +27,7 @@ async function transformer({data}) {
   const {site, allWpPost} = data;
   const {siteUrl} = site.siteMetadata;
   const records = allWpPost.nodes.flatMap((post) => {
-    const url = path.join(siteUrl, post.path);
+    const url = siteUrl + post.path;
     const $ = cheerio.load(`<div id="root">${post.content}</div>`);
 
     return createRecords({
