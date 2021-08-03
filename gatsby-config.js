@@ -63,10 +63,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-google-gtag',
       options: {
-        trackingIds: [
-          'UA-74643563-11',
-          'G-0BGG5V2W2K' // Unified GA4 tracking for tracking all web properties on the apollographql.com domain
-        ]
+        trackingIds: ['UA-74643563-11']
       }
     },
     {
@@ -150,7 +147,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-google-tagmanager',
       options: {
-        id: 'GTM-K95LDHB'
+        id: 'GTM-M964NS9'
       }
     }
   ]
