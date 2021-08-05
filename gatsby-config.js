@@ -1,5 +1,7 @@
 const {stripHtmlTags, createPostPath} = require('./src/utils');
 const {decode} = require('he');
+const {algoliaSettings} = require('apollo-algolia-transform');
+const {transformer} = require('./algolia');
 
 module.exports = {
   // only set a path prefix if building for production
@@ -148,6 +150,50 @@ module.exports = {
       resolve: 'gatsby-plugin-google-tagmanager',
       options: {
         id: 'GTM-M964NS9'
+      }
+    },
+    {
+      resolve: 'gatsby-plugin-algolia',
+      options: {
+        appId: process.env.ALGOLIA_APP_ID,
+        apiKey: process.env.ALGOLIA_WRITE_KEY,
+        // only index when building for production on Netlify
+        skipIndexing:
+          process.env.CONTEXT !== 'production' &&
+          process.env.SKIP_INDEXING !== 'false',
+        queries: [
+          {
+            query: `{
+              site {
+                siteMetadata {
+                  siteUrl
+                }
+              }
+              allWpPost {
+                nodes {
+                  id
+                  title
+                  content
+                  excerpt
+                  slug
+                  path
+                  date
+                  categories {
+                    nodes {
+                      name
+                    }
+                  }
+                }
+              }
+            }`,
+            transformer,
+            indexName: 'blog',
+            settings: {
+              ...algoliaSettings,
+              customRanking: ['desc(date)', ...algoliaSettings.customRanking]
+            }
+          }
+        ]
       }
     }
   ]
