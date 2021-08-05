@@ -24,7 +24,7 @@
     "@emotion/styled": "^10.0.27",
     "@gatsby-contrib/gatsby-plugin-elasticlunr-search": "^2.3.0",
     "@svgr/webpack": "^5.1.0",
-    "apollo-algolia-transform": "^1.0.31",
+    "apollo-algolia-transform": "^1.0.35",
     "cheerio": "^1.0.0-rc.10",
     "date-fns": "^2.9.0",
     "elasticlunr": "^0.9.5",
