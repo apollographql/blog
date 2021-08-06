@@ -1,7 +1,7 @@
-const {stripHtmlTags, createPostPath} = require('./src/utils');
-const {decode} = require('he');
-const {algoliaSettings} = require('apollo-algolia-transform');
-const {transformer} = require('./algolia');
+const { stripHtmlTags, createPostPath } = require('./src/utils');
+const { decode } = require('he');
+const { algoliaSettings } = require('apollo-algolia-transform');
+const { transformer } = require('./algolia');
 
 module.exports = {
   // only set a path prefix if building for production
@@ -65,7 +65,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-google-gtag',
       options: {
-        trackingIds: ['UA-74643563-11']
+        trackingIds: ['UA-74643563-11', 'G-0BGG5V2W2K']
       }
     },
     {
@@ -103,8 +103,8 @@ module.exports = {
             }
           }
         `,
-        setup: ({query, ...rest}) => {
-          const {title, description} = query.wp.generalSettings;
+        setup: ({ query, ...rest }) => {
+          const { title, description } = query.wp.generalSettings;
           return {
             title,
             description,
@@ -114,8 +114,8 @@ module.exports = {
         },
         feeds: [
           {
-            serialize: ({query}) => {
-              const {siteUrl} = query.site.siteMetadata;
+            serialize: ({ query }) => {
+              const { siteUrl } = query.site.siteMetadata;
               return query.allWpPost.nodes.map((node) => {
                 const url = siteUrl + node.path;
                 return {
@@ -124,7 +124,7 @@ module.exports = {
                   date: node.date,
                   url,
                   guid: url,
-                  custom_elements: [{'content:encoded': node.content}]
+                  custom_elements: [{ 'content:encoded': node.content }]
                 };
               });
             },
