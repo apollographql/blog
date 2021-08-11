@@ -14,8 +14,13 @@ import {
   WRAPPER_PADDING_X
 } from '../ui';
 import {ReactComponent as BlogIcon} from '../../assets/blog.svg';
+import {Button} from '@apollo/space-kit/Button';
 import {Global} from '@emotion/core';
+import {IconMenu} from '@apollo/space-kit/icons/IconMenu';
 import {Link, graphql, useStaticQuery, withPrefix} from 'gatsby';
+import {List} from '@apollo/space-kit/List';
+import {ListItem} from '@apollo/space-kit/ListItem';
+import {Popover} from '@apollo/space-kit/Popover';
 import {TextField} from '@apollo/space-kit/TextField';
 import {colors} from '@apollo/space-kit/colors';
 
@@ -34,27 +39,21 @@ const Header = styled.header({
 });
 
 const HeaderInner = styled(Wrapper)({
-  display: 'grid',
-  height: 72,
-  gridTemplateColumns: '0.75fr 1fr 0.75fr',
+  display: 'flex',
   alignItems: 'center',
-  [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
-    display: 'flex'
-  }
+  height: 72
 });
 
 const LogoWrapper = styled.div({
-  display: 'flex'
+  display: 'flex',
+  marginRight: 24
 });
 
 const LogoLink = styled(Link)({
   display: 'flex',
   alignItems: 'flex-start',
   fontSize: 24,
-  color: colors.black.lighter,
-  [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
-    marginRight: 48
-  }
+  color: colors.black.lighter
 });
 
 const StyledApolloIcon = styled(ApolloIcon)({
@@ -68,15 +67,17 @@ const StyledBlogIcon = styled(BlogIcon)({
 });
 
 const SearchForm = styled.form({
-  flexGrow: 1
+  flexGrow: 1,
+  maxWidth: 400,
+  marginRight: 24
 });
 
 const SearchInput = styled(TextField)({
   input: {
     fontSize: 16
   },
-  'label div div': {
-    left: 16
+  'label > div': {
+    marginTop: 0
   }
 });
 
@@ -118,6 +119,54 @@ const RecentPosts = styled.div({
   }
 });
 
+const HeaderNav = styled.ul({
+  display: 'flex',
+  alignItems: 'center',
+  paddingLeft: 0,
+  marginLeft: 'auto',
+  listStyle: 'none',
+  '> li:not(:last-child)': {
+    marginRight: 16
+  },
+  [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
+    display: 'none'
+  }
+});
+
+const MobileNav = styled.div({
+  display: 'none',
+  position: 'relative',
+  marginLeft: 'auto',
+  [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
+    display: 'block'
+  }
+});
+
+const NavLink = styled(Link)({
+  color: 'inherit',
+  textDecoration: 'none',
+  ':hover': {
+    color: colors.indigo.base
+  }
+});
+
+const CATEGORIES_IN_NAV = 3;
+
+function getTopicCount(category) {
+  return category.wpChildren.nodes.reduce(
+    (acc, node) => (node.totalCount ? acc + node.totalCount : acc),
+    0
+  );
+}
+
+function renderCategory(category) {
+  return (
+    <ListItem key={category.id} as={<NavLink to={category.path + 1} />}>
+      {category.name}
+    </ListItem>
+  );
+}
+
 export default function Layout(props) {
   const data = useStaticQuery(
     graphql`
@@ -141,6 +190,20 @@ export default function Layout(props) {
         }
         helpMenu: wpMenu(databaseId: {eq: 4}) {
           ...MenuFragment
+        }
+        # categories for nav
+        allWpCategory {
+          nodes {
+            id
+            name
+            path
+            wpChildren {
+              nodes {
+                id
+                totalCount
+              }
+            }
+          }
         }
         recentPosts: allWpPost(limit: 3) {
           nodes {
@@ -187,6 +250,15 @@ export default function Layout(props) {
 
   const {title, description} = data.wp.generalSettings;
   const defaultSocialImage = data.site.siteMetadata.siteUrl + '/social.jpg';
+
+  const navCategories = data.allWpCategory.nodes
+    .filter((category) => category.wpChildren.nodes.length)
+    .sort((a, b) => {
+      const aCount = getTopicCount(a);
+      const bCount = getTopicCount(b);
+      return bCount - aCount;
+    });
+
   return (
     <Fragment>
       <Helmet defaultTitle={title} titleTemplate={`%s - ${title}`}>
@@ -224,6 +296,36 @@ export default function Layout(props) {
               defaultValue={props.defaultSearchValue}
             />
           </SearchForm>
+          <HeaderNav>
+            {navCategories.slice(0, CATEGORIES_IN_NAV).map((category) => (
+              <li key={category.id}>
+                <NavLink to={category.path + 1}>{category.name}</NavLink>
+              </li>
+            ))}
+            <li>
+              <Popover
+                content={
+                  <List>
+                    {navCategories.slice(CATEGORIES_IN_NAV).map(renderCategory)}
+                  </List>
+                }
+                trigger={
+                  <Button
+                    feel="flat"
+                    style={{minWidth: 'auto', lineHeight: 'inherit'}}
+                  >
+                    More...
+                  </Button>
+                }
+              />
+            </li>
+          </HeaderNav>
+          <MobileNav>
+            <Popover
+              trigger={<Button icon={<IconMenu />} feel="flat" />}
+              content={<List>{navCategories.map(renderCategory)}</List>}
+            />
+          </MobileNav>
         </HeaderInner>
       </Header>
       <Wrapper>{props.children}</Wrapper>
