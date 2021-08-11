@@ -52,7 +52,7 @@ const ViewAllLink = styled(Link)({
   }
 });
 
-const HomePageCategories = styled.div({
+const HomePageCategories = styled.nav({
   display: 'flex',
   flexWrap: 'wrap',
   marginBottom: 32,
