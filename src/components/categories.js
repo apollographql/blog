@@ -2,7 +2,7 @@ import React from 'react';
 import {Category, CategoryNav, SectionHeading, SidebarSection} from './ui';
 import {graphql, useStaticQuery} from 'gatsby';
 
-export default function Categories() {
+export function ListCategories() {
   const data = useStaticQuery(
     graphql`
       {
@@ -20,15 +20,17 @@ export default function Categories() {
       }
     `
   );
+  return data.allWpCategory.nodes
+    .filter((category) => category.totalCount)
+    .map((category) => <Category key={category.id} category={category} />);
+}
+
+export default function Categories() {
   return (
     <SidebarSection>
       <SectionHeading>Categories</SectionHeading>
       <CategoryNav>
-        {data.allWpCategory.nodes
-          .filter((category) => category.totalCount)
-          .map((category) => (
-            <Category key={category.id} category={category} />
-          ))}
+        <ListCategories />
       </CategoryNav>
     </SidebarSection>
   );

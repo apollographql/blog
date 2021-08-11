@@ -1,6 +1,5 @@
 import ArchivePost from '../components/archive-post';
 import Byline from '../components/byline';
-import Categories from '../components/categories';
 import FollowUs from '../components/follow-us';
 import Layout from '../components/layout';
 import NewsletterForm, {useNewsletterForm} from '../components/newsletter-form';
@@ -22,6 +21,7 @@ import {
 } from '../components/ui';
 import {IconProceed} from '@apollo/space-kit/icons/IconProceed';
 import {Link, graphql} from 'gatsby';
+import {ListCategories} from '../components/categories';
 import {colors} from '@apollo/space-kit/colors';
 import {decode} from 'he';
 import {size} from 'polished';
@@ -52,6 +52,16 @@ const ViewAllLink = styled(Link)({
   }
 });
 
+const HomePageCategories = styled.div({
+  display: 'flex',
+  flexWrap: 'wrap',
+  marginBottom: 32,
+  a: {
+    marginBottom: 8,
+    marginRight: 8
+  }
+});
+
 export default function Index(props) {
   const newsletterFormProps = useNewsletterForm();
   const [featuredPost, ...otherPosts] = props.data.allWpPost.nodes;
@@ -59,6 +69,9 @@ export default function Index(props) {
   const archivePosts = otherPosts.slice(4);
   return (
     <Layout>
+      <HomePageCategories>
+        <ListCategories />
+      </HomePageCategories>
       <TopFold>
         <DateText style={{marginBottom: 12}} date={featuredPost.date} />
         <h2>
@@ -100,7 +113,6 @@ export default function Index(props) {
         <Sidebar>
           <NewsletterForm {...newsletterFormProps} />
           <FollowUs />
-          <Categories />
         </Sidebar>
       </InnerWrapper>
     </Layout>
