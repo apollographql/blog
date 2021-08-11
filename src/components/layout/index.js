@@ -39,7 +39,7 @@ const Header = styled.header({
 const HeaderInner = styled(Wrapper)({
   display: 'grid',
   height: 72,
-  gridTemplateColumns: '0.75fr 1fr 0.75fr',
+  gridTemplateColumns: '0.5fr 1fr 0.5fr',
   alignItems: 'center',
   [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
     display: 'flex'
@@ -56,7 +56,7 @@ const LogoLink = styled(Link)({
   fontSize: 24,
   color: colors.black.lighter,
   [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
-    marginRight: 48
+    marginRight: 20
   }
 });
 
