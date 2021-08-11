@@ -1,8 +1,8 @@
 [dev]
   autoLaunch = false
-  # command = "npm run build" # for for running algolia indexing locally
-[context.dev.environment]
-  SKIP_INDEXING = "false" # for running algolia indexing locally
+#   command = "npm run build" # for for running algolia indexing locally
+# [context.dev.environment]
+#   SKIP_INDEXING = "false" # for running algolia indexing locally
 [build]
   command = "gatsby build --prefix-paths && mkdir blog && mv public/* blog && mv blog public/ && mv public/blog/_redirects public/_redirects"
   publish = "public"
