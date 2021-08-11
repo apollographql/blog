@@ -22,7 +22,10 @@ import {colors} from '@apollo/space-kit/colors';
 const Wrapper = styled.div({
   maxWidth: BREAKPOINT_LG,
   margin: '0 auto',
-  padding: `0 ${WRAPPER_PADDING_X}px`
+  padding: `0 ${WRAPPER_PADDING_X}px`,
+  [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
+    padding: `0 ${WRAPPER_PADDING_X / 2}px`
+  }
 });
 
 const Header = styled.header({
