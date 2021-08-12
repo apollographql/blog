@@ -8,7 +8,7 @@ exports.createResolvers = ({createResolvers, getNode}) => {
     WpPost: {
       path: {
         type: 'String',
-        resolve: (node) => createPostPath(node, getNode)
+        resolve: node => createPostPath(node, getNode)
       }
     },
     WpCategory: {
@@ -80,7 +80,7 @@ exports.createPages = async ({actions, graphql}) => {
   `);
 
   const postTemplate = require.resolve('./src/components/post-template');
-  data.allWpPost.nodes.forEach((post) => {
+  data.allWpPost.nodes.forEach(post => {
     // redirect bare slug to categorized one
     actions.createRedirect({
       fromPath: post.uri,
@@ -93,7 +93,7 @@ exports.createPages = async ({actions, graphql}) => {
       component: postTemplate,
       context: {
         id: post.id,
-        categoriesIn: post.categories.nodes.flatMap((category) =>
+        categoriesIn: post.categories.nodes.flatMap(category =>
           category.wpParent
             ? [category.id, category.wpParent.node.id]
             : [category.id]
@@ -105,7 +105,7 @@ exports.createPages = async ({actions, graphql}) => {
   const categoryTemplate = require.resolve(
     './src/components/category-template'
   );
-  data.allWpCategory.nodes.forEach((category) => {
+  data.allWpCategory.nodes.forEach(category => {
     actions.createRedirect({
       fromPath: category.uri + '*',
       toPath: category.path + ':splat'
@@ -124,7 +124,7 @@ exports.createPages = async ({actions, graphql}) => {
         context: {
           id: category.id,
           ids: category.wpChildren.nodes
-            .map((topic) => topic.id)
+            .map(topic => topic.id)
             .concat([category.id]),
           limit: PAGE_SIZE,
           skip: PAGE_SIZE * i
@@ -134,7 +134,7 @@ exports.createPages = async ({actions, graphql}) => {
   });
 
   const authorTemplate = require.resolve('./src/components/author-template');
-  data.allWpUser.nodes.forEach((author) => {
+  data.allWpUser.nodes.forEach(author => {
     actions.createPage({
       path: '/author/' + author.slug,
       component: authorTemplate,

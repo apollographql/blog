@@ -4,7 +4,7 @@
 [context.dev.environment]
   SKIP_INDEXING = "false" # for running algolia indexing locally
 [build]
-  command = "gatsby build --prefix-paths && mkdir blog && mv public/* blog && mv blog public/ && mv public/blog/_redirects public/_redirects"
+  command = "GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build --prefix-paths && mkdir blog && mv public/* blog && mv blog public/ && mv public/blog/_redirects public/_redirects"
   publish = "public"
 [build.environment]
   NODE_VERSION = "12"
