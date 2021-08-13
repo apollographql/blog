@@ -16,7 +16,7 @@ module.exports = {
     'gatsby-plugin-emotion',
     'gatsby-plugin-react-helmet',
     {
-      resolve: 'gatsby-source-wordpress-experimental',
+      resolve: 'gatsby-source-wordpress',
       options: {
         url: process.env.WORDPRESS_URL,
         debug: {
@@ -74,13 +74,13 @@ module.exports = {
         fields: ['title', 'content'],
         resolvers: {
           WpPost: {
-            title: (node) => decode(node.title),
-            content: (node) => stripHtmlTags(node.content),
-            excerpt: (node) => stripHtmlTags(node.excerpt),
+            title: node => decode(node.title),
+            content: node => stripHtmlTags(node.content),
+            excerpt: node => stripHtmlTags(node.excerpt),
             path: createPostPath,
             categories: (node, getNode) =>
-              node.categories.nodes.map((category) => getNode(category.id)),
-            author: (node) => node.author.node
+              node.categories.nodes.map(category => getNode(category.id)),
+            author: node => node.author.node
           }
         }
       }
@@ -116,7 +116,7 @@ module.exports = {
           {
             serialize: ({query}) => {
               const {siteUrl} = query.site.siteMetadata;
-              return query.allWpPost.nodes.map((node) => {
+              return query.allWpPost.nodes.map(node => {
                 const url = siteUrl + node.path;
                 return {
                   title: node.title,
