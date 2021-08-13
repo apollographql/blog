@@ -26,10 +26,10 @@ exports.createResolvers = ({createResolvers, getNode}) => {
       totalCount: {
         type: 'Int',
         resolve(node) {
-          return node.wpChildren.nodes.reduce(
-            (acc, node) => acc + getNode(node.id).count,
-            node.count
-          );
+          return node.wpChildren.nodes.reduce((acc, node) => {
+            const child = getNode(node.id);
+            return child ? acc + child.count : acc;
+          }, node.count);
         }
       }
     }
