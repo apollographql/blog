@@ -87,7 +87,7 @@ export default function Index(props) {
               {featuredPost.featuredImage && (
                 <PostImage
                   src={
-                    featuredPost.featuredImage.node.localFile.childImageSharp
+                    featuredPost.featuredImage.node?.localFile.childImageSharp
                       .original.src
                   }
                 />
@@ -105,7 +105,7 @@ export default function Index(props) {
             </ViewAllLink>
           </div>
           <div>
-            {archivePosts.map((post) => (
+            {archivePosts.map(post => (
               <ArchivePost key={post.id} post={post} />
             ))}
           </div>
