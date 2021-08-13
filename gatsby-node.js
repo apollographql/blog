@@ -80,29 +80,29 @@ exports.createPages = async ({actions, graphql}) => {
   `);
 
   const postTemplate = require.resolve('./src/components/post-template');
-  data.allWpPost.nodes.forEach(post => {
-    // redirect bare slug to categorized one
-    if (post.path) {
+  data.allWpPost.nodes
+    .filter(post => post.path)
+    .forEach(post => {
+      // redirect bare slug to categorized one
       actions.createRedirect({
         fromPath: post.uri,
         toPath: post.path
       });
-    }
 
-    // create the page
-    actions.createPage({
-      path: post.path,
-      component: postTemplate,
-      context: {
-        id: post.id,
-        categoriesIn: post.categories.nodes.flatMap(category =>
-          category.wpParent
-            ? [category.id, category.wpParent.node.id]
-            : [category.id]
-        )
-      }
+      // create the page
+      actions.createPage({
+        path: post.path,
+        component: postTemplate,
+        context: {
+          id: post.id,
+          categoriesIn: post.categories.nodes.flatMap(category =>
+            category.wpParent
+              ? [category.id, category.wpParent.node.id]
+              : [category.id]
+          )
+        }
+      });
     });
-  });
 
   const categoryTemplate = require.resolve(
     './src/components/category-template'
