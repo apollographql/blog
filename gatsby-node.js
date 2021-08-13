@@ -82,10 +82,12 @@ exports.createPages = async ({actions, graphql}) => {
   const postTemplate = require.resolve('./src/components/post-template');
   data.allWpPost.nodes.forEach(post => {
     // redirect bare slug to categorized one
-    actions.createRedirect({
-      fromPath: post.uri,
-      toPath: post.path
-    });
+    if (post.uri) {
+      actions.createRedirect({
+        fromPath: post.uri,
+        toPath: post.path
+      });
+    }
 
     // create the page
     actions.createPage({
