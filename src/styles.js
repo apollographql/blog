@@ -12,7 +12,10 @@ export default {
     margin: 0
   },
   [HEADINGS]: {
-    color: HEADING_COLOR
+    color: HEADING_COLOR,
+    '.aal_anchor': {
+      display: 'none'
+    }
   },
   [['h1', 'h2', 'h3']]: {
     fontWeight: 700
