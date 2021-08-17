@@ -40,6 +40,7 @@ export function useNewsletterForm() {
     success,
     async handleSubmit(event) {
       event.preventDefault();
+      const email = event.target.email.value;
 
       setLoading(true);
 
@@ -62,7 +63,7 @@ export function useNewsletterForm() {
         lookupField: 'email',
         input: [
           {
-            email: event.target.email.value,
+            email,
             Lead_Source_Most_Recent__c: 'Email Signup',
             Lead_Source_Detail__c: 'Email Signup Blog',
             UTM_Medium__c: utmMedium,
