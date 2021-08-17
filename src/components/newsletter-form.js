@@ -43,7 +43,7 @@ export function useNewsletterForm() {
 
       setLoading(true);
 
-      const programResp = await fetch('/api/program', {
+      const programResp = await fetch(`${wwwFunctionsRootPath}/program`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -73,7 +73,7 @@ export function useNewsletterForm() {
         ]
       };
 
-      const response = await fetch('/api/marketo', {
+      const response = await fetch(`${wwwFunctionsRootPath}/marketo`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
