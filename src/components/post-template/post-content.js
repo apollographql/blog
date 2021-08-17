@@ -210,7 +210,7 @@ function replace(domNode) {
       return (
         <blockquote>
           {domToReact(domNode.children)}
-          {domNode.parent?.attribs.class === 'wp-block-pullquote' && (
+          {domNode.parent?.attribs.class.includes('wp-block-pullquote') && (
             <Button
               as={
                 <ShareButton
