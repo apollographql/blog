@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import PropTypes from 'prop-types';
 import React, {Fragment, useState} from 'react';
 import styled from '@emotion/styled';
@@ -5,6 +6,14 @@ import {Button} from '@apollo/space-kit/Button';
 import {SectionHeading, SidebarSection} from './ui';
 import {TextField} from '@apollo/space-kit/TextField';
 import {colors} from '@apollo/space-kit/colors';
+
+const utmMedium = Cookies.get('utm_medium') || 'website';
+const utmSource = Cookies.get('utm_source') || 'direct';
+const utmCampaign = Cookies.get('utm_campaign') || '-';
+const utmTerm = Cookies.get('utm_term') || '-';
+
+const wwwFunctionsRootPath =
+  'https://apollographql-dot-com.netlify.app/.netlify/functions';
 
 const StyledButton = styled(Button)({
   width: '100%',
@@ -31,15 +40,47 @@ export function useNewsletterForm() {
     success,
     async handleSubmit(event) {
       event.preventDefault();
+      const email = event.target.email.value;
 
       setLoading(true);
 
-      const response = await fetch('/.netlify/functions/newsletter', {
+      const programResp = await fetch(`${wwwFunctionsRootPath}/program`, {
         method: 'POST',
         headers: {
+          Accept: 'application/json',
           'Content-Type': 'application/json'
         },
-        body: event.target.email.value
+        body: JSON.stringify({
+          id: 1172
+        })
+      });
+
+      const programName = await programResp.json();
+
+      const obj = {
+        programName,
+        source: 'Email Signup',
+        lookupField: 'email',
+        input: [
+          {
+            email,
+            Lead_Source_Most_Recent__c: 'Email Signup',
+            Lead_Source_Detail__c: 'Email Signup Blog',
+            UTM_Medium__c: utmMedium,
+            UTM_Source__c: utmSource,
+            UTM_Campaign__c: utmCampaign,
+            UTM_Term__c: utmTerm
+          }
+        ]
+      };
+
+      const response = await fetch(`${wwwFunctionsRootPath}/marketo`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(obj)
       });
 
       if (response.ok) {
@@ -55,10 +96,11 @@ export function useNewsletterForm() {
 export default function NewsletterForm(props) {
   return (
     <SidebarSection>
-      <SectionHeading>Join our community</SectionHeading>
+      <SectionHeading>Get Apollo updates to your inbox</SectionHeading>
       {props.success ? (
         <h5>
-          Mission accomplished! You&apos;ve signed up for the Apollo newsletter.
+          Mission accomplished! You&apos;ve signed up for the Apollo mailing
+          list.
         </h5>
       ) : (
         <Fragment>
