@@ -1,5 +1,7 @@
 import '@apollo/space-kit/reset.css';
+import 'apollo-algolia-autocomplete/styles.css';
 import ArchivePost from '../archive-post';
+import Autocomplete from 'apollo-algolia-autocomplete';
 import FooterNav from './footer-nav';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
@@ -15,8 +17,7 @@ import {
 } from '../ui';
 import {ReactComponent as BlogIcon} from '../../assets/blog.svg';
 import {Global} from '@emotion/core';
-import {Link, graphql, useStaticQuery, withPrefix} from 'gatsby';
-import {TextField} from '@apollo/space-kit/TextField';
+import {Link, graphql, useStaticQuery} from 'gatsby';
 import {colors} from '@apollo/space-kit/colors';
 
 const Wrapper = styled.div({
@@ -68,19 +69,6 @@ const StyledApolloIcon = styled(ApolloIcon)({
 const StyledBlogIcon = styled(BlogIcon)({
   height: '0.7857142857em',
   marginTop: '0.07142857143em'
-});
-
-const SearchForm = styled.form({
-  flexGrow: 1
-});
-
-const SearchInput = styled(TextField)({
-  input: {
-    fontSize: 16
-  },
-  'label div div': {
-    left: 16
-  }
 });
 
 const Footer = styled.footer({
@@ -218,15 +206,11 @@ export default function Layout(props) {
               <StyledBlogIcon />
             </LogoLink>
           </LogoWrapper>
-          <SearchForm action={withPrefix('/search')}>
-            <SearchInput
-              size="large"
-              placeholder="Search Apollo Blog"
-              type="search"
-              name="q"
-              defaultValue={props.defaultSearchValue}
-            />
-          </SearchForm>
+          <Autocomplete
+            appId={process.env.ALGOLIA_APP_ID}
+            apiKey={process.env.ALGOLIA_SEARCH_KEY}
+            currentSource="blog"
+          />
         </HeaderInner>
       </Header>
       <Wrapper>{props.children}</Wrapper>
@@ -255,7 +239,6 @@ export default function Layout(props) {
 
 Layout.propTypes = {
   children: PropTypes.node.isRequired,
-  defaultSearchValue: PropTypes.string,
   recentPosts: PropTypes.array,
   recentPostsTitle: PropTypes.string
 };
