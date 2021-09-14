@@ -219,7 +219,7 @@ export default function Layout(props) {
           <SectionHeading>{props.recentPostsTitle}</SectionHeading>
           <FooterInner>
             <RecentPosts>
-              {(props.recentPosts || data.recentPosts.nodes).map((post) => (
+              {(props.recentPosts || data.recentPosts.nodes).map(post => (
                 <ArchivePost key={post.id} post={post} />
               ))}
             </RecentPosts>

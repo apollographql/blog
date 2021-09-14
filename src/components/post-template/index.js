@@ -159,6 +159,7 @@ export default function PostTemplate(props) {
 
   return (
     <Layout
+      key={path}
       recentPosts={props.data.similarPosts.nodes}
       recentPostsTitle="Similar posts"
     >
