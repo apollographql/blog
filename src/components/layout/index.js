@@ -5,7 +5,7 @@ import Autocomplete from 'apollo-algolia-autocomplete';
 import FooterNav from './footer-nav';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment} from 'react';
 import styled from '@emotion/styled';
 import styles from '../../styles';
 import {ApolloIcon} from '@apollo/space-kit/icons/ApolloIcon';
@@ -175,13 +175,6 @@ export default function Layout(props) {
       }
     `
   );
-
-  useEffect(() => {
-    return () => {
-      // remove algolia detached class when the page changes
-      document.body.classList.remove('aa-Detached');
-    };
-  }, []);
 
   const {title, description} = data.wp.generalSettings;
   const defaultSocialImage = data.site.siteMetadata.siteUrl + '/social.jpg';
