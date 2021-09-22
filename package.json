@@ -23,7 +23,7 @@
     "@emotion/core": "^10.0.27",
     "@emotion/styled": "^10.0.27",
     "@svgr/webpack": "^5.5.0",
-    "apollo-algolia-autocomplete": "^1.1.27",
+    "apollo-algolia-autocomplete": "^1.2.0",
     "apollo-algolia-transform": "^1.0.35",
     "cheerio": "^1.0.0-rc.10",
     "date-fns": "^2.9.0",
