@@ -26,6 +26,7 @@ import 'prismjs/components/prism-python';
 import 'prismjs/components/prism-sql';
 import 'prismjs/components/prism-tsx';
 import 'prismjs/components/prism-typescript';
+import 'prismjs/components/prism-rust';
 
 const DOUBLE_WRAPPER_PADDING_X = WRAPPER_PADDING_X * 2;
 const ALIGNFULL_WIDTH = 'var(--rw, 100vw)';
