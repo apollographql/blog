@@ -208,6 +208,44 @@ function ShareButton(props) {
 
 function replace(domNode) {
   switch (domNode.name) {
+    case 'script': {
+      if (
+        domNode.attribs.src ===
+        'https://embeddable-explorer.cdn.apollographql.com/_latest/embeddable-explorer.umd.production.min.js'
+      ) {
+        const script = document.createElement('script');
+        script.src = domNode.attribs.src;
+        script.onload = () => {
+          if (window.EmbeddedExplorer) {
+            new window.EmbeddedExplorer({
+              target: '#embedded-explorer',
+              graphRef: 'SpaceX-pxxbxen@current',
+              endpointUrl: 'https://api.spacex.land/graphql/',
+              persistExplorerState: false,
+              initialState: {
+                document: `query ExampleQuery {
+                  company {
+                    ceo
+                  }
+                  roadster {
+                    apoapsis_au
+                  }
+                }`,
+                variables: {},
+                headers: {},
+                displayOptions: {
+                  showHeadersAndEnvVars: true,
+                  docsPanelState: 'open',
+                  theme: 'dark'
+                }
+              }
+            });
+          }
+        };
+        document.head.appendChild(script);
+      }
+      break;
+    }
     case 'blockquote':
       return (
         <blockquote>
