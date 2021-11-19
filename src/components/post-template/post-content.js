@@ -23,6 +23,7 @@ import 'prismjs/components/prism-graphql';
 import 'prismjs/components/prism-json';
 import 'prismjs/components/prism-jsx';
 import 'prismjs/components/prism-python';
+import 'prismjs/components/prism-ruby';
 import 'prismjs/components/prism-rust';
 import 'prismjs/components/prism-sql';
 import 'prismjs/components/prism-tsx';
