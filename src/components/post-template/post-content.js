@@ -211,7 +211,8 @@ function replace(domNode) {
     case 'script': {
       if (
         domNode.attribs.src ===
-        'https://embeddable-explorer.cdn.apollographql.com/_latest/embeddable-explorer.umd.production.min.js'
+          'https://embeddable-explorer.cdn.apollographql.com/_latest/embeddable-explorer.umd.production.min.js' &&
+        typeof window !== 'undefined'
       ) {
         const script = document.createElement('script');
         script.src = domNode.attribs.src;
