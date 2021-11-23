@@ -175,6 +175,7 @@ export default function PostTemplate(props) {
             content={'https://www.apollographql.com' + featuredImage}
           />
         )}
+        <link rel="canonical" href={shareUrl} />
       </Helmet>
       <TopFold style={{paddingBottom: 90}}>
         <DateText style={{marginBottom: 12}} date={date} />
