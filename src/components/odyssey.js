@@ -33,7 +33,7 @@ export default function Odyssey() {
           });
         }}
       >
-        Begin your Odyssey now!
+        Try our GraphQL tutorials now!
       </Button>
     </SidebarSection>
   );
