@@ -10,8 +10,8 @@ export default function Odyssey() {
       <SectionHeading>Learn GraphQL Today</SectionHeading>
       <h5 style={{marginBottom: 12}}>
         Take your GraphQL skills to the next level with our free interactive
-        courses, videos, quizzes and code challenges on <strong>Odyssey</strong>
-        , Apollo&apos;s new official learning platform!
+        GraphQL tutorials, videos, quizzes and code challenges on{' '}
+        <strong>Odyssey</strong>, Apollo&apos;s new official learning platform!
       </h5>
       <Button
         color={colors.indigo.lightest}
