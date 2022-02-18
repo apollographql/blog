@@ -9,9 +9,9 @@ import NewsletterForm, {
 } from '../newsletter-form';
 import Odyssey from '../odyssey';
 import PostAction from './post-action';
-import PostContent, {ShareButtonContext} from './post-content';
+import PostContent, { ShareButtonContext } from './post-content';
 import PropTypes from 'prop-types';
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
 import {
   Categories,
@@ -36,15 +36,15 @@ import {
   LinkedinShareButton,
   TwitterShareButton
 } from 'react-share';
-import {IconEmail} from '@apollo/space-kit/icons/IconEmail';
-import {IconFacebook} from '@apollo/space-kit/icons/IconFacebook';
-import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
-import {TextField} from '@apollo/space-kit/TextField';
-import {colors} from '@apollo/space-kit/colors';
-import {decode} from 'he';
-import {format} from 'date-fns';
-import {graphql} from 'gatsby';
-import {stripHtmlTags} from '../../utils';
+import { IconEmail } from '@apollo/space-kit/icons/IconEmail';
+import { IconFacebook } from '@apollo/space-kit/icons/IconFacebook';
+import { IconTwitter } from '@apollo/space-kit/icons/IconTwitter';
+import { TextField } from '@apollo/space-kit/TextField';
+import { colors } from '@apollo/space-kit/colors';
+import { decode } from 'he';
+import { format } from 'date-fns';
+import { graphql } from 'gatsby';
+import { stripHtmlTags } from '../../utils';
 
 const PostTitle = styled.h1`
   @media (max-width: 400px) {
@@ -101,7 +101,7 @@ const NewsletterSignup = styled.div({
 const NewsletterSignupInner = styled.div({
   padding: 32,
   backgroundColor: colors.silver.light,
-  ':last-child': {backgroundColor: colors.silver.base}
+  ':last-child': { backgroundColor: colors.silver.base }
 });
 
 const PostFeedback = styled.button(linkStyles, {
@@ -144,7 +144,7 @@ export default function PostTemplate(props) {
     content,
     postCtaSettings
   } = props.data.wpPost;
-  const {twitter} = author?.node?.userMetadata ?? {};
+  const { twitter } = author?.node?.userMetadata ?? {};
 
   const postTitle = decode(title);
   const description = stripHtmlTags(excerpt);
@@ -164,6 +164,7 @@ export default function PostTemplate(props) {
     >
       <Helmet>
         <title>{postTitle}</title>
+        <meta name="description" content={description} />
         <meta property="og:title" content={postTitle} />
         <meta property="og:description" content={description} />
         {featuredImage && <meta property="og:image" content={featuredImage} />}
@@ -177,8 +178,8 @@ export default function PostTemplate(props) {
         )}
         <link rel="canonical" href={shareUrl} />
       </Helmet>
-      <TopFold style={{paddingBottom: 90}}>
-        <DateText style={{marginBottom: 12}} date={date} />
+      <TopFold style={{ paddingBottom: 90 }}>
+        <DateText style={{ marginBottom: 12 }} date={date} />
         <PostTitle>{postTitle}</PostTitle>
         <BylineWrapper>
           <Byline author={author.node} />
@@ -284,7 +285,7 @@ export default function PostTemplate(props) {
                 </FacebookShareButton>
                 <LinkedinShareButton title={postTitle} {...shareButtonProps}>
                   <LinkedinIcon
-                    bgStyle={{fill: 'transparent'}}
+                    bgStyle={{ fill: 'transparent' }}
                     iconFillColor="currentColor"
                     style={{
                       transform: 'scale(2)',

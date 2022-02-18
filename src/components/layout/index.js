@@ -5,20 +5,20 @@ import Autocomplete from 'apollo-algolia-autocomplete';
 import FooterNav from './footer-nav';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
 import styles from '../../styles';
-import {ApolloIcon} from '@apollo/space-kit/icons/ApolloIcon';
+import { ApolloIcon } from '@apollo/space-kit/icons/ApolloIcon';
 import {
   BREAKPOINT_LG,
   BREAKPOINT_MD,
   SectionHeading,
   WRAPPER_PADDING_X
 } from '../ui';
-import {ReactComponent as BlogIcon} from '../../assets/blog.svg';
-import {Global} from '@emotion/core';
-import {Link, graphql, useStaticQuery} from 'gatsby';
-import {colors} from '@apollo/space-kit/colors';
+import { ReactComponent as BlogIcon } from '../../assets/blog.svg';
+import { Global } from '@emotion/core';
+import { Link, graphql, useStaticQuery } from 'gatsby';
+import { colors } from '@apollo/space-kit/colors';
 
 const Wrapper = styled.div({
   maxWidth: BREAKPOINT_LG,
@@ -176,7 +176,7 @@ export default function Layout(props) {
     `
   );
 
-  const {title, description} = data.wp.generalSettings;
+  const { title, description } = data.wp.generalSettings;
   const defaultSocialImage = data.site.siteMetadata.siteUrl + '/social.jpg';
   return (
     <Fragment>
