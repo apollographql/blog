@@ -164,6 +164,7 @@ export default function PostTemplate(props) {
     >
       <Helmet>
         <title>{postTitle}</title>
+        <meta name="description" content={description} />
         <meta property="og:title" content={postTitle} />
         <meta property="og:description" content={description} />
         {featuredImage && <meta property="og:image" content={featuredImage} />}
