@@ -23,7 +23,6 @@ export default function Odyssey() {
         }}
         as={<a />}
         href="https://odyssey.apollographql.com/"
-        target="_blank"
         onClick={() => {
           trackCustomEvent({
             category: 'Blog sidebar',
