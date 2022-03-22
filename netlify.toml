@@ -10,3 +10,5 @@
   NODE_VERSION = "12"
   MAILCHIMP_LIST_ID = "c59c3cf70b"
   WORDPRESS_URL = "https://wp.apollographql.com/graphql"
+[context.deploy-preview]
+  command = "gatsby build"
