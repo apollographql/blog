@@ -141,6 +141,13 @@ module.exports = {
       }
     },
     {
+      resolve: 'gatsby-plugin-chakra',
+      options: {
+        resetCSS: true,
+        isUsingColorMode: false
+      }
+    },
+    {
       resolve: 'gatsby-plugin-algolia',
       options: {
         appId: process.env.ALGOLIA_APP_ID,

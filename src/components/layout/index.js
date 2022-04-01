@@ -19,6 +19,11 @@ import {ReactComponent as BlogIcon} from '../../assets/blog.svg';
 import {Global} from '@emotion/core';
 import {Link, graphql, useStaticQuery} from 'gatsby';
 import {colors} from '@apollo/space-kit/colors';
+import {
+  communityCategory,
+  companyCategory,
+  helpCategory
+} from '@apollo/chakra-helpers/lib/footer';
 
 const Wrapper = styled.div({
   maxWidth: BREAKPOINT_LG,
@@ -93,17 +98,17 @@ const FooterInner = styled.div({
 });
 
 const FooterNavGroup = styled.div({
-  marginLeft: 100,
+  flex: 1,
+  display: 'flex',
   [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
     marginLeft: 0,
-    ':not(:last-child)': {
-      marginBottom: 48
-    }
+    flexDirection: 'column'
   }
 });
 
 const RecentPosts = styled.div({
-  flexGrow: 1,
+  flex: 1,
+  paddingRight: 48,
   [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
     marginBottom: 100
   }
@@ -123,15 +128,6 @@ export default function Layout(props) {
             description
             title
           }
-        }
-        companyMenu: wpMenu(databaseId: {eq: 2}) {
-          ...MenuFragment
-        }
-        communityMenu: wpMenu(databaseId: {eq: 3}) {
-          ...MenuFragment
-        }
-        helpMenu: wpMenu(databaseId: {eq: 4}) {
-          ...MenuFragment
         }
         recentPosts: allWpPost(limit: 3) {
           nodes {
@@ -224,11 +220,9 @@ export default function Layout(props) {
               ))}
             </RecentPosts>
             <FooterNavGroup>
-              <FooterNav menu={data.companyMenu} />
-            </FooterNavGroup>
-            <FooterNavGroup>
-              <FooterNav menu={data.communityMenu} />
-              <FooterNav menu={data.helpMenu} />
+              <FooterNav category={companyCategory} />
+              <FooterNav category={communityCategory} />
+              <FooterNav category={helpCategory} />
             </FooterNavGroup>
           </FooterInner>
         </Wrapper>

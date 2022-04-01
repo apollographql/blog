@@ -1,12 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from '@emotion/styled';
+import {BREAKPOINT_MD, largeTextStyles} from '../ui';
 import {colors} from '@apollo/space-kit/colors';
-import {largeTextStyles} from '../ui';
 
 const Wrapper = styled.div({
+  paddingRight: 0,
   ':not(:last-child)': {
-    marginBottom: 48
+    paddingRight: 48
+  },
+  [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
+    paddingBottom: 48
   }
 });
 
@@ -34,14 +38,16 @@ const Link = styled.a({
   }
 });
 
-export default function FooterNav(props) {
+export default function FooterNav({category}) {
+  const {title, links} = category;
+
   return (
     <Wrapper>
-      <Heading>{props.menu.name}</Heading>
+      <Heading>{title}</Heading>
       <Links>
-        {props.menu.menuItems.nodes.map(item => (
-          <Link key={item.id} href={item.url}>
-            {item.label}
+        {links.map(({text, href}, i) => (
+          <Link key={i} href={href}>
+            {text}
           </Link>
         ))}
       </Links>
@@ -50,5 +56,5 @@ export default function FooterNav(props) {
 }
 
 FooterNav.propTypes = {
-  menu: PropTypes.object.isRequired
+  category: PropTypes.object.isRequired
 };
