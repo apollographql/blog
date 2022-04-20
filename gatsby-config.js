@@ -10,6 +10,14 @@ module.exports = {
     siteUrl: 'https://www.apollographql.com/blog'
   },
   plugins: [
+    {
+      resolve: 'gatsby-plugin-apollo-onetrust',
+      options: {
+        autoBlockSrc: process.env.OT_AUTOBLOCK_SRC,
+        otSDKStubSrc: process.env.OT_SDKSTUB_SRC,
+        dataDomainScript: process.env.OT_DATA_DOMAIN_SCRIPT
+      }
+    },
     'gatsby-plugin-svgr',
     'gatsby-plugin-netlify',
     'gatsby-plugin-emotion',
