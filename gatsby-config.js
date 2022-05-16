@@ -1,6 +1,10 @@
 const {stripHtmlTags} = require('./src/utils');
 const {algoliaSettings} = require('apollo-algolia-transform');
 const {transformer} = require('./algolia');
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
+
 
 module.exports = {
   // only set a path prefix if building for production

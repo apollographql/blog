@@ -80,7 +80,7 @@ export default function CategoryTemplate(props) {
   return (
     <Layout>
       <Helmet>
-        <title>{name}</title>
+        <title>{name + ' | ' +  pageInfo.currentPage}</title>
         <meta property="og:title" content={name} />
         <meta name="twitter:title" content={name} />
       </Helmet>
