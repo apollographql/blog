@@ -8,6 +8,7 @@ import React from 'react';
 import RecentPosts, {PostLink} from '../components/recent-posts';
 import styled from '@emotion/styled';
 import {
+  Categories,
   DateText,
   ExcerptText,
   FONT_FAMILY_MONO,
@@ -52,14 +53,8 @@ const ViewAllLink = styled(Link)({
   }
 });
 
-const HomePageCategories = styled.nav({
-  display: 'flex',
-  flexWrap: 'wrap',
-  marginBottom: 32,
-  a: {
-    marginBottom: 8,
-    marginRight: 8
-  }
+const HomePageCategories = styled(Categories)({
+  marginBottom: 32
 });
 
 export default function Index(props) {

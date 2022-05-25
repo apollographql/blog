@@ -124,10 +124,12 @@ Category.propTypes = {
   isSmall: PropTypes.bool
 };
 
-export const Categories = styled.div({
+export const Categories = styled.nav({
   display: 'flex',
-  '> :not(:last-child)': {
-    marginRight: 16
+  flexWrap: 'wrap',
+  margin: -4,
+  a: {
+    margin: 4
   }
 });
 

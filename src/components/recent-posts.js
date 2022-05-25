@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from '@emotion/styled';
 import {
+  Categories,
   Category,
   DateText,
   ExcerptText,
@@ -45,15 +46,6 @@ export const PostLink = styled(Link)({
   }
 });
 
-const PostCategories = styled.div({
-  display: 'flex',
-  flexWrap: 'wrap',
-  margin: -4,
-  '> *': {
-    margin: 4
-  }
-});
-
 function PostImagePlaceholder() {
   return (
     <PostImagePlaceholderWrapper>
@@ -81,11 +73,11 @@ export default function RecentPosts({posts, ...props}) {
             )}
             <DateText date={post.date} />
             <h4>{decode(post.title)}</h4>
-            <PostCategories>
+            <Categories>
               {post.categories.nodes.map(category => (
                 <Category isSmall key={category.id} category={category} />
               ))}
-            </PostCategories>
+            </Categories>
             <ExcerptText
               excerpt={post.excerpt}
               style={{
