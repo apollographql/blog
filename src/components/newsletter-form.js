@@ -85,7 +85,7 @@ export function useNewsletterForm() {
 
       if (response.ok) {
         setSuccess(true);
-        window?.gtag?.('event', 'blog_newsletter_form_submit');
+        window.gtag?.('event', 'blog_newsletter_form_submit');
         return;
       }
 
