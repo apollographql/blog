@@ -28,7 +28,7 @@ const ARCHIVE_TITLE = 'Archive';
 export default function Archive(props) {
   const newsletterFormProps = useNewsletterForm();
   const {nodes, pageInfo} = props.data.allWpPost;
-  const metaTitle = `${ARCHIVE_TITLE} | ${pageInfo.currentPage}`;
+  const metaTitle = `${ARCHIVE_TITLE} | page ${pageInfo.currentPage}`;
   return (
     <Layout>
       <Helmet>
