@@ -28,17 +28,18 @@ const ARCHIVE_TITLE = 'Archive';
 export default function Archive(props) {
   const newsletterFormProps = useNewsletterForm();
   const {nodes, pageInfo} = props.data.allWpPost;
+  const metaTitle = `${ARCHIVE_TITLE} | ${pageInfo.currentPage}`;
   return (
     <Layout>
       <Helmet>
-        <title>{ARCHIVE_TITLE}</title>
-        <meta property="og:title" content={ARCHIVE_TITLE} />
-        <meta name="twitter:title" content={ARCHIVE_TITLE} />
+        <title>{metaTitle}</title>
+        <meta property="og:title" content={metaTitle} />
+        <meta name="twitter:title" content={metaTitle} />
       </Helmet>
-      <StyledSectionHeading>{ARCHIVE_TITLE}</StyledSectionHeading>
+      <StyledSectionHeading>{metaTitle}</StyledSectionHeading>
       <InnerWrapper>
         <Main>
-          {nodes.map((post) => (
+          {nodes.map(post => (
             <ArchivePost key={post.id} post={post} />
           ))}
         </Main>

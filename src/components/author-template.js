@@ -14,13 +14,17 @@ export default function AuthorTemplate(props) {
     <Layout>
       <Helmet>
         <title>{name}</title>
+        <meta
+          name="description"
+          content={`More posts by ${name} | ${props.data.wp.generalSettings.description}`}
+        />
         <meta property="og:title" content={name} />
         <meta name="twitter:title" content={name} />
       </Helmet>
       <SectionHeading>Posts by {name}</SectionHeading>
       <InnerWrapper>
         <Main>
-          {props.data.allWpPost.nodes.map((post) => (
+          {props.data.allWpPost.nodes.map(post => (
             <ArchivePost key={post.id} post={post} />
           ))}
         </Main>
@@ -38,6 +42,11 @@ AuthorTemplate.propTypes = {
 
 export const pageQuery = graphql`
   query AuthorQuery($id: String) {
+    wp {
+      generalSettings {
+        description
+      }
+    }
     wpUser(id: {eq: $id}) {
       name
     }

@@ -49,11 +49,16 @@ export default function CategoryTemplate(props) {
   const hasMorePosts = morePosts.length > 0;
   const isFirstPage = pageInfo.currentPage === 1;
 
+  const parentCategorySlug = wpParent?.node?.name
+    ? `${wpParent.node.name} > ${name}`
+    : '';
+  const metaTitle = `${parentCategorySlug} | ${pageInfo.currentPage}`;
+
   const topicSelector = topics.length > 0 && (
     <StyledCategories>
       {topics
-        .filter((topic) => topic.count)
-        .map((topic) =>
+        .filter(topic => topic.count)
+        .map(topic =>
           topic.id === props.pageContext.id ? (
             <SelectedCategory key={topic.id}>{topic.name}</SelectedCategory>
           ) : (
@@ -80,9 +85,13 @@ export default function CategoryTemplate(props) {
   return (
     <Layout>
       <Helmet>
-        <title>{name + ' | ' +  pageInfo.currentPage}</title>
-        <meta property="og:title" content={name} />
-        <meta name="twitter:title" content={name} />
+        <title>{metaTitle}</title>
+        <meta
+          name="description"
+          content={`Read the latest ${parentCategorySlug} posts | ${props.data.wp.generalSettings.description}`}
+        />
+        <meta property="og:title" content={metaTitle} />
+        <meta name="twitter:title" content={metaTitle} />
       </Helmet>
       {hasMorePosts && isFirstPage && latestPosts}
       <InnerWrapper>
@@ -95,7 +104,7 @@ export default function CategoryTemplate(props) {
                 Read more
               </SectionHeading>
               {!isFirstPage && topicSelector}
-              {(isFirstPage ? morePosts : nodes).map((post) => (
+              {(isFirstPage ? morePosts : nodes).map(post => (
                 <ArchivePost key={post.id} post={post} />
               ))}
             </>
@@ -121,6 +130,11 @@ CategoryTemplate.propTypes = {
 
 export const pageQuery = graphql`
   query CategoryQuery($id: String, $ids: [String], $limit: Int, $skip: Int) {
+    wp {
+      generalSettings {
+        description
+      }
+    }
     wpCategory(id: {eq: $id}) {
       path
       name
