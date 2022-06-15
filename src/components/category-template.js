@@ -1,8 +1,8 @@
 import ArchivePost from './archive-post';
 import Categories from './categories';
 import FollowUs from './follow-us';
-import Helmet from 'react-helmet';
 import Layout from './layout';
+import Metas from './Metas';
 import NewsletterForm, {useNewsletterForm} from './newsletter-form';
 import Pagination from './pagination';
 import PropTypes from 'prop-types';
@@ -49,10 +49,10 @@ export default function CategoryTemplate(props) {
   const hasMorePosts = morePosts.length > 0;
   const isFirstPage = pageInfo.currentPage === 1;
 
-  const parentCategorySlug = wpParent?.node?.name
+  const categorySlug = wpParent?.node?.name
     ? `${wpParent.node.name} > ${name}`
-    : '';
-  const metaTitle = `${parentCategorySlug} | ${pageInfo.currentPage}`;
+    : name;
+  const metaTitle = `${categorySlug} | ${pageInfo.currentPage}`;
 
   const topicSelector = topics.length > 0 && (
     <StyledCategories>
@@ -84,15 +84,10 @@ export default function CategoryTemplate(props) {
 
   return (
     <Layout>
-      <Helmet>
-        <title>{metaTitle}</title>
-        <meta
-          name="description"
-          content={`Read the latest ${parentCategorySlug} posts | ${props.data.wp.generalSettings.description}`}
-        />
-        <meta property="og:title" content={metaTitle} />
-        <meta name="twitter:title" content={metaTitle} />
-      </Helmet>
+      <Metas
+        title={metaTitle}
+        description={`Read the latest ${categorySlug} posts | ${props.data.wp.generalSettings.description}`}
+      />
       {hasMorePosts && isFirstPage && latestPosts}
       <InnerWrapper>
         <Main>

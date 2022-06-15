@@ -1,8 +1,8 @@
 import ArchivePost from './archive-post';
 import Categories from './categories';
 import FollowUs from './follow-us';
-import Helmet from 'react-helmet';
 import Layout from './layout';
+import Metas from './Metas';
 import NewsletterForm, {useNewsletterForm} from './newsletter-form';
 import Pagination from './pagination';
 import PropTypes from 'prop-types';
@@ -31,11 +31,7 @@ export default function Archive(props) {
   const metaTitle = `${ARCHIVE_TITLE} | page ${pageInfo.currentPage}`;
   return (
     <Layout>
-      <Helmet>
-        <title>{metaTitle}</title>
-        <meta property="og:title" content={metaTitle} />
-        <meta name="twitter:title" content={metaTitle} />
-      </Helmet>
+      <Metas title={metaTitle} />
       <StyledSectionHeading>{metaTitle}</StyledSectionHeading>
       <InnerWrapper>
         <Main>
