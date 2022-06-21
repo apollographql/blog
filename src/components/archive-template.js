@@ -1,8 +1,8 @@
 import ArchivePost from './archive-post';
 import Categories from './categories';
 import FollowUs from './follow-us';
-import Helmet from 'react-helmet';
 import Layout from './layout';
+import Metas from './Metas';
 import NewsletterForm, {useNewsletterForm} from './newsletter-form';
 import Pagination from './pagination';
 import PropTypes from 'prop-types';
@@ -28,17 +28,14 @@ const ARCHIVE_TITLE = 'Archive';
 export default function Archive(props) {
   const newsletterFormProps = useNewsletterForm();
   const {nodes, pageInfo} = props.data.allWpPost;
+  const metaTitle = `${ARCHIVE_TITLE} | page ${pageInfo.currentPage}`;
   return (
     <Layout>
-      <Helmet>
-        <title>{ARCHIVE_TITLE}</title>
-        <meta property="og:title" content={ARCHIVE_TITLE} />
-        <meta name="twitter:title" content={ARCHIVE_TITLE} />
-      </Helmet>
-      <StyledSectionHeading>{ARCHIVE_TITLE}</StyledSectionHeading>
+      <Metas title={metaTitle} />
+      <StyledSectionHeading>{metaTitle}</StyledSectionHeading>
       <InnerWrapper>
         <Main>
-          {nodes.map((post) => (
+          {nodes.map(post => (
             <ArchivePost key={post.id} post={post} />
           ))}
         </Main>

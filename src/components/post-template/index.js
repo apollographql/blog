@@ -3,6 +3,7 @@ import Byline from '../byline';
 import Divider from './divider';
 import Helmet from 'react-helmet';
 import Layout from '../layout';
+import Metas from '../Metas';
 import NewsletterForm, {
   newsletterInputStyles,
   useNewsletterForm
@@ -162,22 +163,12 @@ export default function PostTemplate(props) {
       recentPosts={props.data.similarPosts.nodes}
       recentPostsTitle="Similar posts"
     >
-      <Helmet>
-        <title>{postTitle}</title>
-        <meta name="description" content={description} />
-        <meta property="og:title" content={postTitle} />
-        <meta property="og:description" content={description} />
-        {featuredImage && <meta property="og:image" content={featuredImage} />}
-        <meta name="twitter:title" content={postTitle} />
-        <meta name="twitter:description" content={description} />
-        {featuredImage && (
-          <meta
-            name="twitter:image"
-            content={'https://www.apollographql.com' + featuredImage}
-          />
-        )}
-        <link rel="canonical" href={shareUrl} />
-      </Helmet>
+      <Metas
+        title={postTitle}
+        description={description}
+        featuredImage={featuredImage}
+        shareUrl={shareUrl}
+      />
       <TopFold style={{paddingBottom: 90}}>
         <DateText style={{marginBottom: 12}} date={date} />
         <PostTitle>{postTitle}</PostTitle>

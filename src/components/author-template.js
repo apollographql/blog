@@ -1,6 +1,6 @@
 import ArchivePost from './archive-post';
-import Helmet from 'react-helmet';
 import Layout from './layout';
+import Metas from './Metas';
 import NewsletterForm, {useNewsletterForm} from './newsletter-form';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -12,15 +12,14 @@ export default function AuthorTemplate(props) {
   const {name} = props.data.wpUser;
   return (
     <Layout>
-      <Helmet>
-        <title>{name}</title>
-        <meta property="og:title" content={name} />
-        <meta name="twitter:title" content={name} />
-      </Helmet>
+      <Metas
+        title={name}
+        description={`Blog posts by ${name} | ${props.data.wp.generalSettings.description}`}
+      />
       <SectionHeading>Posts by {name}</SectionHeading>
       <InnerWrapper>
         <Main>
-          {props.data.allWpPost.nodes.map((post) => (
+          {props.data.allWpPost.nodes.map(post => (
             <ArchivePost key={post.id} post={post} />
           ))}
         </Main>
@@ -38,6 +37,11 @@ AuthorTemplate.propTypes = {
 
 export const pageQuery = graphql`
   query AuthorQuery($id: String) {
+    wp {
+      generalSettings {
+        description
+      }
+    }
     wpUser(id: {eq: $id}) {
       name
     }

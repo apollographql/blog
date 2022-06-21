@@ -1,8 +1,8 @@
 import ArchivePost from './archive-post';
 import Categories from './categories';
 import FollowUs from './follow-us';
-import Helmet from 'react-helmet';
 import Layout from './layout';
+import Metas from './Metas';
 import NewsletterForm, {useNewsletterForm} from './newsletter-form';
 import Pagination from './pagination';
 import PropTypes from 'prop-types';
@@ -49,11 +49,16 @@ export default function CategoryTemplate(props) {
   const hasMorePosts = morePosts.length > 0;
   const isFirstPage = pageInfo.currentPage === 1;
 
+  const categorySlug = wpParent?.node?.name
+    ? `${wpParent.node.name} > ${name}`
+    : name;
+  const metaTitle = `${categorySlug} | ${pageInfo.currentPage}`;
+
   const topicSelector = topics.length > 0 && (
     <StyledCategories>
       {topics
-        .filter((topic) => topic.count)
-        .map((topic) =>
+        .filter(topic => topic.count)
+        .map(topic =>
           topic.id === props.pageContext.id ? (
             <SelectedCategory key={topic.id}>{topic.name}</SelectedCategory>
           ) : (
@@ -79,11 +84,10 @@ export default function CategoryTemplate(props) {
 
   return (
     <Layout>
-      <Helmet>
-        <title>{name}</title>
-        <meta property="og:title" content={name} />
-        <meta name="twitter:title" content={name} />
-      </Helmet>
+      <Metas
+        title={metaTitle}
+        description={`Read the latest ${categorySlug} posts | ${props.data.wp.generalSettings.description}`}
+      />
       {hasMorePosts && isFirstPage && latestPosts}
       <InnerWrapper>
         <Main>
@@ -95,7 +99,7 @@ export default function CategoryTemplate(props) {
                 Read more
               </SectionHeading>
               {!isFirstPage && topicSelector}
-              {(isFirstPage ? morePosts : nodes).map((post) => (
+              {(isFirstPage ? morePosts : nodes).map(post => (
                 <ArchivePost key={post.id} post={post} />
               ))}
             </>
@@ -121,6 +125,11 @@ CategoryTemplate.propTypes = {
 
 export const pageQuery = graphql`
   query CategoryQuery($id: String, $ids: [String], $limit: Int, $skip: Int) {
+    wp {
+      generalSettings {
+        description
+      }
+    }
     wpCategory(id: {eq: $id}) {
       path
       name
