@@ -1,5 +1,6 @@
 [dev]
   autoLaunch = false
+  command = "gatsby develop"
   # command = "npm run build" # for for running algolia indexing locally
 [context.dev.environment]
   SKIP_INDEXING = "false" # for running algolia indexing locally
