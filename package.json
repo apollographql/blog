@@ -47,6 +47,7 @@
     "html-react-parser": "^0.13.0",
     "js-cookie": "^3.0.0",
     "mailchimp-api-v3": "^1.13.1",
+    "outdent": "^0.8.0",
     "polished": "^3.4.4",
     "prismjs": "^1.19.0",
     "prop-types": "^15.7.2",

@@ -16,6 +16,7 @@ import {HEADING_COLOR} from '../../styles';
 import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
 import {TwitterShareButton} from 'react-share';
 import {colors} from '@apollo/space-kit/colors';
+import {outdent} from 'outdent';
 
 // load prism languages after prism import
 import 'prismjs/components/prism-bash';
@@ -222,20 +223,41 @@ function replace(domNode) {
           if (window.EmbeddedExplorer) {
             new window.EmbeddedExplorer({
               target: '#embedded-explorer',
-              graphRef: 'SpaceX-pxxbxen@current',
-              endpointUrl: 'https://api.spacex.land/graphql/',
-              persistExplorerState: false,
+              graphRef: 'apollo-platform@main',
+              persistExplorerState: true,
               initialState: {
-                document: `query ExampleQuery {
-                  company {
-                    ceo
+                document: outdent`
+                  # Fetches basic details about a single Studio graph
+                  # by its ID.
+                  #
+                  # By default, this fetches details for the
+                  # \`apollo-platform\` graph and its \`main\` variant, 
+                  # which you're currently querying! You can provide a 
+                  # different graph ID in the Variables panel.
+                  #
+                  # ⚠️ If you provide a non-public graph ID, you
+                  #   need to provide a valid API key in the
+                  #   X-API-KEY header!
+                  query GetGraph($graphId: ID!, $name: String!) {
+                    graph(id: $graphId) {
+                      id
+                      title
+                      myRole # Null if querying a public graph anonymously
+                      variant(name: $name) {
+                        id
+                        url
+                      }
+                    }
                   }
-                  roadster {
-                    apoapsis_au
-                  }
-                }`,
-                variables: {},
-                headers: {},
+                `,
+                variables: {
+                  graphId: 'apollo-platform',
+                  name: 'main'
+                },
+                headers: {
+                  'apollographql-client-name': 'explorer',
+                  'apollographql-client-version': '1.0'
+                },
                 displayOptions: {
                   showHeadersAndEnvVars: true,
                   docsPanelState: 'open',
