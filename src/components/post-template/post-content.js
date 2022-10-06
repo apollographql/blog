@@ -260,7 +260,7 @@ function replace(domNode) {
                 },
                 displayOptions: {
                   showHeadersAndEnvVars: true,
-                  docsPanelState: 'open',
+                  docsPanelState: 'closed',
                   theme: 'dark'
                 }
               }
