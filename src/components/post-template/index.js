@@ -1,7 +1,6 @@
 import AuthorDetails from './author-details';
 import Byline from '../byline';
 import Divider from './divider';
-import Helmet from 'react-helmet';
 import Layout from '../layout';
 import Metas from '../Metas';
 import NewsletterForm, {
@@ -9,7 +8,6 @@ import NewsletterForm, {
   useNewsletterForm
 } from '../newsletter-form';
 import Odyssey from '../odyssey';
-import PostAction from './post-action';
 import PostContent, {ShareButtonContext} from './post-content';
 import PropTypes from 'prop-types';
 import React, {Fragment} from 'react';
@@ -142,8 +140,7 @@ export default function PostTemplate(props) {
     excerpt,
     categories,
     featuredImage: featuredMedia,
-    content,
-    postCtaSettings
+    content
   } = props.data.wpPost;
   const {twitter} = author?.node?.userMetadata ?? {};
 
@@ -294,7 +291,6 @@ export default function PostTemplate(props) {
               </SocialIcons>
             </SidebarSection>
           </PostSidebarWrapper>
-          <PostAction cta={postCtaSettings.ctaId || props.data.defaultCta} />
         </Sidebar>
       </InnerWrapper>
     </Layout>
@@ -345,17 +341,6 @@ export const pageQuery = graphql`
           }
         }
       }
-
-      # retrieve post CTA
-      postCtaSettings {
-        ctaId {
-          ...CtaFragment
-        }
-      }
-    }
-
-    defaultCta: wpCta(ctaSettings: {default: {eq: true}}) {
-      ...CtaFragment
     }
 
     # query posts that share categories with the current post
@@ -399,15 +384,6 @@ export const pageQuery = graphql`
           }
         }
       }
-    }
-  }
-
-  fragment CtaFragment on WpCta {
-    title
-    excerpt
-    ctaSettings {
-      ctaButtonUrl
-      ctaButtonText
     }
   }
 `;
