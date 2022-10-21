@@ -37,9 +37,11 @@ const Header = styled.header({
   zIndex: 1
 });
 
+const HEADER_HEIGHT = 72;
+
 const HeaderInner = styled(Wrapper)({
   display: 'grid',
-  height: 72,
+  height: HEADER_HEIGHT,
   gridTemplateColumns: '0.5fr 1fr 0.5fr',
   alignItems: 'center',
   [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
@@ -197,7 +199,14 @@ export default function Layout(props) {
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={defaultSocialImage} />
       </Helmet>
-      <Global styles={styles} />
+      <Global
+        styles={{
+          ...styles,
+          html: {
+            scrollPaddingTop: HEADER_HEIGHT
+          }
+        }}
+      />
       <Header>
         <HeaderInner>
           <LogoWrapper>

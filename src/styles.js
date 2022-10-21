@@ -3,6 +3,9 @@ import {colors} from '@apollo/space-kit/colors';
 export const HEADINGS = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 export const HEADING_COLOR = colors.black.lighter;
 
+const ANCHOR_SIZE = 16;
+const ANCHOR_OFFSET = 8;
+
 export default {
   body: {
     color: colors.grey.dark,
@@ -13,8 +16,20 @@ export default {
   },
   [HEADINGS]: {
     color: HEADING_COLOR,
+    display: 'flex',
     '.aal_anchor': {
-      display: 'none'
+      visibility: 'hidden',
+      display: 'flex',
+      alignItems: 'center',
+      paddingRight: ANCHOR_OFFSET,
+      marginLeft: -(ANCHOR_SIZE + ANCHOR_OFFSET),
+      svg: {
+        width: ANCHOR_SIZE,
+        height: ANCHOR_SIZE
+      }
+    },
+    '&:hover .aal_anchor': {
+      visibility: 'visible'
     }
   },
   [['h1', 'h2', 'h3']]: {
