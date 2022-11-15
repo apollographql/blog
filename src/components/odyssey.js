@@ -8,7 +8,7 @@ export default function Odyssey() {
   return (
     <SidebarSection>
       <SectionHeading>Learn GraphQL Today</SectionHeading>
-      <h5 style={{marginBottom: 12}}>
+      <h5 style={{marginBottom: 12, display: 'block'}}>
         Take your GraphQL skills to the next level with our free interactive
         GraphQL tutorials, videos, quizzes and code challenges on{' '}
         <strong>Odyssey</strong>, Apollo&apos;s new official learning platform!
