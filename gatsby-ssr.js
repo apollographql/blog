@@ -14,6 +14,5 @@ export const onRenderBody = ({setHeadComponents}) => {
         `
       }}
     />,
-    <script key="utm" data-ot-ignore src="https://www.apollographql.com/utm-grabber.js" />
   ]);
 };
