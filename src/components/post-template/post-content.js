@@ -12,7 +12,7 @@ import {
   linkStyles
 } from '../ui';
 import {Button} from '@apollo/space-kit/Button';
-import {HEADING_COLOR} from '../../styles';
+import {HEADINGS, HEADING_COLOR} from '../../styles';
 import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
 import {TwitterShareButton} from 'react-share';
 import {colors} from '@apollo/space-kit/colors';
@@ -35,8 +35,28 @@ import 'prismjs/components/prism-typescript';
 const DOUBLE_WRAPPER_PADDING_X = WRAPPER_PADDING_X * 2;
 const ALIGNFULL_WIDTH = 'var(--rw, 100vw)';
 
+const ANCHOR_SIZE = 16;
+const ANCHOR_OFFSET = 8;
+
 const Wrapper = styled.div({
   color: HEADING_COLOR,
+  [HEADINGS]: {
+    display: 'flex',
+    '.aal_anchor': {
+      visibility: 'hidden',
+      display: 'flex',
+      alignItems: 'center',
+      paddingRight: ANCHOR_OFFSET,
+      marginLeft: -(ANCHOR_SIZE + ANCHOR_OFFSET),
+      svg: {
+        width: ANCHOR_SIZE,
+        height: ANCHOR_SIZE
+      }
+    },
+    '&:hover .aal_anchor': {
+      visibility: 'visible'
+    }
+  },
   h2: {
     marginTop: 90
   },
