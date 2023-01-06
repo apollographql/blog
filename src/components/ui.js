@@ -128,7 +128,7 @@ export const Categories = styled.nav({
   display: 'flex',
   flexWrap: 'wrap',
   margin: -4,
-  a: {
+  [['a', 'div']]: {
     margin: 4
   }
 });
