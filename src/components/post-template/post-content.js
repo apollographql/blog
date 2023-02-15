@@ -41,7 +41,7 @@ const ANCHOR_OFFSET = 8;
 const Wrapper = styled.div({
   color: HEADING_COLOR,
   [HEADINGS]: {
-    display: 'flex',
+    display: 'block',
     '.aal_anchor': {
       visibility: 'hidden',
       display: 'flex',
