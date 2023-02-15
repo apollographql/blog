@@ -37,17 +37,23 @@ const ALIGNFULL_WIDTH = 'var(--rw, 100vw)';
 
 const ANCHOR_SIZE = 16;
 const ANCHOR_OFFSET = 8;
+const CLICK_PAD = 20;
 
 const Wrapper = styled.div({
   color: HEADING_COLOR,
   [HEADINGS]: {
-    display: 'flex',
+    display: 'block',
+    position: 'relative',
     '.aal_anchor': {
       visibility: 'hidden',
       display: 'flex',
       alignItems: 'center',
+      position: 'absolute',
+      left: -(ANCHOR_SIZE + ANCHOR_OFFSET + CLICK_PAD),
+      paddingLeft: CLICK_PAD,
+      paddingTop: 14,
       paddingRight: ANCHOR_OFFSET,
-      marginLeft: -(ANCHOR_SIZE + ANCHOR_OFFSET),
+      paddingBottom: CLICK_PAD,
       svg: {
         width: ANCHOR_SIZE,
         height: ANCHOR_SIZE
@@ -62,7 +68,10 @@ const Wrapper = styled.div({
   },
   h3: {
     marginTop: 60,
-    marginBottom: 32
+    marginBottom: 32,
+    '.aal_anchor': {
+      paddingTop: 6
+    }
   },
   [['p', 'li']]: {
     ...largeTextStyles,
