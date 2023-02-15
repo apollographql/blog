@@ -49,7 +49,7 @@ const Wrapper = styled.div({
       display: 'flex',
       alignItems: 'center',
       position: 'absolute',
-      left: -(ANCHOR_SIZE + ANCHOR_OFFSET),
+      left: -(ANCHOR_SIZE + ANCHOR_OFFSET + CLICK_PAD),
       paddingLeft: CLICK_PAD,
       paddingTop: 14,
       paddingRight: ANCHOR_OFFSET,
