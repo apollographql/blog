@@ -78,7 +78,7 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-feed',
       options: {
-        query: `
+        query: /* GraphQL */ `
           {
             site {
               siteMetadata {
@@ -118,9 +118,19 @@ module.exports = {
                 };
               });
             },
-            query: `
+            query: /* GraphQL */ `
               {
-                allWpPost {
+                allWpPost(
+                  filter: {
+                    categories: {
+                      nodes: {
+                        elemMatch: {
+                          slug: {nin: ["retail", "financial-services"]}
+                        }
+                      }
+                    }
+                  }
+                ) {
                   nodes {
                     content
                     excerpt
@@ -159,29 +169,31 @@ module.exports = {
           process.env.SKIP_INDEXING !== 'false',
         queries: [
           {
-            query: `{
-              site {
-                siteMetadata {
-                  siteUrl
+            query: /* GraphQL */ `
+              {
+                site {
+                  siteMetadata {
+                    siteUrl
+                  }
                 }
-              }
-              allWpPost {
-                nodes {
-                  id
-                  title
-                  content
-                  excerpt
-                  slug
-                  path
-                  date
-                  categories {
-                    nodes {
-                      name
+                allWpPost {
+                  nodes {
+                    id
+                    title
+                    content
+                    excerpt
+                    slug
+                    path
+                    date
+                    categories {
+                      nodes {
+                        name
+                      }
                     }
                   }
                 }
               }
-            }`,
+            `,
             transformer,
             indexName: 'blog',
             settings: {
