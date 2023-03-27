@@ -123,7 +123,11 @@ export const pageQuery = graphql`
     allWpPost(
       sort: {fields: date, order: DESC}
       limit: 10
-      filter: {categories: {nodes: {elemMatch: {slug: {ne: "retail"}}}}}
+      filter: {
+        categories: {
+          nodes: {elemMatch: {slug: {nin: ["retail", "financial-services"]}}}
+        }
+      }
     ) {
       nodes {
         id
