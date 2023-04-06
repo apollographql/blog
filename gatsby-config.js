@@ -72,7 +72,8 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-google-gtag',
       options: {
-        trackingIds: ['UA-74643563-11', 'G-0BGG5V2W2K']
+        // todo: remove ua property in the nearish future
+        trackingIds: ['UA-74643563-11', 'G-0BGG5V2W2K', 'G-EE5WGLBMK6']
       }
     },
     {
