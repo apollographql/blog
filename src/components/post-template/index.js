@@ -223,6 +223,9 @@ export default function PostTemplate(props) {
                     features, best practices, and community events. Oh, and no
                     junk mail. Ever.
                   </p>
+                  {newsletterFormProps.error && (
+                    <p style={{color: 'red'}}>{newsletterFormProps.error}</p>
+                  )}
                   <InlineNewsletterForm
                     onSubmit={newsletterFormProps.handleSubmit}
                   >
