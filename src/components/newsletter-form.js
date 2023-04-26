@@ -44,12 +44,8 @@ export function useNewsletterForm() {
       event.preventDefault();
       const email = event.target.email.value;
 
-      const emailRegex = new RegExp(
-        /^[A-Za-z0-9_!#$%&'*+/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/,
-        'gm'
-      );
-
-      const isValidEmail = emailRegex.test(email);
+      const isValidEmail =
+        /^[A-Za-z0-9_!#$%&'*+/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/.test(email);
 
       if (!isValidEmail) {
         setError('Please enter a valid email address.');
