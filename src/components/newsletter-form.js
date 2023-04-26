@@ -34,13 +34,23 @@ const StyledInput = styled(TextField)(newsletterInputStyles);
 export function useNewsletterForm() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(null);
 
   return {
     loading,
     success,
+    error,
     async handleSubmit(event) {
       event.preventDefault();
       const email = event.target.email.value;
+
+      const isValidEmail =
+        /^[A-Za-z0-9_!#$%&'*+/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/.test(email);
+
+      if (!isValidEmail) {
+        setError('Please enter a valid email address.');
+        return;
+      }
 
       setLoading(true);
 
@@ -109,6 +119,7 @@ export default function NewsletterForm(props) {
             Be the first to learn about new Apollo features, best practices, and
             community events.
           </h5>
+          {props.error && <p style={{color: 'red'}}>{props.error}</p>}
           <form onSubmit={props.handleSubmit}>
             <StyledInput
               inputAs={<input required />}
@@ -135,5 +146,6 @@ export default function NewsletterForm(props) {
 NewsletterForm.propTypes = {
   success: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
+  error: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired
 };
