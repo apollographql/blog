@@ -19,6 +19,7 @@
     ]
   },
   "dependencies": {
+    "@apollo/client": "^3.7.14",
     "@apollo/space-kit": "^5.0.0",
     "@emotion/core": "^10.0.27",
     "@emotion/styled": "^10.0.27",
@@ -29,6 +30,7 @@
     "date-fns": "^2.9.0",
     "gatsby": "^3.11.1",
     "gatsby-plugin-algolia": "^0.22.0",
+    "gatsby-plugin-apollo": "^4.0.3",
     "gatsby-plugin-apollo-onetrust": "github:apollographql/gatsby-plugin-apollo-onetrust",
     "gatsby-plugin-emotion": "^4.5.0",
     "gatsby-plugin-env-variables": "^2.1.0",

@@ -201,6 +201,16 @@ module.exports = {
               ...algoliaSettings,
               customRanking: ['desc(date)', ...algoliaSettings.customRanking]
             }
+          },
+          {
+            resolve: 'gatsby-plugin-apollo',
+            options: {
+              credentials: 'include',
+              uri: 'https://graphql.api.apollographql.com/api/graphql', // todo: use staging endpoint for dev
+              headers: {
+                'apollographql-client-name': 'blog-website'
+              }
+            }
           }
         ]
       }
