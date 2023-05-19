@@ -205,6 +205,16 @@ module.exports = {
         ]
       }
     },
-    'gatsby-plugin-sitemap'
+    'gatsby-plugin-sitemap',
+    {
+      resolve: 'gatsby-plugin-apollo',
+      options: {
+        credentials: 'include',
+        uri: 'https://graphql.api.apollographql.com/api/graphql', // todo: use staging endpoint for dev
+        headers: {
+          'apollographql-client-name': 'blog-website'
+        }
+      }
+    }
   ]
 };
