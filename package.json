@@ -28,7 +28,7 @@
     "apollo-algolia-transform": "^1.0.35",
     "cheerio": "^1.0.0-rc.10",
     "date-fns": "^2.9.0",
-    "gatsby": "^3.11.1",
+    "gatsby": "^5.10.0",
     "gatsby-plugin-algolia": "^0.22.0",
     "gatsby-plugin-apollo": "^4.0.3",
     "gatsby-plugin-apollo-onetrust": "github:apollographql/gatsby-plugin-apollo-onetrust",
