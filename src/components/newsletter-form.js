@@ -77,7 +77,6 @@ export function useNewsletterForm() {
             input: {
               email,
               Lead_Source_Most_Recent__c: 'Email Signup',
-              Lead_Source_Detail__c: 'Email Signup Blog',
               UTM_Medium__c: utmMedium,
               UTM_Source__c: utmSource,
               UTM_Campaign__c: utmCampaign,
