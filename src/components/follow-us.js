@@ -1,31 +1,22 @@
 import React from 'react';
-import {IconFacebook} from '@apollo/space-kit/icons/IconFacebook';
-import {IconGithub} from '@apollo/space-kit/icons/IconGithub';
-import {IconInstagram} from '@apollo/space-kit/icons/IconInstagram';
-import {IconTwitter} from '@apollo/space-kit/icons/IconTwitter';
-import {IconYoutube} from '@apollo/space-kit/icons/IconYoutube';
 import {SectionHeading, SidebarSection, SocialIcons} from './ui';
+import {SiDiscord, SiGithub, SiRss, SiTwitter, SiYoutube} from 'react-icons/si';
 
-const socialIcons = Object.entries({
-  github: IconGithub,
-  twitter: IconTwitter,
-  youtube: IconYoutube,
-  facebook: IconFacebook,
-  instagram: IconInstagram
-});
+const socialIcons = {
+  'https://github.com/apollographql': SiGithub,
+  'https://discord.gg/graphos': SiDiscord,
+  'https://twitter.com/apollographql': SiTwitter,
+  'https://youtube.com/apollographql': SiYoutube,
+  'https://www.apollographql.com/blog/rss.xml': SiRss
+};
 
 export default function FollowUs() {
   return (
     <SidebarSection>
       <SectionHeading>Connect with us</SectionHeading>
       <SocialIcons>
-        {socialIcons.map(([key, Icon]) => (
-          <a
-            key={key}
-            href={`https://${key}.com/apollographql`}
-            target="_blank"
-            rel="noreferrer noopener"
-          >
+        {Object.entries(socialIcons).map(([url, Icon]) => (
+          <a key={url} href={url} target="_blank" rel="noreferrer noopener">
             <Icon />
           </a>
         ))}
