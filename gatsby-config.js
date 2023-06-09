@@ -79,6 +79,11 @@ module.exports = {
           },
           Post: {
             limit: process.env.NODE_ENV === 'production' ? undefined : 20
+          },
+          MediaItem: {
+            localFile: {
+              excludeByMimeTypes: ['video/mp4']
+            }
           }
         }
       }
