@@ -36,28 +36,44 @@ module.exports = {
         html: {
           useGatsbyImage: false
         },
+        schema: {
+          requestConcurrency: 5, // currently set to 15
+          previewRequestConcurrency: 2 // currently set to 5
+        },
         type: {
-          CareersSlider2: {
-            exclude: true
-          },
-          CareersHeroSlider: {
-            exclude: true
-          },
-          CareersSlider3: {
-            exclude: true
-          },
-          Collection: {
-            exclude: true
-          },
-          FeedItem: {
-            exclude: true
-          },
-          FeedItemType: {
-            exclude: true
-          },
-          TeamMember: {
-            exclude: true
-          },
+          AbmLandingPage: {exclude: true},
+          AbmSalesRep: {exclude: true},
+          CareersHeroSlider: {exclude: true},
+          CareersSlider2: {exclude: true},
+          CareersSlider3: {exclude: true},
+          ChampionTag: {exclude: true},
+          Collection: {exclude: true},
+          Comment: {exclude: true},
+          ContentHubGroup: {exclude: true},
+          ContentHubItem: {exclude: true},
+          ContentHubSetting: {exclude: true},
+          ContentHubType: {exclude: true},
+          ContentTaxonomyPersona: {exclude: true},
+          ContentTaxonomyTopic: {exclude: true},
+          ContentType: {exclude: true},
+          CustomerStory: {exclude: true},
+          CustomPromo: {exclude: true},
+          EBook: {exclude: true},
+          EbookLander: {exclude: true},
+          Event: {exclude: true},
+          EventSetting: {exclude: true},
+          EventsGroup: {exclude: true},
+          EventSpeaker: {exclude: true},
+          EventType: {exclude: true},
+          FeedItem: {exclude: true},
+          FeedItemType: {exclude: true},
+          OnboardingLander: {exclude: true},
+          Page: {exclude: true},
+          PromoLandingPage: {exclude: true},
+          SolutionsLandingPage: {exclude: true},
+          TeamMember: {exclude: true},
+          VerticalLandingPage: {exclude: true},
+          WwwHomepageQuote: {exclude: true},
           User: {
             excludeFieldNames: null
           },
