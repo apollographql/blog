@@ -109,33 +109,35 @@ exports.createPages = async ({actions, graphql}) => {
   const categoryTemplate = require.resolve(
     './src/components/category-template'
   );
-  data.allWpCategory.nodes.forEach(category => {
-    actions.createRedirect({
-      fromPath: category.uri + '*',
-      toPath: category.path + ':splat'
-    });
-
-    actions.createRedirect({
-      fromPath: category.path,
-      toPath: category.path + 1
-    });
-
-    const pageCount = Math.ceil(category.totalCount / PAGE_SIZE);
-    for (let i = 0; i < pageCount; i++) {
-      actions.createPage({
-        path: category.path + (i + 1),
-        component: categoryTemplate,
-        context: {
-          id: category.id,
-          ids: category.wpChildren.nodes
-            .map(topic => topic.id)
-            .concat([category.id]),
-          limit: PAGE_SIZE,
-          skip: PAGE_SIZE * i
-        }
+  data.allWpCategory.nodes
+    .filter(category => category.path)
+    .forEach(category => {
+      actions.createRedirect({
+        fromPath: category.uri + '*',
+        toPath: category.path + ':splat'
       });
-    }
-  });
+
+      actions.createRedirect({
+        fromPath: category.path,
+        toPath: category.path + 1
+      });
+
+      const pageCount = Math.ceil(category.totalCount / PAGE_SIZE);
+      for (let i = 0; i < pageCount; i++) {
+        actions.createPage({
+          path: category.path + (i + 1),
+          component: categoryTemplate,
+          context: {
+            id: category.id,
+            ids: category.wpChildren.nodes
+              .map(topic => topic.id)
+              .concat([category.id]),
+            limit: PAGE_SIZE,
+            skip: PAGE_SIZE * i
+          }
+        });
+      }
+    });
 
   const authorTemplate = require.resolve('./src/components/author-template');
   data.allWpUser.nodes.forEach(author => {
