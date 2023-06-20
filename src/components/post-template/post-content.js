@@ -81,8 +81,22 @@ const Wrapper = styled.div({
     marginTop: 32
   },
   a: linkStyles,
-  '.wp-block-image': {
+  figure: {
     margin: '90px 0',
+    figcaption: {
+      marginTop: 12,
+      fontFamily: FONT_FAMILY_MONO,
+      color: colors.grey.lighter,
+      lineHeight: 1.5
+    }
+  },
+  '.wp-block-video': {
+    video: {
+      height: 'auto',
+      maxWidth: '100%'
+    }
+  },
+  '.wp-block-image': {
     '&.alignfull': {
       width: ALIGNFULL_WIDTH,
       marginLeft: `calc(min(${
@@ -96,12 +110,6 @@ const Wrapper = styled.div({
     img: {
       maxWidth: '100%',
       height: 'auto'
-    },
-    figcaption: {
-      marginTop: 12,
-      fontFamily: FONT_FAMILY_MONO,
-      color: colors.grey.lighter,
-      lineHeight: 1.5
     },
     [`@media(max-width: ${BREAKPOINT_MD}px)`]: {
       margin: '60px 0'
