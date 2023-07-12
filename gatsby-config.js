@@ -147,7 +147,14 @@ module.exports = {
                     categories: {
                       nodes: {
                         elemMatch: {
-                          slug: {nin: ["retail", "financial-services"]}
+                          slug: {
+                            nin: [
+                              "retail"
+                              "financial-services"
+                              "travel"
+                              "media"
+                            ]
+                          }
                         }
                       }
                     }
