@@ -125,7 +125,11 @@ export const pageQuery = graphql`
       limit: 10
       filter: {
         categories: {
-          nodes: {elemMatch: {slug: {nin: ["retail", "financial-services"]}}}
+          nodes: {
+            elemMatch: {
+              slug: {nin: ["retail", "financial-services", "travel", "media"]}
+            }
+          }
         }
       }
     ) {
