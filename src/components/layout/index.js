@@ -5,7 +5,7 @@ import Autocomplete from 'apollo-algolia-autocomplete';
 import FooterNav from './footer-nav';
 import Helmet from 'react-helmet';
 import PropTypes from 'prop-types';
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import styled from '@emotion/styled';
 import styles from '../../styles';
 import {ApolloIcon} from '@apollo/space-kit/icons/ApolloIcon';
@@ -19,6 +19,8 @@ import {ReactComponent as BlogIcon} from '../../assets/blog.svg';
 import {Global} from '@emotion/core';
 import {Link, graphql, useStaticQuery} from 'gatsby';
 import {colors} from '@apollo/space-kit/colors';
+import {signupTracer} from '@apollo/signup-tracer';
+import {utmGrabber} from '@apollo/utm-grabber';
 
 const Wrapper = styled.div({
   maxWidth: BREAKPOINT_LG,
@@ -112,6 +114,10 @@ const RecentPosts = styled.div({
 });
 
 export default function Layout(props) {
+  useEffect(() => {
+    utmGrabber();
+    signupTracer();
+  }, []);
   const data = useStaticQuery(
     graphql`
       {
