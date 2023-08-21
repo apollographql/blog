@@ -117,6 +117,9 @@ export default function Layout(props) {
   useEffect(() => {
     utmGrabber();
     signupTracer();
+    // needed for SPA, outlined in Qualified docs step 1 here:
+    // https://www.qualified.com/university/articles/qualified-setup/installing-the-javascript
+    window.qualified?.('page');
   }, []);
   const data = useStaticQuery(
     graphql`
