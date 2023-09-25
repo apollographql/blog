@@ -304,10 +304,10 @@
     tslib "^2.3.0"
     zen-observable-ts "^1.2.5"
 
-"@apollo/signup-tracer@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@apollo/signup-tracer/-/signup-tracer-1.1.0.tgz#edfe3e91faf5de026ba0bb2895e2e66000534dc9"
-  integrity sha512-4GK5dd/gRAeB5zXQdw0k3cONH9DgEoupG+uQA12YcTdwpFxsRuMxQe1mt1NLUlsf5Go41gFWq3Bx6D4o2irQuQ==
+"@apollo/signup-tracer@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@apollo/signup-tracer/-/signup-tracer-1.1.1.tgz#d4f5ee7f2600540a7fbe2c3bee4ae3da941aa4aa"
+  integrity sha512-hd4lSHhR8JHNzIlvFEwhrCMQB/5WfpG1jHbNe+dumrWRN9EpdBLzFyl2parlcNecpRJpsQfsjvQOfJESMlIVaQ==
 
 "@apollo/space-kit@^5.0.0":
   version "5.6.3"
