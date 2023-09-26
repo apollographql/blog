@@ -116,7 +116,7 @@ const RecentPosts = styled.div({
 export default function Layout(props) {
   useEffect(() => {
     utmGrabber();
-    signupTracer();
+    signupTracer('blog');
   }, []);
   const data = useStaticQuery(
     graphql`
