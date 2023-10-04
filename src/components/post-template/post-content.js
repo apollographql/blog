@@ -337,6 +337,11 @@ function replace(domNode) {
         return <details>{domToReact(domNode.children, { replace })}</details>;
       }
       break;
+    case "code":
+      if (!domNode.attribs.class?.includes("language-")) {
+        return <code>{domNode.children}</code>;
+      }
+      break;
     default:
   }
 }
@@ -363,10 +368,6 @@ export default function PostContent(props) {
         const html = Prism.highlight(text, grammar, language);
         return `<code class="language-${language}">${html}</code>`;
       }
-    )
-    .replace(
-      /<code>([\s\S]*?)<\/code>/g,
-      (match, text) => `<code>${text}</code>`
     );
 
   return <Wrapper>{parse(content, { replace })}</Wrapper>;
