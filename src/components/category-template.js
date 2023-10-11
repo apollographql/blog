@@ -19,6 +19,7 @@ import {
   categoryStyles,
   selectedCategoryStyles
 } from './ui';
+import {generateMetaTitle} from '../utils';
 import {graphql} from 'gatsby';
 
 const StyledCategories = styled(CategoriesBase)({
@@ -53,6 +54,11 @@ export default function CategoryTemplate(props) {
     ? `${wpParent.node.name} > ${name}`
     : name;
   const metaTitle = `${categorySlug} | ${pageInfo.currentPage}`;
+  const metaDescIntro =
+    pageInfo.currentPage === 1
+      ? `Read the latest ${categorySlug} posts`
+      : `${categorySlug} posts page ${pageInfo.currentPage} of ${pageInfo.pageCount}`;
+  const metaDescription = `${metaDescIntro} | ${props.data.wp.generalSettings.description}`;
 
   const topicSelector = topics.length > 0 && (
     <StyledCategories>
@@ -84,10 +90,7 @@ export default function CategoryTemplate(props) {
 
   return (
     <Layout>
-      <Metas
-        title={metaTitle}
-        description={`Read the latest ${categorySlug} posts | ${props.data.wp.generalSettings.description}`}
-      />
+      <Metas title={metaTitle} description={metaDescription} />
       {hasMorePosts && isFirstPage && latestPosts}
       <InnerWrapper>
         <Main>
